@@ -1,0 +1,3 @@
+// Проверка наличия файла
+console.log("mstile-150x150.png exists");
+

@@ -1,0 +1,231 @@
+:root {
+  --font-playfair: var(--font-playfair);
+  --font-montserrat: var(--font-montserrat);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --font-playfair: 'Playfair Display', serif;
+    --font-montserrat: 'Montserrat', sans-serif;
+  }
+
+  * {
+    @apply antialiased;
+  }
+
+  html {
+    @apply scroll-smooth overflow-x-hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+  }
+
+  body {
+    @apply bg-black text-white overflow-x-hidden;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-none {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  /* Prevent horizontal scroll on mobile */
+  #__next, main {
+    @apply overflow-x-hidden;
+  }
+}
+
+.font-serif {
+  font-family: var(--font-playfair);
+}
+
+.font-sans {
+  font-family: var(--font-montserrat);
+}
+
+/* Smooth page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 400ms ease-in-out, transform 400ms ease-in-out;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translate3d(0, -20px, 0);
+  transition: opacity 400ms ease-in-out, transform 400ms ease-in-out;
+}
+
+/* Smooth section transitions */
+.section-fade-in {
+  animation: sectionFadeIn 0.6s ease-out forwards;
+}
+
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Calendar animations */
+.rdp-day {
+  transition: all 0.2s ease-in-out;
+}
+
+.rdp-day:hover {
+  transform: scale(1.1);
+}
+
+.rdp-day_selected {
+  animation: selectedDay 0.3s ease-out forwards;
+}
+
+@keyframes selectedDay {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  body {
+    touch-action: pan-y pinch-zoom;
+  }
+  
+  .container {
+    @apply px-4;
+  }
+  
+  .section-fade-in {
+    animation-duration: 0.4s;
+  }
+}
+
+/* Стили для Select компонента */
+.select-content {
+  @apply bg-purple-900/95 border border-fuchsia-500/30 text-white;
+}
+
+.select-item {
+  @apply text-white hover:bg-fuchsia-500/20 focus:bg-fuchsia-500/20;
+}
+
+/* Стили для DatePicker */
+.react-datepicker {
+  @apply bg-purple-900 border border-fuchsia-500/30 text-white;
+}
+
+.react-datepicker__header {
+  @apply bg-purple-800 border-b border-fuchsia-500/30;
+}
+
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  @apply text-white;
+}
+
+.react-datepicker__day {
+  @apply text-white hover:bg-fuchsia-500/20;
+}
+
+.react-datepicker__day--selected {
+  @apply bg-fuchsia-600 hover:bg-fuchsia-700;
+}
+
+/* Улучшенные стили для кнопок */
+.button {
+  @apply transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:ring-opacity-50;
+}
+
+/* Улучшенные стили для инпутов */
+.input, .textarea {
+  @apply transition-all duration-300 focus:border-fuchsia-500 focus:ring-2 focus:ring-fuchsia-500 focus:ring-opacity-50;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(217, 70, 239, 0.5);
+  border-radius: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(217, 70, 239, 0.7);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(to right, #8b5cf6, #d946ef);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animated background */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient-bg {
+  background: linear-gradient(-45deg, #8b5cf6, #d946ef, #3b82f6, #10b981);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+}
+
