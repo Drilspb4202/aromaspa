@@ -95,4 +95,3 @@ export default function ShopWindow({ addToCart, removeFromCart, cart, onClose, o
     </motion.div>
   );
 }
-

@@ -160,4 +160,3 @@ export default function Cart({
     </motion.div>
   );
 }
-

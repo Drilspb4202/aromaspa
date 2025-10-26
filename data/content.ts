@@ -67,4 +67,3 @@ export const galleryImages = [
   "https://i.ibb.co/68PpjN9/photo-2024-10-27-19-44-23.jpg",
   "https://i.ibb.co/XZP53ws/image.jpg"
 ]
-

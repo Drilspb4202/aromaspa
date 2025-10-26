@@ -39,4 +39,3 @@ export function useAutoSlide(length: number, interval = 5000) {
     togglePlaying
   }
 }
-

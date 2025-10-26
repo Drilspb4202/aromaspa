@@ -169,4 +169,3 @@ export function GalleryCarousel({ images }: GalleryCarouselProps) {
     </div>
   )
 }
-

@@ -27,4 +27,3 @@ const CustomSlider = React.forwardRef<
 CustomSlider.displayName = SliderPrimitive.Root.displayName
 
 export { CustomSlider }
-

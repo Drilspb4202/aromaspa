@@ -150,4 +150,4 @@ export const Carousel3D = ({ images, className }: Carousel3DProps) => {
       </div>
     </div>
   );
-}; 
+};

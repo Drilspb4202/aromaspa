@@ -193,4 +193,3 @@ export default function CheckoutWizard({ cart, onClose, onBackToShop, className 
     </div>
   );
 }
-

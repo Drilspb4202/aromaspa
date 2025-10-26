@@ -166,4 +166,3 @@ export const blogPosts: BlogPost[] = [
     image: "https://i.ibb.co/1GtkHpz/5.png"
   }
 ];
-

@@ -59,4 +59,3 @@ export default function ShareButton({ url, className }: ShareButtonProps) {
     </>
   )
 }
-

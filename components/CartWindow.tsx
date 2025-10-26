@@ -73,4 +73,3 @@ export default function CartWindow({ cart, onCheckout, onBackToShop, onClose }: 
     </motion.div>
   );
 }
-

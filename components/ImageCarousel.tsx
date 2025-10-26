@@ -66,4 +66,3 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
 }
 
 export default ImageCarousel
-

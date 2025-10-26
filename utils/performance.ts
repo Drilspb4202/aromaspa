@@ -5,4 +5,3 @@ export const measurePerformance = (componentName: string) => {
     console.log(`${componentName} render time: ${end - start} ms`)
   }
 }
-

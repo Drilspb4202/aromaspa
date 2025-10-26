@@ -45,4 +45,3 @@ export function DatePicker({ selected, onSelect, className, placeholderText }) {
     </Popover>
   )
 }
-

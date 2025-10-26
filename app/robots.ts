@@ -10,4 +10,3 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: 'https://aroma-spa-studio.ru/sitemap.xml',
   }
 }
-

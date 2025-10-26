@@ -79,4 +79,3 @@ export default function ProductDetails({ product, onClose, addToCart }: ProductD
     </motion.div>
   );
 }
-

@@ -76,4 +76,3 @@ export default function ProductComparison({ products, onClose, onRemove }: Produ
     </motion.div>
   );
 }
-

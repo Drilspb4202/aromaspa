@@ -13,4 +13,3 @@ export const montserrat = Montserrat({
   variable: '--font-montserrat',
   preload: true,
 })
-

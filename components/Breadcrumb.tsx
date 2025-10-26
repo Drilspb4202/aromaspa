@@ -31,4 +31,3 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
     </nav>
   );
 };
-

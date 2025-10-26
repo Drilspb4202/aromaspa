@@ -54,4 +54,3 @@ export async function sendTelegramMessage(message: string) {
     throw error;
   }
 }
-

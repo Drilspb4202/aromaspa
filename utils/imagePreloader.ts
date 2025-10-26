@@ -10,4 +10,3 @@ export function preloadImage(src: string): Promise<void> {
 export async function preloadImages(srcs: string[]): Promise<void> {
   await Promise.all(srcs.map(preloadImage))
 }
-

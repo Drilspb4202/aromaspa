@@ -23,4 +23,3 @@ export default function CartIcon({ itemCount, onClick }: CartIconProps) {
     </Button>
   );
 }
-

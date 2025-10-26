@@ -119,4 +119,3 @@ ${orderDetails}
     </motion.div>
   );
 }
-

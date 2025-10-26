@@ -87,4 +87,3 @@ const BlogPost: React.FC<{ params: { id: string } }> = ({ params }) => {
 };
 
 export default BlogPost;
-

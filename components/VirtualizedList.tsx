@@ -39,4 +39,3 @@ const VirtualizedList: React.FC<VirtualizedListProps> = ({ items, itemHeight }) 
 }
 
 export default VirtualizedList
-

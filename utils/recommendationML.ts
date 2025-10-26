@@ -93,4 +93,3 @@ class RecommendationML {
 }
 
 export const recommendationML = new RecommendationML();
-

@@ -84,4 +84,3 @@ export default function MiniCart({ cart, onClose, onViewCart, removeFromCart }: 
     </motion.div>
   );
 }
-

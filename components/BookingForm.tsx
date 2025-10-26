@@ -110,4 +110,3 @@ export function BookingForm({ onSubmit, onClose }: BookingFormProps) {
     </motion.div>
   );
 }
-

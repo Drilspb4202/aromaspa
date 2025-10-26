@@ -43,4 +43,3 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({ end, duration = 2000 
 }
 
 export default AnimatedCounter
-

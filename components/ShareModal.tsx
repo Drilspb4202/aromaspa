@@ -132,4 +132,3 @@ export default function ShareModal({ isOpen, onClose, url }: ShareModalProps) {
     </AnimatePresence>
   )
 }
-

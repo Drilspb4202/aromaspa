@@ -27,4 +27,3 @@ const SmoothGradient: React.FC<SmoothGradientProps> = ({ color1, color2, classNa
 }
 
 export default SmoothGradient
-

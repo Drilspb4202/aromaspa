@@ -1302,4 +1302,3 @@ export const oilCategories = [
   "Уход за кожей",
   "Уход за телом"
 ];
-

@@ -62,4 +62,3 @@ const BlogList: React.FC = () => {
 };
 
 export default BlogList;
-

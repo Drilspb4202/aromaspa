@@ -55,4 +55,3 @@ export default function OptimizedImage({ src, alt, width, height, className, pri
     </picture>
   )
 }
-

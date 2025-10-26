@@ -52,4 +52,3 @@ export default function ImageModal({ src, alt, onClose }: ImageModalProps) {
     </motion.div>
   );
 }
-
