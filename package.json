@@ -68,6 +68,7 @@
     "sonner": "latest",
     "tailwind-merge": "^2.5.5",
     "tailwindcss": "^4.1.9",
+    "@tailwindcss/postcss": "^4.1.16",
     "tailwindcss-animate": "^1.0.7",
     "tw-animate-css": "latest",
     "uuid": "latest",
