@@ -1,10 +1,6 @@
 import { NextResponse } from 'next/server'
 import { LRUCache } from 'lru-cache'
 
-if (!process.env.DEEPSEEK_API_KEY) {
-  throw new Error('Missing DEEPSEEK_API_KEY environment variable')
-}
-
 // Создаем LRU кэш с ограничением по размеру и времени жизни
 const responseCache = new LRUCache({
   max: 500, // Максимальное количество элементов
@@ -24,6 +20,17 @@ const conversationHistory = new Map<string, Array<{role: string, text: string, f
 
 export async function POST(req: Request) {
   try {
+    // Проверяем наличие API ключа
+    if (!process.env.DEEPSEEK_API_KEY) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'DEEPSEEK_API_KEY is not configured' 
+        },
+        { status: 500 }
+      )
+    }
+
     const { prompt, sessionId, feedback } = await req.json()
     
     // Проверяем кэш
