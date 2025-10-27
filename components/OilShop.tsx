@@ -11,7 +11,6 @@ import { Toaster } from "@/components/ui/toaster"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from 'next/navigation';
 import { submitTelegramMessage } from '@/app/actions/telegram';
-import { Breadcrumb } from './Breadcrumb';
 import OptimizedImage from './OptimizedImage';
 
 export interface CartItem extends Oil {
@@ -85,7 +84,6 @@ export default function OilShop({ onClose, cart, setCart }: OilShopProps) {
   }, []);
 
   const handleClose = useCallback(() => {
-    console.log('Closing shop from OilShop');
     router.push('/');
   }, [router]);
 
@@ -128,7 +126,7 @@ export default function OilShop({ onClose, cart, setCart }: OilShopProps) {
 
   return (
     <>
-      <div className="fixed inset-0 z-0">
+      <div className="fixed inset-0 z-0" suppressHydrationWarning>
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
           style={{
@@ -138,11 +136,7 @@ export default function OilShop({ onClose, cart, setCart }: OilShopProps) {
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
         </div>
       </div>
-      <div className="relative z-10">
-        <Breadcrumb items={[
-          { label: 'Главная', href: '/' },
-          { label: 'Магазин', href: '/shop' },
-        ]} />
+      <div className="relative z-10 min-h-screen" suppressHydrationWarning>
         <AnimatePresence>
           {showShop && (
             <ShopPage 
@@ -153,7 +147,6 @@ export default function OilShop({ onClose, cart, setCart }: OilShopProps) {
               onCartClick={handleCartClick} 
               favorites={favorites}
               toggleFavorite={toggleFavorite}
-              className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50"
             />
           )}
           {showCart && ( 
