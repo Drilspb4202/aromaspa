@@ -76,6 +76,7 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
   const [explanations, setExplanations] = useState<Record<string, string | null>>({});
   const [summary, setSummary] = useState<string>('');
   const [loadingExplanations, setLoadingExplanations] = useState<Record<string, boolean>>({});
+  const [recommendationQuality, setRecommendationQuality] = useState<number>(0);
 
   useEffect(() => {
     const storedId = localStorage.getItem('userId');
@@ -109,25 +110,28 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
   const findRecommendedOils = useCallback(async () => {
     setIsRecommending(true);
     setLoadingExplanations({});
-    const selectedProperties = [...selectedSymptoms, ...selectedGoals];
+    
+    // Конвертируем в формат для RecommendationEngine
+    const symptomObjects = selectedSymptoms.map(id => symptoms.find(s => s.id === id)!).filter(Boolean);
+    const goalObjects = selectedGoals.map(id => goals.find(g => g.id === id)!).filter(Boolean);
+    
+    // Устанавливаем предпочтения пользователя
+    recommendationEngine.setUserPreferences(userPreferences);
+    
+    // Получаем рекомендации через движок с ML
+    const initialRecommendations = recommendationEngine.recommendOils(
+      userId,
+      symptomObjects,
+      goalObjects,
+      oils
+    );
+
+    // Устанавливаем начальные рекомендации сразу
+    setRecommendedOils(initialRecommendations);
 
     try {
-      // Сначала делаем быстрый подбор на основе свойств
-      const initialRecommendations = oils
-        .map(oil => {
-          const score = selectedProperties.reduce((acc, prop) => {
-            return acc + (oil.properties[prop] || 0);
-          }, 0) / selectedProperties.length;
-          return { oil, score };
-        })
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3)
-        .map(item => item.oil);
-
-      // Устанавливаем начальные рекомендации сразу
-      setRecommendedOils(initialRecommendations);
-
-      // Затем запрашиваем AI для объяснений
+      // Запрашиваем AI для объяснений
+      const selectedProperties = [...selectedSymptoms, ...selectedGoals];
       const prompt = `
         Свойства: ${selectedProperties.map(prop => propertyTranslations[prop] || prop).join(', ')}.
         Масла: ${initialRecommendations.map(oil => oil.name).join(', ')}.
@@ -167,9 +171,15 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
       setExplanations(explanationsMap);
       setSummary(extractedSummary);
       setLoadingExplanations({});
+      
+      // Вычисляем качество рекомендации на основе совпадений
+      const avgMatch = initialRecommendations.reduce((sum, oil) => {
+        const relevantProps = selectedProperties.filter(prop => (oil.properties[prop] || 0) > 0.5);
+        return sum + (relevantProps.length / selectedProperties.length);
+      }, 0) / initialRecommendations.length;
+      setRecommendationQuality(Math.min(100, avgMatch * 100));
 
     } catch (error) {
-      console.error('Error getting AI recommendations:', error);
       toast({
         title: "Ошибка",
         description: "Не удалось получить полные рекомендации, показаны базовые совпадения.",
@@ -179,7 +189,7 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
       setIsRecommending(false);
       setHasRecommended(true);
     }
-  }, [selectedSymptoms, selectedGoals, toast]);
+  }, [selectedSymptoms, selectedGoals, userId, userPreferences, toast]);
 
   const resetSelection = useCallback(() => {
     setSelectedSymptoms([])
@@ -193,6 +203,7 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
     setExplanations({});
     setSummary('');
     setLoadingExplanations({});
+    setRecommendationQuality(0);
   }, [])
 
   const handleAddToCart = useCallback((oil: Oil) => {
@@ -237,7 +248,6 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
 
       setExplanations(prev => ({ ...prev, [oilId]: data.result }));
     } catch (error) {
-      console.error('Error loading explanation:', error);
       toast({
         title: "Ошибка",
         description: "Не удалось загрузить объяснение. Пожалуйста, попробуйте еще раз.",
@@ -274,16 +284,23 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
   }, [userId, selectedSymptoms, selectedGoals]);
 
   useEffect(() => {
-    if (hasRecommended) {
+    if (hasRecommended && userPreferences) {
+      // Устанавливаем предпочтения
+      recommendationEngine.setUserPreferences(userPreferences);
+      
+      // Получаем обновленные рекомендации
+      const symptomObjects = selectedSymptoms.map(id => symptoms.find(s => s.id === id)!).filter(Boolean);
+      const goalObjects = selectedGoals.map(id => goals.find(g => g.id === id)!).filter(Boolean);
+      
       const updatedRecommendations = recommendationEngine.recommendOils(
         userId,
-        selectedSymptoms.map(id => symptoms.find(s => s.id === id)!),
-        selectedGoals.map(id => goals.find(g => g.id === id)!),
+        symptomObjects,
+        goalObjects,
         oils
       );
       setRecommendedOils(updatedRecommendations);
     }
-  }, [userRatings, userId, selectedSymptoms, selectedGoals, hasRecommended]);
+  }, [userRatings, userId, selectedSymptoms, selectedGoals, hasRecommended, userPreferences]);
 
 
   return (
@@ -411,9 +428,14 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
               whileTap={{ scale: 0.95 }}
               className="w-full sm:w-auto mb-4 sm:mb-0"
             >
+              {!selectedSymptoms.length && !selectedGoals.length && (
+                <div className="w-full mb-4 p-4 bg-amber-500/20 border border-amber-500/50 rounded-lg text-center">
+                  <p className="text-amber-200 text-sm">Выберите симптомы или цели для подбора идеальных масел</p>
+                </div>
+              )}
               <Button
                 onClick={findRecommendedOils}
-                className="w-full sm:w-auto bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-700 hover:to-purple-700 text-white transition-all duration-300 text-lg py-3 px-6 rounded-lg"
+                className="w-full sm:w-auto bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-700 hover:to-purple-700 text-white transition-all duration-300 text-lg py-3 px-6 rounded-lg shadow-lg hover:shadow-fuchsia-500/50 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={!selectedSymptoms.length && !selectedGoals.length || isRecommending || hasRecommended}
               >
                 {isRecommending ? (
@@ -422,11 +444,11 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Подбираем масла...
+                    Анализируем и подбираем...
                   </span>
                 ) : (
                   <>
-                    Подобрать масла
+                    Подобрать идеальные масла
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </>
                 )}
@@ -455,7 +477,20 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6 text-center">Рекомендуемые масла:</h3>
+              <div className="text-center mb-6">
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4">Рекомендуемые масла</h3>
+                {recommendationQuality > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="inline-block"
+                  >
+                    <Badge className="bg-green-600/80 text-white px-4 py-2 text-base">
+                      Точность подбора: {Math.round(recommendationQuality)}%
+                    </Badge>
+                  </motion.div>
+                )}
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {recommendedOils.map((oil, index) => (
                   <motion.div

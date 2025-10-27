@@ -51,59 +51,102 @@ class RecommendationEngine {
 
   public recommendOils(userId: string, symptoms: Symptom[], goals: Goal[], oils: Oil[]): Oil[] {
     this.updateTimeAndSeason();
-    const scores: RecommendationScore[] = oils.map(oil => ({
-      oil,
-      score: this.calculateScore(userId, oil, symptoms, goals),
-      synergy: this.calculateSynergy(oil, symptoms, goals),
-    }));
+    
+    // Фильтруем масла только с положительными совпадениями
+    const scores: RecommendationScore[] = oils
+      .map(oil => {
+        const baseScore = this.calculateScore(userId, oil, symptoms, goals);
+        const synergy = this.calculateSynergy(oil, symptoms, goals);
+        const combinedScore = (baseScore * 0.7) + (synergy * 0.3);
+        
+        return {
+          oil,
+          score: baseScore,
+          synergy: combinedScore
+        };
+      })
+      .filter(item => item.score > 0.1); // Исключаем масла с нулевым совпадением
 
-    scores.sort((a, b) => (b.score + b.synergy) - (a.score + a.synergy));
+    // Сортируем по комбинированному score
+    scores.sort((a, b) => b.synergy - a.synergy);
 
-    return scores.slice(0, 5).map(score => score.oil);
+    // Возвращаем топ-3 самых релевантных масла
+    return scores.slice(0, 3).map(score => score.oil);
   }
 
   private calculateScore(userId: string, oil: Oil, symptoms: Symptom[], goals: Goal[]): number {
+    // Если ничего не выбрано, возвращаем 0
+    if (symptoms.length === 0 && goals.length === 0) {
+      return 0;
+    }
+
     let score = 0;
     let totalWeight = 0;
 
+    // Вычисляем score для симптомов
     symptoms.forEach(symptom => {
       const relevance = oil.properties[symptom.id] || 0;
       const weight = this.userPreferences.propertyWeights[symptom.id] || 1;
-      score += relevance * weight;
-      totalWeight += weight;
+      if (relevance > 0) { // Учитываем только релевантные свойства
+        score += relevance * weight;
+        totalWeight += weight;
+      }
     });
 
+    // Вычисляем score для целей
     goals.forEach(goal => {
       const relevance = oil.properties[goal.id] || 0;
       const weight = this.userPreferences.propertyWeights[goal.id] || 1;
-      score += relevance * weight;
-      totalWeight += weight;
+      if (relevance > 0) { // Учитываем только релевантные свойства
+        score += relevance * weight;
+        totalWeight += weight;
+      }
     });
 
+    // Нормализуем score
     score = totalWeight > 0 ? score / totalWeight : 0;
 
+    // Бонус за предпочтения
     if (this.userPreferences.favoriteScents.includes(oil.scent)) {
-      score *= 1.2;
+      score *= 1.15;
     }
+    
+    // Исключаем аллергены
     if (this.userPreferences.allergies.includes(oil.scent)) {
-      score = 0;
+      return 0;
     }
 
+    // Учитываем время и сезон
     score *= this.getTimeAndSeasonMultiplier(oil);
 
+    // Добавляем ML предсказание для персонализации
     const mlPrediction = recommendationML.predictRating(userId, oil.id);
-    score = score * 0.7 + mlPrediction * 0.3;
+    if (mlPrediction > 0) {
+      score = score * 0.75 + mlPrediction * 0.25;
+    }
 
     return score;
   }
 
   private calculateSynergy(oil: Oil, symptoms: Symptom[], goals: Goal[]): number {
+    if (symptoms.length === 0 && goals.length === 0) {
+      return 0;
+    }
+
     const relevantProperties = [...symptoms, ...goals].map(item => item.id);
+    
+    // Вычисляем среднюю релевантность
     const synergyScore = relevantProperties.reduce((sum, prop) => {
       return sum + (oil.properties[prop] || 0);
     }, 0);
 
-    return synergyScore / relevantProperties.length;
+    const avgScore = synergyScore / relevantProperties.length;
+    
+    // Бонус за высокую релевантность по всем свойствам
+    const highRelevanceCount = relevantProperties.filter(prop => (oil.properties[prop] || 0) > 0.7).length;
+    const diversityBonus = highRelevanceCount / relevantProperties.length;
+    
+    return avgScore * (1 + diversityBonus * 0.3);
   }
 
   private getTimeAndSeasonMultiplier(oil: Oil): number {

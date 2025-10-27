@@ -41,7 +41,7 @@ export default function AromaDiagnosticsPage() {
             Продолжительность сеанса: 2 часа
           </p>
           <p className="mb-6">
-            Стоимость: 2000₽
+            Стоимость: 3000₽
           </p>
           <div className="text-center">
             <Link href="/#контакты">

@@ -73,8 +73,8 @@ const systemPrompt = `Ты — дружелюбный и современный 
 - Рассказывай о программах лояльности
 
 Основные услуги и цены Aroma Spa Studio:
-- АромаДиагностика: 2000₽, 2 часа
-- АромаЙога: 2000₽, 2,5 часа
+- АромаДиагностика: 3000₽, 2 часа
+- АромаЙога: 3000₽, 2,5 часа
 - АромаДегустация: 500₽, 1 час
 - АромаНейрографика: 1000₽, 2 часа
 - АромаТимбилдинг: 5000₽, 2 часа
@@ -92,7 +92,7 @@ const systemPrompt = `Ты — дружелюбный и современный 
 
 3. Иланг-иланг — помогает справиться с эмоциональным напряжением и нормализует сердцебиение.
 
-Для максимального эффекта рекомендую попробовать нашу услугу АромаДиагностика (2000₽). За 2 часа мы подберем идеальную комбинацию масел именно для вашей ситуации.
+Для максимального эффекта рекомендую попробовать нашу услугу АромаДиагностика (3000₽). За 2 часа мы подберем идеальную комбинацию масел именно для вашей ситуации.
 
 Хотите записаться или узнать больше?"`;
 
@@ -168,8 +168,8 @@ function ChatBot() {
       const shortContext = `Ты — эксперт по ароматерапии в Aroma Spa Studio. Отвечай кратко (до 100 слов), но информативно. Используй эмоджи умеренно.
 
 Услуги:
-- АромаДиагностика: 2000₽, 2ч
-- АромаЙога: 2000₽, 2.5ч
+- АромаДиагностика: 3000₽, 2ч
+- АромаЙога: 3000₽, 2.5ч
 - АромаДегустация: 500₽, 1ч
 - АромаНейрографика: 1000₽, 2ч
 - АромаТимбилдинг: 5000₽, 2ч
@@ -387,7 +387,7 @@ function ChatBot() {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed z-[60] rounded-full bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-700 hover:to-purple-700 text-white p-4 shadow-lg transition-all duration-300 hover:scale-105 bottom-20 right-4 md:bottom-4"
+        className="fixed z-[60] rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-700 text-white p-4 shadow-2xl transition-all duration-300 hover:scale-110 bottom-20 right-4 md:bottom-4 ring-2 ring-white/20 hover:ring-white/40"
         aria-label="Открыть чат"
       >
         <MessageCircle size={24} />
@@ -396,21 +396,29 @@ function ChatBot() {
         {isOpen && (
           <motion.div
             ref={chatRef}
-            className="fixed bottom-4 right-4 z-[60] bg-black/50 backdrop-blur-sm md:bottom-20 md:right-4"
-            initial={{ opacity: 0, y: 20, x: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, x: 20, scale: 0.9 }}
-            transition={{ type: "spring", duration: 0.5 }}
+            className="fixed bottom-4 right-4 z-[60] bg-black/30 backdrop-blur-md md:bottom-20 md:right-4"
+            initial={{ opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
+            animate={{ opacity: 1, y: 0, x: 0, scale: 1, rotateX: 0 }}
+            exit={{ opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
+            transition={{ type: "spring", duration: 0.6, bounce: 0.3 }}
           >
-            <div className="relative w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-96 md:h-[32rem] max-h-[32rem] bg-gradient-to-b from-fuchsia-600 to-purple-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col">
-              <div className="p-4 flex justify-between items-center border-b border-white/20">
-                <h3 className="text-xl font-bold text-white">Aroma Spa Studio</h3>
-                <div className="flex items-center space-x-2">
+            <div className="relative w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-96 md:h-[32rem] max-h-[32rem] bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/20">
+              <div className="p-5 flex justify-between items-center bg-gradient-to-r from-violet-800/50 to-fuchsia-800/50 backdrop-blur-sm border-b border-white/20 shadow-lg">
+                <div className="flex items-center space-x-3">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                    <div className="relative bg-white/10 rounded-full p-2">
+                      <MessageCircle className="w-5 h-5 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-white to-purple-100 bg-clip-text text-transparent drop-shadow-lg">Aroma Spa Studio</h3>
+                </div>
+                <div className="flex items-center space-x-1">
                   <Button
                     onClick={clearChat}
                     variant="ghost"
                     size="icon"
-                    className="text-white/80 hover:text-white hover:bg-white/10"
+                    className="text-white/70 hover:text-white hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110"
                     title="Очистить историю"
                   >
                     <Trash2 size={18} />
@@ -419,7 +427,7 @@ function ChatBot() {
                     onClick={emailTranscript}
                     variant="ghost"
                     size="icon"
-                    className="text-white/80 hover:text-white hover:bg-white/10"
+                    className="text-white/70 hover:text-white hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110"
                     title="Отправить на email"
                   >
                     <Mail size={18} />
@@ -428,14 +436,14 @@ function ChatBot() {
                     onClick={() => setIsOpen(false)}
                     variant="ghost"
                     size="icon"
-                    className="text-white/80 hover:text-white hover:bg-white/10"
+                    className="text-white/70 hover:text-white hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110"
                   >
                     <X size={18} />
                   </Button>
                 </div>
               </div>
 
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent backdrop-blur-sm">
                   {messages.map((message) => (
                     <motion.div
                       key={message.id}
@@ -445,20 +453,20 @@ function ChatBot() {
                       className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
                     >
                       <div
-                        className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                        className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-lg transition-all duration-200 hover:scale-[1.02] ${
                           message.isBot
-                            ? 'bg-white/10 text-white'
-                            : 'bg-white text-purple-900'
+                            ? 'bg-white/15 backdrop-blur-md text-white border border-white/20'
+                            : 'bg-white text-purple-900 border border-white/30 shadow-xl'
                         }`}
                       >
-                        <div className="text-sm">{message.text}</div>
+                        <div className="text-sm leading-relaxed">{message.text}</div>
                         {message.isBot && !message.feedback && (
-                          <div className="mt-2 flex space-x-2">
+                          <div className="mt-3 flex space-x-2">
                             <Button
                               onClick={() => handleFeedback(message.id, 'positive')}
                               variant="ghost"
                               size="sm"
-                              className="text-white/60 hover:text-white hover:bg-white/10"
+                              className="text-white/60 hover:text-green-400 hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110"
                             >
                               <ThumbsUp size={14} />
                             </Button>
@@ -466,7 +474,7 @@ function ChatBot() {
                               onClick={() => handleFeedback(message.id, 'negative')}
                               variant="ghost"
                               size="sm"
-                              className="text-white/60 hover:text-white hover:bg-white/10"
+                              className="text-white/60 hover:text-red-400 hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110"
                             >
                               <ThumbsDown size={14} />
                             </Button>
@@ -481,23 +489,23 @@ function ChatBot() {
                       animate={{ opacity: 1 }}
                       className="flex justify-start"
                     >
-                      <div className="bg-white/10 rounded-2xl px-4 py-2">
-                        <Loader2 className="w-4 h-4 animate-spin text-white" />
+                      <div className="bg-white/15 backdrop-blur-md rounded-2xl px-4 py-3 border border-white/20">
+                        <Loader2 className="w-5 h-5 animate-spin text-white" />
                       </div>
                     </motion.div>
                   )}
                   <div ref={messagesEndRef} />
                 </div>
                 {showBookingForm && (
-                  <div className="absolute inset-0 bg-purple-900/90 backdrop-blur-sm z-10 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/80 backdrop-blur-md z-10 flex items-center justify-center">
                     <BookingForm
                       onSubmit={handleBookingSubmit}
                       onClose={() => setShowBookingForm(false)}
                     />
                   </div>
                 )}
-                <div className="p-4 space-y-4">
-                  <div className="flex space-x-2">
+                <div className="p-5 space-y-4 bg-gradient-to-t from-violet-700/30 via-purple-600/30 to-fuchsia-700/30 backdrop-blur-sm border-t border-white/20">
+                  <div className="flex space-x-3">
                     <Input
                       ref={inputRef}
                       type="text"
@@ -505,11 +513,11 @@ function ChatBot() {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                      className="flex-1 bg-white/10 border-white/20 text-white placeholder-white/50 focus:border-white"
+                      className="flex-1 bg-white/15 backdrop-blur-md border-white/30 text-white placeholder-white/60 focus:border-white focus:ring-2 focus:ring-white/50 shadow-lg rounded-xl"
                     />
                     <Button
                       onClick={handleSend}
-                      className="bg-white text-purple-700 hover:bg-white/90"
+                      className="bg-white text-violet-700 hover:bg-white/90 shadow-lg rounded-xl px-6 hover:scale-105 transition-all duration-200 font-semibold"
                     >
                       <Send size={18} />
                     </Button>
@@ -521,10 +529,10 @@ function ChatBot() {
                         key={index}
                         onClick={() => handleQuickReply(reply.text)}
                         variant="outline"
-                        className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                        className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20 hover:scale-105 transition-all duration-200 rounded-xl shadow-md hover:shadow-lg"
                         size="sm"
                       >
-                        <span className="mr-1">{reply.icon}</span>
+                        <span className="mr-1.5 text-base">{reply.icon}</span>
                         {reply.text}
                       </Button>
                     ))}
