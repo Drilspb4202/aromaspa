@@ -224,26 +224,26 @@ export default function AromaSpaStudio() {
           {/* Navigation */}
           <nav aria-label="Главное меню" className={`fixed w-full z-50 transition-all duration-300 ${scrollPosition > 50 ? 'bg-purple-900/80 backdrop-blur-md' : 'bg-transparent'}`}>
             <div className="container mx-auto px-4 py-2">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-4 hover:scale-105 transition-transform duration-300">
+              <div className="flex justify-between items-center gap-2">
+                <div className="flex items-center gap-4 hover:scale-105 transition-transform duration-300 min-w-0">
                   <OptimizedImage
                     src="/logo-yar.png"
                     alt="Logo ЯR"
                     width={40}
                     height={40}
-                    className="w-10 h-10 rounded-full shadow-lg"
+                    className="w-10 h-10 rounded-full shadow-lg flex-shrink-0"
                     priority
                   />
-                  <div className="hidden sm:block">
-                    <h1 className="text-2xl font-bold bg-gradient-to-r from-white via-purple-300 to-fuchsia-300 bg-clip-text text-transparent tracking-wider font-playfair whitespace-nowrap">
+                  <div className="hidden sm:block min-w-0 max-w-[180px] lg:max-w-none">
+                    <h1 className="text-lg lg:text-2xl font-bold bg-gradient-to-r from-white via-purple-300 to-fuchsia-300 bg-clip-text text-transparent tracking-wider font-playfair leading-tight">
                       Гармония Души и Тела
                     </h1>
-                    <div className="text-sm font-light text-fuchsia-400 italic tracking-wide mt-1">
+                    <div className="text-xs lg:text-sm font-light text-fuchsia-400 italic tracking-wide mt-1 leading-tight">
                       by Радмила Яковлева
                     </div>
                   </div>
                 </div>
-                <div className="hidden md:flex space-x-1 bg-purple-900/60 backdrop-blur-md p-1 rounded-full shadow-lg text-xs">
+                <div className="hidden md:flex space-x-1 bg-purple-900/60 backdrop-blur-md p-1 rounded-full shadow-lg text-xs flex-shrink-0">
                   {navigation.map((item) => (
                     <button
                       key={item.name}
