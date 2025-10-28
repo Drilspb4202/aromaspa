@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Droplet, SpaceIcon as Yoga, Coffee, Palette, Users2 } from 'lucide-react'
 import { motion } from 'framer-motion'
-import OptimizedImage from '../components/OptimizedImage'
+import OptimizedImage from '@/components/OptimizedImage'
 
 const services = [
   {
@@ -78,7 +78,7 @@ export default function ServicesSection() {
                 <CardContent className="p-6 flex flex-col items-center text-center">
                   <div className="w-32 h-32 rounded-full overflow-hidden mb-6 ring-2 ring-fuchsia-500/50 group-hover:ring-fuchsia-400 transition-all duration-300">
                     <OptimizedImage
-                      src={service.image || null}
+                      src={service.image || ''}
                       alt={service.title}
                       width={128}
                       height={128}

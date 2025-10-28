@@ -3,11 +3,16 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { blogPosts } from '../data/blogPosts';
+import { blogPosts, BlogPost } from '../data/blogPosts';
 import OptimizedImage from './OptimizedImage';
 import { useInView } from 'react-intersection-observer';
 
-const BlogPostCard = ({ post, index }) => {
+interface BlogPostCardProps {
+  post: BlogPost;
+  index: number;
+}
+
+const BlogPostCard = ({ post, index }: BlogPostCardProps) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     rootMargin: '200px 0px',

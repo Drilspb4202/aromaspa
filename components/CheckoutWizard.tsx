@@ -15,6 +15,7 @@ interface CheckoutWizardProps {
   onClose: () => void;
   onBackToShop: () => void;
   className?: string;
+  onSubmit?: (orderDetails: string) => Promise<void>;
 }
 
 export default function CheckoutWizard({ cart, onClose, onBackToShop, className }: CheckoutWizardProps) {

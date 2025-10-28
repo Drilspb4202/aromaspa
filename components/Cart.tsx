@@ -13,6 +13,7 @@ interface CartProps {
   onClose: () => void;
   removeFromCart: (oilId: string) => void;
   addToCart: (oil: CartItem) => void;
+  className?: string;
 }
 
 export default function Cart({ 
@@ -21,7 +22,8 @@ export default function Cart({
   onBackToShop, 
   onClose, 
   removeFromCart,
-  addToCart
+  addToCart,
+  className
 }: CartProps) {
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
 

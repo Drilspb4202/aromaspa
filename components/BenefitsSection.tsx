@@ -25,7 +25,13 @@ const benefits = [
   }
 ]
 
-const BenefitCard = ({ icon: Icon, title, description }) => {
+interface BenefitCardProps {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}
+
+const BenefitCard = ({ icon: Icon, title, description }: BenefitCardProps) => {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}

@@ -61,7 +61,7 @@ export function GalleryCarousel({ images }: GalleryCarouselProps) {
       try {
         const imagePromises = images.map((image) => {
           return new Promise((resolve, reject) => {
-            const img = new Image()
+            const img = document.createElement('img')
             img.src = image.url
             img.onload = resolve
             img.onerror = reject

@@ -56,10 +56,6 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-    yandex: {
-      index: true,
-      follow: true,
-    },
   },
   verification: {
     google: 'your-google-verification-code',

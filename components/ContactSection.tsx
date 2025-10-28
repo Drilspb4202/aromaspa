@@ -142,7 +142,6 @@ export default function ContactSection() {
                       <DatePicker
                         selected={formData.date}
                         onSelect={handleDateChange}
-                        locale={ru}
                         placeholderText="Выберите дату"
                         className="bg-purple-800/50 border-fuchsia-500/30 text-white placeholder-gray-400 w-full pl-10"
                       />

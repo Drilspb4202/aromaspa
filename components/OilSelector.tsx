@@ -33,9 +33,18 @@ const oilCategories: OilCategory[] = [
 
 interface OilSelectorProps {
   addToCart: (oil: Oil) => void;
+  removeFromCart?: (oilId: string) => void;
 }
 
-const OptionCard = ({ id, label, isSelected, onClick, disabled }) => (
+interface OptionCardProps {
+  id: string;
+  label: string;
+  isSelected: boolean;
+  onClick: (id: string) => void;
+  disabled: boolean;
+}
+
+const OptionCard = ({ id, label, isSelected, onClick, disabled }: OptionCardProps) => (
   <motion.div
     whileHover={{ scale: disabled ? 1 : 1.05 }}
     whileTap={{ scale: disabled ? 1 : 0.95 }}
@@ -48,7 +57,11 @@ const OptionCard = ({ id, label, isSelected, onClick, disabled }) => (
   </motion.div>
 )
 
-const ErrorFallback = ({ error }) => (
+interface ErrorFallbackProps {
+  error: Error;
+}
+
+const ErrorFallback = ({ error }: ErrorFallbackProps) => (
   <div className="text-red-500">
     <p>Something went wrong:</p>
     <pre>{error.message}</pre>
@@ -133,7 +146,7 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
       // Запрашиваем AI для объяснений
       const selectedProperties = [...selectedSymptoms, ...selectedGoals];
       const prompt = `
-        Свойства: ${selectedProperties.map(prop => propertyTranslations[prop] || prop).join(', ')}.
+        Свойства: ${selectedProperties.map(prop => propertyTranslations[prop as keyof typeof propertyTranslations] || prop).join(', ')}.
         Масла: ${initialRecommendations.map(oil => oil.name).join(', ')}.
         
         Для каждого масла укажите:
@@ -230,7 +243,7 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
 
       const prompt = `
         Масло: ${oil.name}
-        Для: ${[...selectedSymptoms, ...selectedGoals].map(prop => propertyTranslations[prop] || prop).join(', ')}
+        Для: ${[...selectedSymptoms, ...selectedGoals].map(prop => propertyTranslations[prop as keyof typeof propertyTranslations] || prop).join(', ')}
         
         Опишите в 2 предложениях эффективность и механизм действия.
       `;
@@ -400,7 +413,7 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
                     {[...selectedSymptoms, ...selectedGoals].map(property => (
                       <div key={property} className="flex flex-col">
                         <label className="text-sm text-white mb-1">
-                          {propertyTranslations[property] || property}
+                          {propertyTranslations[property as keyof typeof propertyTranslations] || property}
                         </label>
                         <CustomSlider
                           value={[userPreferences.propertyWeights[property] || 1]}
@@ -517,7 +530,7 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
                                   variant="secondary"
                                   className="bg-purple-800/50 text-white hover:bg-purple-700/50"
                                 >
-                                  {propertyTranslations[key]} ({Math.round(value * 100)}%)
+                                  {propertyTranslations[key as keyof typeof propertyTranslations]} ({Math.round(value * 100)}%)
                                 </Badge>
                               ))}
                           </div>

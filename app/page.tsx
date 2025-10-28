@@ -58,7 +58,7 @@ const AnimatedCounter = React.memo(({ number, text }: { number: number, text: st
 
 AnimatedCounter.displayName = 'AnimatedCounter'
 
-export function Spinner({ size = "default" }) {
+function Spinner({ size = "default" }: { size?: "default" | "sm" | "lg" }) {
   const sizeClasses = {
     default: "w-4 h-4",
     sm: "w-3 h-3",
@@ -90,6 +90,7 @@ export default function AromaSpaStudio() {
   const [scrollPosition, setScrollPosition] = useState(0)
   const [activeSection, setActiveSection] = useState('')
   const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
+  const [isShopOpen, setIsShopOpen] = useState(false)
 
   const { scrollYProgress } = useScroll()
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
@@ -562,7 +563,7 @@ export default function AromaSpaStudio() {
             <div className="container mx-auto px-4 relative">
               <ErrorBoundary>
                 <Suspense fallback={<div className="py-20 text-center text-white">Загрузка услуг...</div>}>
-                  <ServicesSection />
+                  <ServicesSection setIsShopOpen={setIsShopOpen} />
                 </Suspense>
               </ErrorBoundary>
               <div className="text-center mt-8">

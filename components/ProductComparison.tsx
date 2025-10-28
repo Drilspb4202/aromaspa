@@ -63,7 +63,7 @@ export default function ProductComparison({ products, onClose, onRemove }: Produ
                   <ul className="text-sm text-gray-300">
                     {Object.entries(product.properties).map(([key, value]) => (
                       <li key={key}>
-                        {propertyTranslations[key] || key}: {typeof value === 'number' ? Math.round(value * 100) : value}%
+                        {propertyTranslations[key as keyof typeof propertyTranslations] || key}: {typeof value === 'number' ? Math.round(value * 100) : value}%
                       </li>
                     ))}
                   </ul>

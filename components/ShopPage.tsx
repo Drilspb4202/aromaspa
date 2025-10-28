@@ -149,7 +149,7 @@ export default function ShopPage({
       minty: "Освежающий мятный аромат, способствующий ясности мышления",
       earthy: "Глубокий землистый аромат с успокаивающим эффектом"
     };
-    return descriptions[scent] || "Уникальный аромат с особыми свойствами";
+    return descriptions[scent as keyof typeof descriptions] || "Уникальный аромат с особыми свойствами";
   };
 
   return (
@@ -345,7 +345,7 @@ export default function ShopPage({
               transition={{ duration: 0.3 }}
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
             >
-              {paginatedOils.map((oil, index) => {
+              {paginatedOils.map((oil: Oil, index: number) => {
               const cartItem = cart.find(item => item.id === oil.id);
               const quantity = cartItem ? cartItem.quantity : 0;
               const isFavorite = favorites.includes(oil.id);

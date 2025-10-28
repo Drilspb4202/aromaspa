@@ -125,10 +125,19 @@ export default function FAQSection() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const filteredFAQ = useMemo(() => {
-    return faqItems.filter(item =>
-      item.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.answer.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    if (!searchTerm) return faqItems;
+    
+    const searchLower = searchTerm.toLowerCase();
+    return faqItems.filter(item => {
+      const questionMatch = item.question.toLowerCase().includes(searchLower);
+      // Проверяем, является ли answer строкой, иначе пропускаем фильтрацию по нему
+      let answerMatch = false;
+      if (typeof item.answer === 'string') {
+        const answerStr = item.answer as string;
+        answerMatch = answerStr.toLowerCase().includes(searchLower);
+      }
+      return questionMatch || answerMatch;
+    });
   }, [searchTerm])
 
   const toggleQuestion = (index: number) => {
