@@ -1,31 +1,36 @@
-# Используем официальный образ Node.js
-FROM node:20-alpine AS base
+# Multi-stage build для оптимизации размера образа
+FROM node:18-alpine AS base
 
-# Устанавливаем зависимости только если они нужны
+# Установка зависимостей
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Копируем файлы управления пакетами
-COPY package.json pnpm-lock.yaml* ./
+# Копируем файлы для установки зависимостей
+COPY package.json package-lock.json* pnpm-lock.yaml* yarn.lock* ./
+RUN \
+  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install --frozen-lockfile; \
+  elif [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  else npm ci; \
+  fi
 
-# Устанавливаем pnpm если есть pnpm-lock.yaml
-RUN corepack enable && corepack prepare pnpm@latest --activate
-RUN pnpm install --frozen-lockfile
-
-# Пересобираем исходный код только когда нужно
+# Сборка проекта
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Отключаем телеметрию Next.js во время сборки
+# Устанавливаем переменные окружения для сборки
+ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
-RUN pnpm run build
+RUN \
+  if [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm build; \
+  elif [ -f yarn.lock ]; then yarn build; \
+  else npm run build; \
+  fi
 
-# Production образ, копируем только необходимые файлы
+# Production образ
 FROM base AS runner
 WORKDIR /app
 
@@ -37,11 +42,8 @@ RUN adduser --system --uid 1001 nextjs
 
 # Копируем только необходимые файлы
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-
-# Устанавливаем права доступа
-RUN chown -R nextjs:nodejs /app
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
@@ -51,4 +53,3 @@ ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
 CMD ["node", "server.js"]
-

@@ -53,7 +53,9 @@ git commit -m "Описание ваших изменений"
 git push
 \`\`\`
 
-### 4️⃣ Деплой на Vercel
+### 4️⃣ Деплой
+
+#### 🚀 Деплой на Vercel (Рекомендуется)
 
 1. Перейдите на [Vercel](https://vercel.com)
 2. Нажмите "Add New Project"
@@ -63,7 +65,22 @@ git push
    - Framework Preset: Next.js
    - Root Directory: ./
    - Node.js Version: 18.x
+   - Environment Variables:
+     - `BOT_TOKEN` - токен Telegram бота
+     - `CHAT_ID` - ID чата для уведомлений
+     - `DEEPSEEK_API_KEY` - API ключ DeepSeek
 6. Нажмите "Deploy"
+
+#### 🐳 Деплой на Timeweb с Docker
+
+Подробные инструкции в файле [DEPLOY.md](./DEPLOY.md)
+
+**Быстрый старт:**
+```bash
+# На сервере
+docker-compose build
+docker-compose up -d
+```
 
 ### 🔄 Автоматический деплой
 
