@@ -73,7 +73,7 @@ const services = [
 const ServiceCard = React.memo(({ service, handleAction }: {service: any, handleAction: any}) => (
   <Card className="bg-purple-950/30 border-fuchsia-500/30 overflow-hidden transition-all duration-300 hover:bg-purple-900/40 rounded-2xl h-full flex flex-col backdrop-blur-sm">
     <CardContent className="p-3 flex flex-col h-full">
-      <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-xl">
+      <div className="relative w-full aspect-square mb-3 overflow-hidden rounded-xl">
         <OptimizedImage
           src={service.image}
           alt={`${service.title} - AROMA SPA СТУДИЯ`}
@@ -83,7 +83,7 @@ const ServiceCard = React.memo(({ service, handleAction }: {service: any, handle
           loading="lazy"
         />
       </div>
-      <div className="flex-grow space-y-3">
+      <div className="flex-grow space-y-2">
         <div className="flex items-center justify-center gap-2">
           {React.createElement(service.icon, { className: "w-5 h-5 text-fuchsia-400" })}
           <h3 className="text-base sm:text-lg font-bold text-fuchsia-400 group-hover:text-fuchsia-300 font-montserrat"> {service.title}</h3>
@@ -101,7 +101,7 @@ const ServiceCard = React.memo(({ service, handleAction }: {service: any, handle
           {service.description}
         </p>
       </div>
-      <div className="mt-4">
+      <div className="mt-2">
         <Button
           className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white transition-colors font-montserrat text-sm sm:text-base py-2 sm:py-3"
           onClick={() => {
@@ -184,7 +184,7 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
           <p className="text-center text-gray-300 mb-8 max-w-xl mx-auto">
             Откройте для себя мир профессиональной АромаТерапии с нашими уникальными услугами. Каждая услуга разработана для улучшения Вашего физического и эмоционального благополучия.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {memoizedServices.map((service, index) => (
               <motion.div
                 key={service.id}
