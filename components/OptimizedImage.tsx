@@ -11,11 +11,12 @@ interface OptimizedImageProps {
   priority?: boolean
   loading?: "lazy" | "eager"
   sizes?: string
+  onClick?: () => void
 }
 
 const fallbackBlurDataURL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=='
 
-export default function OptimizedImage({ src, alt, width, height, className, priority = false, loading, sizes }: OptimizedImageProps) {
+export default function OptimizedImage({ src, alt, width, height, className, priority = false, loading, sizes, onClick }: OptimizedImageProps) {
   return (
     <Image
       src={src}
@@ -30,6 +31,8 @@ export default function OptimizedImage({ src, alt, width, height, className, pri
       placeholder="blur"
       blurDataURL={fallbackBlurDataURL}
       unoptimized
+      onClick={onClick}
+      style={onClick ? { cursor: 'pointer' } : undefined}
     />
   )
 }

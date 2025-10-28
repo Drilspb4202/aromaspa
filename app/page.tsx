@@ -93,6 +93,7 @@ export default function AromaSpaStudio() {
   const [activeSection, setActiveSection] = useState('')
   const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
   const [isShopOpen, setIsShopOpen] = useState(false)
+  const [selectedQRCode, setSelectedQRCode] = useState<string | null>(null)
 
   const { scrollYProgress } = useScroll()
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
@@ -422,7 +423,7 @@ export default function AromaSpaStudio() {
                   >
                     <Button
                       onClick={() => scrollToSection('услуги')}
-                      className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 text-lg rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+                      className="w-full sm:w-auto bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white px-6 py-3 text-lg rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400"
                       aria-label="Перейти к разделу услуг"
                     >
                       Начать путешествие
@@ -521,21 +522,19 @@ export default function AromaSpaStudio() {
                       <div className="text-fuchsia-400 mt-1">
                         <ChevronRight className="w-5 h-5" />
                       </div>
-                      <p className="text-gray-300 font-playfair">Мы разрабатываем персональные решения, учитывая Ваши личные потребности и цели. Каждая программа создаётся с максимальным вниманием к деталям, чтобы обеспечить наилучший результат именно для Вас.</p>
+                      <p className="text-white/90 font-montserrat">Мы разрабатываем персональные решения, учитывая Ваши личные потребности и цели. Каждая программа создаётся с максимальным вниманием к деталям, чтобы обеспечить наилучший результат именно для Вас.</p>
                     </div>
                     <div className="flex items-start gap-4">
                       <div className="text-fuchsia-400 mt-1">
                         <ChevronRight className="w-5 h-5" />
                       </div>
-                      <p className="text-gray-300 font-playfair">Мы используем только сертифицированные эфирные масла высшего качества, которые проходят строгий контроль на чистоту и эффективность. Это гарантирует безопасность и максимальную пользу для вашего здоровья и самочувствия.
-
-, которые проходят строгий контроль на чистоту и эффективность. Это гарантирует безопасность и максимальную пользу для вашего здоровья и самочувствия.</p>
+                      <p className="text-white/90 font-montserrat">Мы используем только сертифицированные эфирные масла высшего качества, которые проходят строгий контроль на чистоту и эффективность. Это гарантирует безопасность и максимальную пользу для вашего здоровья и самочувствия.</p>
                     </div>
                     <div className="flex items-start gap-4">
                       <div className="text-fuchsia-400 mt-1">
                         <ChevronRight className="w-5 h-5" />
                       </div>
-                      <p className="text-gray-300 font-playfair">Мы соединяем древние знания с современными методиками, чтобы предложить гармоничное решение для Вашего тела и ума. Такой синтез позволяет достичь баланса и улучшить качество Вашей жизни на всех уровнях.</p>
+                      <p className="text-white/90 font-montserrat">Мы соединяем древние знания с современными методиками, чтобы предложить гармоничное решение для Вашего тела и ума. Такой синтез позволяет достичь баланса и улучшить качество Вашей жизни на всех уровнях.</p>
                     </div>
                   </div>
                 </motion.div>
@@ -647,14 +646,16 @@ export default function AromaSpaStudio() {
                   alt="QR код для связи"
                   width={100}
                   height={100}
-                  className="rounded-lg w-24 h-24"
+                  className="rounded-lg w-24 h-24 cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => setSelectedQRCode("https://i.ibb.co/cQ0SSZk/photo-2024-12-06-10-16-51.jpg")}
                 />
                 <OptimizedImage
                   src="https://i.ibb.co/N3vD1CQ/photo-2024-12-06-10-17-10.jpg"
                   alt="QR код для оплаты"
                   width={100}
                   height={100}
-                  className="rounded-lg w-24 h-24"
+                  className="rounded-lg w-24 h-24 cursor-pointer hover:scale-105 transition-transform"
+                  onClick={() => setSelectedQRCode("https://i.ibb.co/N3vD1CQ/photo-2024-12-06-10-17-10.jpg")}
                 />
               </div>
               <nav aria-label="Навигация по сайту" className="mb-4">
@@ -678,6 +679,46 @@ export default function AromaSpaStudio() {
             </div>          
           </div>
         </footer>
+
+        {/* QR Code Modal */}
+        <AnimatePresence>
+          {selectedQRCode && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/80 p-4"
+              onClick={() => setSelectedQRCode(null)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative bg-black/90 p-6 rounded-2xl shadow-2xl max-w-lg w-full"
+              >
+                <button
+                  onClick={() => setSelectedQRCode(null)}
+                  className="absolute top-4 right-4 text-white hover:text-fuchsia-400 transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+                <div className="flex flex-col items-center">
+                  <OptimizedImage
+                    src={selectedQRCode}
+                    alt="QR код увеличенный"
+                    width={400}
+                    height={400}
+                    className="rounded-lg w-full max-w-md"
+                  />
+                  <p className="mt-4 text-white/80 text-sm">
+                    Наведите камеру на QR-код для сканирования
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </ErrorBoundary>
   )

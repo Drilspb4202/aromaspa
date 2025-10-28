@@ -160,7 +160,7 @@ export default function ContactSection() {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white transition-all duration-300 transform hover:scale-105 mt-auto"
+                    className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 mt-auto rounded-xl py-6 text-lg font-semibold"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (

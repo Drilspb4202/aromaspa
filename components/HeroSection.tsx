@@ -51,14 +51,20 @@ export default function HeroSection() {
               transition={{ duration: 0.5 }}
               className="mb-2 w-full max-w-[200px] sm:max-w-[250px] mx-auto"
             >
-              <OptimizedImage
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-hxwo0WQe3vax9AD8KKTokvTiwnrUgq.png"
-                alt="AROMA SPA СТУДИЯ Logo"
-                width={250}
-                height={250}
-                className="w-full h-auto rounded-2xl"
-                priority
-              />
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              >
+                <OptimizedImage
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-hxwo0WQe3vax9AD8KKTokvTiwnrUgq.png"
+                  alt="AROMA SPA СТУДИЯ Logo"
+                  width={250}
+                  height={250}
+                  className="w-full h-auto rounded-2xl"
+                  priority
+                />
+              </motion.div>
             </motion.div>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}

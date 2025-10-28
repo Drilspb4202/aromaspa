@@ -275,7 +275,6 @@ export default function RootLayout({
         <meta name="yandex-verification" content="bc0164dd53862fad" />
         <meta name="google-site-verification" content="your-google-verification-code" />
         
-        <link rel="canonical" href="https://www.radmilaessentialoil.ru" />
         <link rel="alternate" href="https://www.radmilaessentialoil.ru" hrefLang="ru-RU" />
         
         <link rel="icon" href="/favicon.ico" sizes="any" />

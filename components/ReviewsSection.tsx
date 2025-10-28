@@ -69,7 +69,7 @@ export default function ReviewsSection() {
               <Card className="bg-purple-950/40 border-fuchsia-500/30 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:bg-purple-900/50 h-full">
                 <CardContent className="p-4 flex flex-col justify-between h-full">
                   <div>
-                    <p className="text-gray-300 mb-4 font-montserrat">{review.text}</p>
+                    <p className="text-white/90 mb-4 font-montserrat">{review.text}</p>
                     <motion.div 
                       className="flex items-center mb-2"
                       initial={{ opacity: 0 }}

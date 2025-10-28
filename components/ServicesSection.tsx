@@ -73,7 +73,7 @@ const services = [
 const ServiceCard = React.memo(({ service, handleAction }: {service: any, handleAction: any}) => (
   <Card className="bg-purple-950/30 border-fuchsia-500/30 overflow-hidden transition-all duration-300 hover:bg-purple-900/40 rounded-2xl h-full flex flex-col backdrop-blur-sm">
     <CardContent className="p-3 flex flex-col h-full">
-      <div className="relative w-full aspect-square mb-3 overflow-hidden rounded-xl">
+      <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-xl">
         <OptimizedImage
           src={service.image}
           alt={`${service.title} - AROMA SPA СТУДИЯ`}
@@ -83,12 +83,12 @@ const ServiceCard = React.memo(({ service, handleAction }: {service: any, handle
           loading="lazy"
         />
       </div>
-      <div className="flex-grow space-y-2">
+      <div className="flex-grow space-y-3">
         <div className="flex items-center justify-center gap-2">
           {React.createElement(service.icon, { className: "w-5 h-5 text-fuchsia-400" })}
           <h3 className="text-base sm:text-lg font-bold text-fuchsia-400 group-hover:text-fuchsia-300 font-montserrat"> {service.title}</h3>
         </div>
-        {service.title !== "Купить Эфирные Масла" && (
+        {service.duration && (
           <div className="flex justify-between items-center bg-fuchsia-600/20 px-4 py-2 rounded-lg border border-fuchsia-500/30">
             <span className="text-sm sm:text-base text-white font-medium font-montserrat">{service.duration}</span>
             <span className="text-xl sm:text-2xl font-bold text-fuchsia-400 group-hover:text-fuchsia-300 font-montserrat">
@@ -97,13 +97,13 @@ const ServiceCard = React.memo(({ service, handleAction }: {service: any, handle
           </div>
         )}
         <h4 className="text-sm sm:text-md font-semibold text-white mb-2 font-montserrat">Описание услуги</h4>
-        <p className="text-xs sm:text-sm text-gray-300 leading-relaxed group-hover:text-white font-montserrat sm:line-clamp-none">
+        <p className="text-xs sm:text-sm text-white/90 leading-relaxed group-hover:text-white font-montserrat sm:line-clamp-none">
           {service.description}
         </p>
       </div>
-      <div className="mt-2">
+      <div className="mt-4">
         <Button
-          className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white transition-colors font-montserrat text-sm sm:text-base py-2 sm:py-3"
+          className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 font-montserrat text-sm sm:text-base py-2 sm:py-3 rounded-xl"
           onClick={() => {
             if (service.title === "Купить Эфирные Масла") {
               window.open('https://office.doterra.com/Application/index.cfm', '_blank', 'noopener,noreferrer');
@@ -181,10 +181,10 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
           <div className="flex justify-center mb-8">
             <ShareButton className="bg-purple-900/50 hover:bg-purple-800/70 text-white border-fuchsia-500/30" />
           </div>
-          <p className="text-center text-gray-300 mb-8 max-w-xl mx-auto">
+          <p className="text-center text-white/90 mb-8 max-w-xl mx-auto font-montserrat">
             Откройте для себя мир профессиональной АромаТерапии с нашими уникальными услугами. Каждая услуга разработана для улучшения Вашего физического и эмоционального благополучия.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {memoizedServices.map((service, index) => (
               <motion.div
                 key={service.id}

@@ -56,7 +56,7 @@ export default function PromotionsSection() {
                 <h3 className="text-2xl font-bold text-fuchsia-400 mb-4">Наградим по-кролевски!</h3>
                 <p className="text-gray-300 mb-6 flex-grow">{promotions[0].description}</p>
                 <Button
-                  className="mb-6 bg-fuchsia-600 hover:bg-fuchsia-700 text-white transition-colors"
+                  className="mb-6 bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 rounded-xl font-semibold"
                   onClick={() => {
                     window.open('https://beta-doterra.myvoffice.com/Application/index.cfm?EnrollerID=14409682&Country=RUS', '_blank', 'noopener,noreferrer')
                   }}
@@ -85,7 +85,7 @@ export default function PromotionsSection() {
                         </div>
                         {promo.code && (
                           <Button
-                            className="mt-3 bg-fuchsia-600 hover:bg-fuchsia-700 text-white transition-colors"
+                            className="mt-3 bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 rounded-xl font-semibold"
                             onClick={() => {
                               navigator.clipboard.writeText(promo.code)
                               alert(`Код ${promo.code} скопирован!`)
