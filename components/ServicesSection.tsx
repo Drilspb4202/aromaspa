@@ -1,10 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import OptimizedImage from './OptimizedImage'
 import { Droplet, SpaceIcon as Yoga, Coffee, Palette, Users2, BoxIcon as Bottle, Briefcase } from 'lucide-react'
-import Head from 'next/head'
 import ShareButton from './ShareButton'
 
 const services = [
@@ -126,6 +125,12 @@ interface ServicesSectionProps {
 }
 
 export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps) {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
   const handleAction = useCallback((service: string, action: string) => {
     if (action === "buy") {
       setIsShopOpen(true);
@@ -152,47 +157,18 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
 
   const memoizedServices = useMemo(() => services, [])
 
-  return (
-    <>
-      <Head>
-        <title>Услуги AROMA SPA СТУДИЯ | Профессиональная Ароматерапия в Санкт-Петербурге</title>
-        <meta name="description" content="Откройте для себя широкий спектр услуг ароматерапии в AROMA SPA СТУДИЯ. От АромаДиагностики до АромаБизнеса - мы предлагаем уникальные решения для вашего здоровья и благополучия." />
-        <meta name="keywords" content="ароматерапия, эфирные масла, АромаДиагностика, АромаЙога, АромаДегустация, АромаНейрографика, АромаТимбилдинг, АромаБизнес, Санкт-Петербург" />
-        <link rel="canonical" href="https://www.radmilaessentialoil.ru/services" />
-        <meta property="og:title" content="Услуги AROMA SPA СТУДИЯ | Профессиональная Ароматерапия" />
-        <meta property="og:description" content="Исследуйте наши уникальные услуги ароматерапии, от индивидуальной АромаДиагностики до корпоративного АромаТимбилдинга. Погрузитесь в мир ароматов с AROMA SPA СТУДИЯ." />
-        <meta property="og:image" content="https://www.radmilaessentialoil.ru/images/services-og.jpg" />
-        <meta property="og:url" content="https://www.radmilaessentialoil.ru/services" />
-        <meta property="og:type" content="website" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "itemListElement": services.map((service, index) => ({
-              "@type": "Service",
-              "position": index + 1,
-              "name": service.title,
-              "description": service.description,
-              "offers": {
-                "@type": "Offer",
-                "price": service.price,
-                "priceCurrency": "RUB"
-              },
-              "provider": {
-                "@type": "LocalBusiness",
-                "name": "AROMA SPA СТУДИЯ",
-                "image": "https://www.radmilaessentialoil.ru/logo.jpg",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": "Санкт-Петербург",
-                  "addressCountry": "RU"
-                }
-              }
-            }))
-          })}
-        </script>
-      </Head>
+  if (!isClient) {
+    return (
       <section id="услуги" className="py-8 sm:py-12 relative z-10">
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center text-white">Загрузка услуг...</div>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section id="услуги" className="py-8 sm:py-12 relative z-10">
         <div className="container mx-auto px-4 relative">
           <motion.h2
             initial={{ opacity: 0, y: 50 }}
@@ -245,7 +221,6 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
           }) }} />
         </div>
       </section>
-    </>
   )
 }
 

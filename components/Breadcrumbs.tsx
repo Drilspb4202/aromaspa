@@ -13,14 +13,15 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
         {items.map((item, index) => (
           <li key={index} className="inline-flex items-center">
             {index > 0 && <ChevronRight className="w-4 h-4 text-gray-400" />}
-            <Link href={item.href}>
-              <a className={`inline-flex items-center text-sm font-medium ${
+            <Link 
+              href={item.href}
+              className={`inline-flex items-center text-sm font-medium ${
                 index === items.length - 1 
                   ? 'text-fuchsia-400' 
                   : 'text-gray-400 hover:text-white'
-              }`}>
-                {item.label}
-              </a>
+              }`}
+            >
+              {item.label}
             </Link>
           </li>
         ))}

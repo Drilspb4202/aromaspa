@@ -80,8 +80,10 @@ const DynamicGallerySection = dynamic(() => import('../components/GallerySection
 
 export default function AromaSpaStudio() {
   const endMeasure = measurePerformance('AromaSpaStudio')
+  const [isClient, setIsClient] = useState(false)
   
   useEffect(() => {
+    setIsClient(true)
     return endMeasure
   }, [])
 
@@ -268,7 +270,7 @@ export default function AromaSpaStudio() {
                   >
                     <ShoppingBag className="w-3 h-3 mr-1" />
                     <span>Магазин</span>
-                    {cart.length > 0 && (
+                    {isClient && cart.length > 0 && (
                       <span className="bg-fuchsia-600 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center ml-1">
                         {getTotalItems()}
                       </span>
@@ -326,7 +328,7 @@ export default function AromaSpaStudio() {
                     >
                       <ShoppingBag className="w-5 h-5" />
                       <span>Магазин</span>
-                      {cart.length > 0 && (
+                      {isClient && cart.length > 0 && (
                         <span className="bg-fuchsia-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-1">
                           {cart.length}
                         </span>
@@ -545,14 +547,6 @@ export default function AromaSpaStudio() {
             {/* Oil Selector Section */}
             <motion.section className="py-20 relative z-10">
               <div className="container mx-auto px-4">
-                <motion.h2
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-3xl md:text-4xl font-bold text-white mb-12 text-center font-playfair"
-                >
-                  ПОДБЕРИТЕ ИДЕАЛЬНОЕ МАСЛО ДЛЯ СЕБЯ
-                </motion.h2>
                 <DynamicOilSelector addToCart={addToCart} removeFromCart={removeFromCart} />
               </div>
             </motion.section>

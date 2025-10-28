@@ -4,7 +4,6 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
 import { Star } from 'lucide-react'
-import Head from 'next/head';
 
 const reviews = [
   {
@@ -49,12 +48,6 @@ const reviewsSchema = {
 export default function ReviewsSection() {
   return (
     <section id="отзывы" className="py-20 relative z-10">
-      <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsSchema) }}
-        />
-      </Head>
       <div className="container mx-auto px-4 relative">
         <motion.h2
           initial={{ opacity: 0, y: 50 }}
