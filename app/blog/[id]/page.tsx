@@ -4,6 +4,7 @@ import OptimizedImage from '@/components/OptimizedImage';
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
 import type { Metadata, Viewport } from 'next'
+import RelatedPosts from '@/components/RelatedPosts';
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({
@@ -22,6 +23,14 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   return {
     title: `${post.title} | AROMA SPA СТУДИЯ`,
     description: post.excerpt,
+    keywords: post.tags.join(', '),
+    authors: [{ name: post.author }],
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image],
+      type: 'article',
+    },
   };
 }
 
@@ -65,6 +74,14 @@ const BlogPost: React.FC<{ params: { id: string } }> = ({ params }) => {
             </Link>
           </div>
           <h1 className="text-4xl font-bold mb-6 text-white">{post.title}</h1>
+          
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-sm font-semibold text-fuchsia-400 bg-fuchsia-400/10 px-3 py-1 rounded">
+              {post.category}
+            </span>
+            <span className="text-sm text-gray-400">• {post.readTime} мин чтения</span>
+          </div>
+
           <div className="mb-8">
             <OptimizedImage
               src={post.image}
@@ -75,11 +92,22 @@ const BlogPost: React.FC<{ params: { id: string } }> = ({ params }) => {
               priority
             />
           </div>
+          
+          <div className="flex flex-wrap gap-2 mb-6">
+            {post.tags.map((tag, idx) => (
+              <span key={idx} className="text-sm bg-purple-800/50 text-purple-300 px-3 py-1 rounded">
+                #{tag}
+              </span>
+            ))}
+          </div>
+
           <div className="flex justify-between items-center text-sm text-gray-400 mb-8">
             <span>{post.date}</span>
             <span>{post.author}</span>
           </div>
           <div className="prose prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+          
+          <RelatedPosts currentPost={post} allPosts={blogPosts} />
         </div>
       </div>
     </div>

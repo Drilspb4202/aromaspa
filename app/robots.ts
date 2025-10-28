@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/private/', '/admin/'],
+      disallow: ['/private/', '/admin/', '/api/'],
     },
-    sitemap: 'https://aroma-spa-studio.ru/sitemap.xml',
+    sitemap: 'https://www.radmilaessentialoil.ru/sitemap.xml',
   }
 }

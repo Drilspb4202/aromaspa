@@ -6,6 +6,9 @@ export interface BlogPost {
   date: string;
   author: string;
   image: string;
+  tags: string[];
+  category: string;
+  readTime: number; // in minutes
 }
 
 export const blogPosts: BlogPost[] = [
@@ -35,7 +38,10 @@ export const blogPosts: BlogPost[] = [
     `,
     date: "2024-01-15",
     author: "Радмила Яковлева",
-    image: "https://i.ibb.co/Qds5tVW/1.png"
+    image: "https://i.ibb.co/Qds5tVW/1.png",
+    tags: ["ароматерапия", "основы", "здоровье", "эфирные масла"],
+    category: "Основы",
+    readTime: 5
   },
   {
     id: "2",
@@ -63,7 +69,10 @@ export const blogPosts: BlogPost[] = [
     `,
     date: "2024-02-01",
     author: "Радмила Яковлева",
-    image: "https://i.ibb.co/89wY3rZ/2.png"
+    image: "https://i.ibb.co/89wY3rZ/2.png",
+    tags: ["лаванда", "стресс", "бергамот", "релаксация"],
+    category: "Стресс",
+    readTime: 6
   },
   {
     id: "3",
@@ -88,7 +97,10 @@ export const blogPosts: BlogPost[] = [
   `,
     date: "2024-02-15",
     author: "Радмила Яковлева",
-    image: "https://i.ibb.co/SXSF3L0/3.png"
+    image: "https://i.ibb.co/SXSF3L0/3.png",
+    tags: ["сон", "лаванда", "ромашка", "релаксация"],
+    category: "Сон",
+    readTime: 5
   },
   {
     id: "4",
@@ -113,7 +125,10 @@ export const blogPosts: BlogPost[] = [
   `,
     date: "2024-03-01",
     author: "Радмила Яковлева",
-    image: "https://i.ibb.co/RS0qfLB/4.png"
+    image: "https://i.ibb.co/RS0qfLB/4.png",
+    tags: ["продуктивность", "розмарин", "концентрация", "мята"],
+    category: "Продуктивность",
+    readTime: 6
   },
   {
     id: "5",
@@ -138,7 +153,10 @@ export const blogPosts: BlogPost[] = [
   `,
     date: "2024-03-15",
     author: "Радмила Яковлева",
-    image: "https://i.ibb.co/c66qR9t/image-fx-1.png"
+    image: "https://i.ibb.co/c66qR9t/image-fx-1.png",
+    tags: ["стресс", "тревога", "бергамот", "ладан"],
+    category: "Стресс",
+    readTime: 6
   },
   {
     id: "6",
@@ -163,6 +181,9 @@ export const blogPosts: BlogPost[] = [
   `,
     date: "2024-04-01",
     author: "Радмила Яковлева",
-    image: "https://i.ibb.co/1GtkHpz/5.png"
+    image: "https://i.ibb.co/1GtkHpz/5.png",
+    tags: ["уход за кожей", "чайное дерево", "натуральная косметика"],
+    category: "Красота",
+    readTime: 7
   }
 ];

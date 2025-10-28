@@ -128,8 +128,11 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
     const symptomObjects = selectedSymptoms.map(id => symptoms.find(s => s.id === id)!).filter(Boolean);
     const goalObjects = selectedGoals.map(id => goals.find(g => g.id === id)!).filter(Boolean);
     
-    // Устанавливаем предпочтения пользователя
-    recommendationEngine.setUserPreferences(userPreferences);
+    // Устанавливаем предпочтения пользователя с учетом weights
+    recommendationEngine.setUserPreferences({
+      ...userPreferences,
+      propertyWeights: userPreferences.propertyWeights
+    });
     
     // Получаем рекомендации через движок с ML
     const initialRecommendations = recommendationEngine.recommendOils(
@@ -142,19 +145,43 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
     // Устанавливаем начальные рекомендации сразу
     setRecommendedOils(initialRecommendations);
 
+    // Предзагружаем объяснения для всех масел сразу
+    const explanationsMap: Record<string, string | null> = {};
+    const loadingMap: Record<string, boolean> = {};
+    
+    for (const oil of initialRecommendations) {
+      loadingMap[oil.id] = true;
+    }
+    setLoadingExplanations(loadingMap);
+
     try {
-      // Запрашиваем AI для объяснений
+      // Запрашиваем AI для объяснений для всех масел
       const selectedProperties = [...selectedSymptoms, ...selectedGoals];
-      const prompt = `
-        Свойства: ${selectedProperties.map(prop => propertyTranslations[prop as keyof typeof propertyTranslations] || prop).join(', ')}.
-        Масла: ${initialRecommendations.map(oil => oil.name).join(', ')}.
-        
-        Для каждого масла укажите:
-        1. Эффективность (%)
-        2. 1-2 предложения почему подходит
-        
-        В конце: краткий вывод о комбинации.
-      `;
+      const propertyNames = selectedProperties.map(prop => propertyTranslations[prop as keyof typeof propertyTranslations] || prop).join(', ');
+      
+      const prompt = `Вы - эксперт по эфирным маслам. Проанализируйте следующие масла и их свойства для симптомов/целей пользователя.
+
+Масла для анализа:
+${initialRecommendations.map(oil => {
+  const relevantProps = selectedProperties
+    .filter(prop => (oil.properties[prop] || 0) > 0)
+    .map(prop => `${propertyTranslations[prop as keyof typeof propertyTranslations]}: ${Math.round((oil.properties[prop] || 0) * 100)}%`)
+    .join(', ');
+  return `${oil.name}: ${relevantProps}`;
+}).join('\n')}
+
+Выбранные симптомы и цели: ${propertyNames}
+
+Для КАЖДОГО масла напишите объяснение в формате:
+
+${initialRecommendations[0].name}:
+[Объяснение из 2-3 предложений почему именно это масло подходит для выбранных симптомов/целей. Будьте конкретны и научны, используйте эмодзи для визуализации эффекта.]
+
+Пример формата ответа:
+Лаванда:
+Лаванда успокаивает нервную систему 🧘‍♀️, способствуя крепкому сну и облегчая дыхание при простуде. Её антисептические свойства помогают бороться с инфекциями, а аромат снимает стресс 😌.
+
+Ответьте ТОЛЬКО в этом формате, для каждого масла отдельно.`;
 
       const response = await fetch('/api/deepseek', {
         method: 'POST',
@@ -169,20 +196,15 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
 
       const recommendationText = data.result;
 
-      // Обрабатываем объяснения
-      const explanationsMap: Record<string, string | null> = {};
-      initialRecommendations.forEach(oil => {
-        const regex = new RegExp(`${oil.name}[\\s\\S]*?(?=\\d\\.|$)`, 'i');
+      // Обрабатываем объяснения для каждого масла
+      for (const oil of initialRecommendations) {
+        // Ищем объяснение для конкретного масла
+        const regex = new RegExp(`${oil.name}:\\s*([\\s\\S]*?)(?=\\n{2}[А-ЯЁ]|$)`, 'i');
         const match = recommendationText.match(regex);
-        explanationsMap[oil.id] = match ? match[0].trim() : null;
-      });
-
-      // Извлекаем общую рекомендацию
-      const summaryMatch = recommendationText.match(/(?:В конце|Общий вывод|Комбинация):([\s\S]*?)$/i);
-      const extractedSummary = summaryMatch ? summaryMatch[1].trim() : '';
+        explanationsMap[oil.id] = match ? match[1].trim() : `Это масло эффективно для ваших выбранных симптомов и целей.`;
+      }
 
       setExplanations(explanationsMap);
-      setSummary(extractedSummary);
       setLoadingExplanations({});
       
       // Вычисляем качество рекомендации на основе совпадений
@@ -193,12 +215,20 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
       setRecommendationQuality(Math.min(100, avgMatch * 100));
 
     } catch (error) {
+      console.error('Error fetching explanations:', error);
+      // Устанавливаем базовые объяснения если AI не сработал
+      initialRecommendations.forEach(oil => {
+        const relevantProps = selectedSymptoms.concat(selectedGoals).filter(prop => (oil.properties[prop] || 0) > 0.5);
+        explanationsMap[oil.id] = `Это масло эффективно для: ${relevantProps.map(prop => propertyTranslations[prop as keyof typeof propertyTranslations]).join(', ')}.`;
+      });
+      setExplanations(explanationsMap);
+      
       toast({
-        title: "Ошибка",
-        description: "Не удалось получить полные рекомендации, показаны базовые совпадения.",
-        variant: "destructive",
+        title: "Внимание",
+        description: "AI объяснения загружены с базовой информацией.",
       });
     } finally {
+      setLoadingExplanations({});
       setIsRecommending(false);
       setHasRecommended(true);
     }
@@ -228,49 +258,17 @@ export default function OilSelector({ addToCart }: OilSelectorProps) {
     })
   }, [addToCart, toast]);
 
-  const toggleOilDetails = useCallback(async (oilId: string) => {
+  const toggleOilDetails = useCallback((oilId: string) => {
     if (expandedOilId === oilId) {
       setExpandedOilId(null);
       return;
     }
     
     setExpandedOilId(oilId);
-    setLoadingExplanations(prev => ({ ...prev, [oilId]: true }));
-
-    try {
-      const oil = oils.find(o => o.id === oilId);
-      if (!oil) throw new Error('Oil not found');
-
-      const prompt = `
-        Масло: ${oil.name}
-        Для: ${[...selectedSymptoms, ...selectedGoals].map(prop => propertyTranslations[prop as keyof typeof propertyTranslations] || prop).join(', ')}
-        
-        Опишите в 2 предложениях эффективность и механизм действия.
-      `;
-
-      const response = await fetch('/api/deepseek', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      });
-
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-      const data = await response.json();
-      if (!data.success) throw new Error(data.error || 'Unknown error occurred');
-
-      setExplanations(prev => ({ ...prev, [oilId]: data.result }));
-    } catch (error) {
-      toast({
-        title: "Ошибка",
-        description: "Не удалось загрузить объяснение. Пожалуйста, попробуйте еще раз.",
-        variant: "destructive",
-      });
-      setExplanations(prev => ({ ...prev, [oilId]: null }));
-    } finally {
-      setLoadingExplanations(prev => ({ ...prev, [oilId]: false }));
-    }
-  }, [expandedOilId, selectedSymptoms, selectedGoals, toast]);
+    
+    // Объяснение уже загружено при нажатии "Подобрать идеальные масла"
+    // Просто показываем его
+  }, [expandedOilId]);
 
   const updateUserPreferences = useCallback((property: string, value: number) => {
     setUserPreferences(prev => ({

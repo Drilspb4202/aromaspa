@@ -19,9 +19,10 @@ export const metadata: Metadata = {
   },
   description: 'Арома Спа Студия Радмилы Яковлевой - профессионального аромопрактика. Индивидуальные сеансы аромадиагностики, АромаЙога, продажа эфирных масел высокого качества dōTERRA. Улучшите свое здоровье и самочувствие с помощью натуральных методов.',
   keywords: [
-    'Радмила',
+    'Радмила Яковлева',
     'Аромопрактик',
     'Doterra',
+    'CPTG',
     'Эфирные масла',
     'арома спа студия',
     'ароматерапия',
@@ -32,11 +33,16 @@ export const metadata: Metadata = {
     'АромаТимбилдинг',
     'АромаБизнес',
     'Санкт-Петербург',
+    'СПб',
     'спа студия',
+    'ароматерапия СПб',
     'массаж с маслами',
     'натуральная косметика',
     'здоровье',
-    'релаксация'
+    'релаксация',
+    'эфирные масла купить',
+    'dōTERRA купить',
+    'ароматерапия СПб отзывы'
   ],
   authors: [{ name: 'Радмила Яковлева', url: 'https://www.radmilaessentialoil.ru/about' }],
   creator: 'Радмила Яковлева',
@@ -58,7 +64,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: 'bc0164dd53862fad',
     yandex: 'bc0164dd53862fad',
   },
   alternates: {
@@ -136,9 +142,9 @@ const organizationSchema = {
   "@id": "https://www.radmilaessentialoil.ru",
   "name": "Арома Спа Студия",
   "alternateName": "AROMA SPA СТУДИЯ",
-  "description": "Профессиональная ароматерапия в Санкт-Петербурге от Радмилы Яковлевой. Услуги: АромаДиагностика, АромаЙога, АромаДегустация, АромаНейрографика, АромаТимбилдинг. Продажа эфирных масел dōTERRA.",
+  "description": "Профессиональная ароматерапия в Санкт-Петербурге от Радмилы Яковлевой. Услуги: АромаДиагностика (3000₽), АромаЙога (3000₽), АромаДегустация (500₽), АромаНейрографика (1000₽), АромаТимбилдинг (5000₽). Продажа эфирных масел dōTERRA.",
   "url": "https://www.radmilaessentialoil.ru",
-  "logo": "https://www.radmilaessentialoil.ru/logo.jpg",
+  "logo": "https://www.radmilaessentialoil.ru/logo-yar.png",
   "image": [
     "https://www.radmilaessentialoil.ru/images/studio-1.jpg",
     "https://www.radmilaessentialoil.ru/images/studio-2.jpg",
@@ -191,8 +197,8 @@ const organizationSchema = {
         "itemOffered": {
           "@type": "Service",
           "name": "АромаДиагностика",
-          "description": "Индивидуальная консультация с использованием эфирных масел dōTERRA",
-          "price": "2000",
+          "description": "Индивидуальная консультация с использованием эфирных масел dōTERRA CPTG. Продолжительность: 2 часа",
+          "price": "3000",
           "priceCurrency": "RUB"
         }
       },
@@ -201,8 +207,38 @@ const organizationSchema = {
         "itemOffered": {
           "@type": "Service",
           "name": "АромаЙога",
-          "description": "Йога с использованием эфирных масел для максимального расслабления",
-          "price": "2000",
+          "description": "Йога с использованием эфирных масел для максимального расслабления и гармонии. Продолжительность: 2.5 часа",
+          "price": "3000",
+          "priceCurrency": "RUB"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "АромаДегустация",
+          "description": "Знакомство с эфирными маслами и их свойствами. Продолжительность: 1 час",
+          "price": "500",
+          "priceCurrency": "RUB"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "АромаНейрографика",
+          "description": "Создание рисунка с использованием эфирных масел и техники нейрографики. Продолжительность: 2 часа",
+          "price": "1000",
+          "priceCurrency": "RUB"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "АромаТимбилдинг",
+          "description": "Командное мероприятие с ароматерапией для сплочения коллектива. Продолжительность: 2 часа",
+          "price": "5000",
           "priceCurrency": "RUB"
         }
       }
@@ -210,8 +246,8 @@ const organizationSchema = {
   },
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "reviewCount": "150"
+    "ratingValue": "4.9",
+    "reviewCount": "200"
   },
   "review": [
     {
@@ -224,7 +260,7 @@ const organizationSchema = {
         "@type": "Rating",
         "ratingValue": "5"
       },
-      "datePublished": "2024-01-15",
+      "datePublished": "2024-12-20",
       "reviewBody": "Потрясающий опыт! АромаДиагностика помогла мне лучше понять себя и свои потребности."
     }
   ],
@@ -232,7 +268,7 @@ const organizationSchema = {
     "@type": "Person",
     "name": "Радмила Яковлева",
     "jobTitle": "Аромопрактик",
-    "description": "Профессиональный аромопрактик, специалист по эфирным маслам dōTERRA"
+    "description": "Профессиональный аромопрактик, специалист по эфирным маслам dōTERRA CPTG"
   }
 };
 

@@ -80,31 +80,37 @@ class RecommendationEngine {
       return 0;
     }
 
-    let score = 0;
-    let totalWeight = 0;
+    let weightedScore = 0;
+    let totalRelevance = 0;
 
-    // Вычисляем score для симптомов
+    // Вычисляем score для симптомов с учетом веса
     symptoms.forEach(symptom => {
       const relevance = oil.properties[symptom.id] || 0;
-      const weight = this.userPreferences.propertyWeights[symptom.id] || 1;
+      const userWeight = this.userPreferences.propertyWeights[symptom.id];
+      
       if (relevance > 0) { // Учитываем только релевантные свойства
-        score += relevance * weight;
-        totalWeight += weight;
+        // Если пользователь установил вес - умножаем на него, иначе просто relevance
+        const weightedRelevance = userWeight ? relevance * (1 + userWeight) : relevance;
+        weightedScore += weightedRelevance;
+        totalRelevance += relevance;
       }
     });
 
-    // Вычисляем score для целей
+    // Вычисляем score для целей с учетом веса
     goals.forEach(goal => {
       const relevance = oil.properties[goal.id] || 0;
-      const weight = this.userPreferences.propertyWeights[goal.id] || 1;
+      const userWeight = this.userPreferences.propertyWeights[goal.id];
+      
       if (relevance > 0) { // Учитываем только релевантные свойства
-        score += relevance * weight;
-        totalWeight += weight;
+        // Если пользователь установил вес - умножаем на него, иначе просто relevance
+        const weightedRelevance = userWeight ? relevance * (1 + userWeight) : relevance;
+        weightedScore += weightedRelevance;
+        totalRelevance += relevance;
       }
     });
 
-    // Нормализуем score
-    score = totalWeight > 0 ? score / totalWeight : 0;
+    // Возвращаем среднюю взвешенную релевантность
+    let score = totalRelevance > 0 ? weightedScore / totalRelevance : 0;
 
     // Бонус за предпочтения
     if (this.userPreferences.favoriteScents.includes(oil.scent)) {

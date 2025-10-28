@@ -160,14 +160,16 @@ function ChatBot() {
     try {
       const shortContext = `Ты — эксперт по ароматерапии в AROMA SPA СТУДИЯ. Отвечай кратко (до 100 слов), но информативно. Используй эмоджи умеренно.
 
-Услуги:
+Услуги и цены:
 - АромаДиагностика: 3000₽, 2ч
-- АромаЙога: 3000₽, 2.5ч
+- АромаЙога: 3000₽, 2.5ч  
 - АромаДегустация: 500₽, 1ч
 - АромаНейрографика: 1000₽, 2ч
 - АромаТимбилдинг: 5000₽, 2ч
 
-Адрес: СПб, Советский пр., 12`;
+Адрес: СПб, Советский пр., 12 (тер. Усть-Славянка)
+Телефон: +7 995 600 01 22
+Работаем по предварительной записи`;
 
       const response = await fetch('/api/deepseek', {
         method: 'POST',
@@ -263,18 +265,99 @@ function ChatBot() {
     
     try {
       if (reply === "Адрес") {
-        const addressMessage = `📍 Адрес студии:
+        const addressMessage = `📍 **Адрес студии:**
 г. СПб, Советский пр., д. 12, кв/оф. 2 (тер. Усть-Славянка)
 
-🗺️ Навигация:
-• 2GIS: https://2gis.ru/spb/geo/70000001101166106
-• Яндекс Карты: https://yandex.ru/navi/org/aroma_spa/35632460140
+🗺️ **Навигация:**
+• [2GIS](https://2gis.ru/spb/geo/70000001101166106)
+• [Яндекс Карты](https://yandex.ru/navi/org/aroma_spa/35632460140)
 
-Мы работаем по предварительной записи. Звоните +7 995 6000 12 2`;
+📞 **Контакты:**
++7 995 600 01 22
+
+⏰ **Режим работы:**
+По предварительной записи`;
         
         setMessages(prev => [...prev, {
           id: uuidv4(),
           text: addressMessage,
+          isBot: true,
+          timestamp: Date.now()
+        }]);
+      } else if (reply === "Цены") {
+        const pricesMessage = `💰 **Наши услуги и цены:**
+
+🌸 **АромаДиагностика** - 3000₽ (2 часа)
+Персональная консультация с подбором эфирных масел
+
+🧘 **АромаЙога** - 3000₽ (2,5 часа)
+Йога с использованием эфирных масел для максимального расслабления
+
+🍃 **АромаДегустация** - 500₽ (1 час)
+Знакомство с эфирными маслами и их свойствами
+
+🎨 **АромаНейрографика** - 1000₽ (2 часа)
+Творческая терапия с ароматами
+
+👥 **АромаТимбилдинг** - 5000₽ (2 часа)
+Командные программы для коллективов
+
+💡 **Запись обязательна!** Звоните +7 995 600 01 22`;
+        
+        setMessages(prev => [...prev, {
+          id: uuidv4(),
+          text: pricesMessage,
+          isBot: true,
+          timestamp: Date.now()
+        }]);
+      } else if (reply === "Часы работы") {
+        const hoursMessage = `⏰ **Режим работы:**
+
+📅 **Работаем по предварительной записи**
+Ежедневно с 9:00 до 21:00
+
+📞 **Записаться можно:**
+• По телефону: +7 995 600 01 22
+• Через наш сайт
+• В Telegram: @aroma_spa_studio
+
+💬 **Консультации онлайн:**
+Доступны в удобное для вас время
+
+🎁 **Специальные предложения:**
+• Скидка 10% на первый визит
+• Скидка 15% при записи друга`;
+        
+        setMessages(prev => [...prev, {
+          id: uuidv4(),
+          text: hoursMessage,
+          isBot: true,
+          timestamp: Date.now()
+        }]);
+      } else if (reply === "Эфирные масла") {
+        const oilsMessage = `🌿 **Эфирные масла dōTERRA:**
+
+✨ **Почему dōTERRA?**
+• 100% натуральные масла CPTG качества
+• Строгий контроль чистоты и эффективности
+• Научно обоснованные свойства
+
+🛒 **Где купить:**
+• [Официальный сайт dōTERRA](https://office.doterra.com/Application/index.cfm)
+• Скидка 25% при покупке через нас
+• Консультация по подбору масел
+
+💡 **Популярные масла:**
+• Лаванда - для сна и релаксации
+• Мята - для энергии и концентрации
+• Лимон - для очищения и бодрости
+• Чайное дерево - для иммунитета
+
+📞 **Консультация:** +7 995 600 01 22`;
+        
+        setMessages(prev => [...prev, {
+          id: uuidv4(),
+          text: oilsMessage,
           isBot: true,
           timestamp: Date.now()
         }]);
@@ -396,7 +479,7 @@ function ChatBot() {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed z-[60] rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-700 text-white p-4 shadow-2xl transition-all duration-300 hover:scale-110 bottom-20 right-4 md:bottom-4 ring-2 ring-white/20 hover:ring-white/40"
+        className="fixed z-[60] rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-700 hover:via-fuchsia-700 hover:to-pink-700 text-white p-4 shadow-2xl transition-all duration-300 hover:scale-110 bottom-20 right-4 md:bottom-4 ring-2 ring-fuchsia-400/30 hover:ring-fuchsia-400/60 backdrop-blur-sm"
         aria-label="Открыть чат"
       >
         <MessageCircle size={24} />
@@ -411,8 +494,8 @@ function ChatBot() {
             exit={{ opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
             transition={{ type: "spring", duration: 0.6, bounce: 0.3 }}
           >
-            <div className="relative w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-96 md:h-[32rem] max-h-[32rem] bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-600 rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-white/20">
-              <div className="p-5 flex justify-between items-center bg-gradient-to-r from-violet-800/50 to-fuchsia-800/50 backdrop-blur-sm border-b border-white/20 shadow-lg">
+            <div className="relative w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-96 md:h-[32rem] max-h-[32rem] bg-gradient-to-br from-purple-900/95 via-fuchsia-900/95 to-pink-900/95 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-fuchsia-400/30">
+              <div className="p-5 flex justify-between items-center bg-gradient-to-r from-purple-800/60 to-fuchsia-800/60 backdrop-blur-sm border-b border-fuchsia-400/30 shadow-lg">
                 <div className="flex items-center space-x-3">
                   <div className="relative">
                     <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
@@ -468,7 +551,54 @@ function ChatBot() {
                             : 'bg-white text-purple-900 border border-white/30 shadow-xl'
                         }`}
                       >
-                        <div className="text-sm leading-relaxed">{message.text}</div>
+                        <div className="text-sm leading-relaxed whitespace-pre-wrap">
+                          {message.text.split('\n').map((line, index) => {
+                            // Обработка ссылок в формате [текст](url)
+                            if (line.includes('[') && line.includes('](') && line.includes(')')) {
+                              const parts = line.split(/(\[.*?\]\(.*?\))/g);
+                              return (
+                                <div key={index}>
+                                  {parts.map((part, partIndex) => {
+                                    const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
+                                    if (linkMatch) {
+                                      return (
+                                        <a
+                                          key={partIndex}
+                                          href={linkMatch[2]}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-fuchsia-300 hover:text-fuchsia-200 underline transition-colors"
+                                        >
+                                          {linkMatch[1]}
+                                        </a>
+                                      );
+                                    }
+                                    return part;
+                                  })}
+                                </div>
+                              );
+                            }
+                            // Обработка жирного текста **текст**
+                            if (line.includes('**')) {
+                              const parts = line.split(/(\*\*.*?\*\*)/g);
+                              return (
+                                <div key={index}>
+                                  {parts.map((part, partIndex) => {
+                                    if (part.startsWith('**') && part.endsWith('**')) {
+                                      return (
+                                        <strong key={partIndex} className="text-white font-semibold">
+                                          {part.slice(2, -2)}
+                                        </strong>
+                                      );
+                                    }
+                                    return part;
+                                  })}
+                                </div>
+                              );
+                            }
+                            return <div key={index}>{line}</div>;
+                          })}
+                        </div>
                         {message.isBot && !message.feedback && (
                           <div className="mt-3 flex space-x-2">
                             <Button
@@ -513,7 +643,7 @@ function ChatBot() {
                     />
                   </div>
                 )}
-                <div className="p-5 space-y-4 bg-gradient-to-t from-violet-700/30 via-purple-600/30 to-fuchsia-700/30 backdrop-blur-sm border-t border-white/20">
+                <div className="p-5 space-y-4 bg-gradient-to-t from-purple-800/40 via-fuchsia-800/40 to-pink-800/40 backdrop-blur-sm border-t border-fuchsia-400/30">
                   <div className="flex space-x-3">
                     <Input
                       ref={inputRef}
@@ -522,11 +652,11 @@ function ChatBot() {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                      className="flex-1 bg-white/15 backdrop-blur-md border-white/30 text-white placeholder-white/60 focus:border-white focus:ring-2 focus:ring-white/50 shadow-lg rounded-xl"
+                      className="flex-1 bg-white/15 backdrop-blur-md border-fuchsia-400/30 text-white placeholder-white/60 focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-400/50 shadow-lg rounded-xl"
                     />
                     <Button
                       onClick={handleSend}
-                      className="bg-white text-violet-700 hover:bg-white/90 shadow-lg rounded-xl px-6 hover:scale-105 transition-all duration-200 font-semibold"
+                      className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white hover:from-fuchsia-600 hover:to-pink-600 shadow-lg rounded-xl px-6 hover:scale-105 transition-all duration-200 font-semibold"
                     >
                       <Send size={18} />
                     </Button>
@@ -538,7 +668,7 @@ function ChatBot() {
                         key={index}
                         onClick={() => handleQuickReply(reply.text)}
                         variant="outline"
-                        className="bg-white/10 backdrop-blur-md border-white/20 text-white hover:bg-white/20 hover:scale-105 transition-all duration-200 rounded-xl shadow-md hover:shadow-lg"
+                        className="bg-white/10 backdrop-blur-md border-fuchsia-400/30 text-white hover:bg-fuchsia-400/20 hover:scale-105 transition-all duration-200 rounded-xl shadow-md hover:shadow-lg"
                         size="sm"
                       >
                         <span className="mr-1.5 text-base">{reply.icon}</span>

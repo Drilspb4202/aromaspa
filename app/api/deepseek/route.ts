@@ -85,14 +85,14 @@ export async function POST(req: Request) {
             },
             {
               role: "user",
-              content: `${conversationContext}\n\nUser: ${prompt}`
+              content: conversationContext ? `${conversationContext}\n\nUser: ${prompt}` : prompt
             }
           ],
-          temperature: 0.5,
-          max_tokens: 256,
-          top_p: 0.7,
-          frequency_penalty: 0.5,
-          presence_penalty: 0.5
+          temperature: 0.7,
+          max_tokens: prompt.includes('почему это масло') || prompt.includes('объяснение') ? 2000 : 256,
+          top_p: 0.8,
+          frequency_penalty: 0.3,
+          presence_penalty: 0.3
         })
       }
     )

@@ -640,23 +640,18 @@ export default function AromaSpaStudio() {
         <footer className="bg-transparent backdrop-blur-sm text-white py-8 rounded-t-[2rem] relative z-10">
           <div className="container mx-auto px-4 pb-20 md:pb-4">
             <div className="flex flex-col items-center">
-              <div className="flex items-center gap-4 mb-4">
-                <OptimizedImage
-                  src="https://i.ibb.co/cQ0SSZk/photo-2024-12-06-10-16-51.jpg"
-                  alt="QR код для связи"
-                  width={100}
-                  height={100}
-                  className="rounded-lg w-24 h-24 cursor-pointer hover:scale-105 transition-transform"
-                  onClick={() => setSelectedQRCode("https://i.ibb.co/cQ0SSZk/photo-2024-12-06-10-16-51.jpg")}
-                />
-                <OptimizedImage
-                  src="https://i.ibb.co/N3vD1CQ/photo-2024-12-06-10-17-10.jpg"
-                  alt="QR код для оплаты"
-                  width={100}
-                  height={100}
-                  className="rounded-lg w-24 h-24 cursor-pointer hover:scale-105 transition-transform"
-                  onClick={() => setSelectedQRCode("https://i.ibb.co/N3vD1CQ/photo-2024-12-06-10-17-10.jpg")}
-                />
+              <div className="flex items-center justify-center mb-4">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-500 rounded-2xl blur-xl opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                  <OptimizedImage
+                    src="https://i.ibb.co/jKL33nC/image.png"
+                    alt="QR код"
+                    width={100}
+                    height={100}
+                    className="relative rounded-2xl w-28 h-28 cursor-pointer hover:scale-110 transition-all duration-300 shadow-2xl ring-2 ring-white/20 hover:ring-white/40"
+                    onClick={() => setSelectedQRCode("https://i.ibb.co/wZXDcGH6/photo-2025-10-28-22-41-54.jpg")}
+                  />
+                </div>
               </div>
               <nav aria-label="Навигация по сайту" className="mb-4">
                 <ul className="flex flex-wrap justify-center gap-4">
