@@ -106,7 +106,7 @@ const faqItems = [
               className="ml-2 bg-fuchsia-600 hover:bg-fuchsia-700 text-white"
               size="sm"
             >
-              doTERRA
+              dōTERRA
             </Button>
           </li>
           <li>Связаться с нами по телефону, telegram, whatsapp для индивидуальной консультации и заказа</li>

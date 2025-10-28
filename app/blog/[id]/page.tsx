@@ -15,12 +15,12 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   const post = blogPosts.find((p) => p.id === params.id);
   if (!post) {
     return {
-      title: 'Статья не найдена | Aroma Spa Studio',
+      title: 'Статья не найдена | AROMA SPA СТУДИЯ',
       description: 'Запрашиваемая статья не найдена.',
     };
   }
   return {
-    title: `${post.title} | Aroma Spa Studio`,
+    title: `${post.title} | AROMA SPA СТУДИЯ`,
     description: post.excerpt,
   };
 }

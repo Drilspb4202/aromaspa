@@ -1061,7 +1061,7 @@ export const oils: Oil[] = [
 },
 {
   id: "onguard-toothpaste",
-  name: "Зубная паста doTERRA Оn Guard",
+  name: "Зубная паста dōTERRA Оn Guard",
   description: "Натуральная зубная паста с эфирными маслами для защиты и очищения полости рта.",
   image: "https://i.ibb.co/TcrqckZ/photo-6-2024-12-29-05-44-13.jpg",
   price: 1467,
@@ -1131,7 +1131,7 @@ export const oils: Oil[] = [
 },
 {
   id: "hd-clear-foaming-face-wash",
-  name: "Пенка для умывания doTERRA HD CLEAR",
+  name: "Пенка для умывания dōTERRA HD CLEAR",
   description: "Очищающая пенка для лица, помогающая бороться с несовершенствами кожи.",
   image: "https://i.ibb.co/XxbB6br/photo-8-2024-12-29-05-44-13.jpg",
   price: 2773,

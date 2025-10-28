@@ -32,7 +32,7 @@ const reviewsSchema = {
   "@type": "AggregateRating",
   "itemReviewed": {
     "@type": "SpaAndBeautyBusiness",
-    "name": "Aroma Spa Studio",
+    "name": "AROMA SPA СТУДИЯ",
     "image": "https://aroma-spa-studio.ru/logo.jpg",
     "address": {
       "@type": "PostalAddress",

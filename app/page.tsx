@@ -222,9 +222,14 @@ export default function AromaSpaStudio() {
             <div className="container mx-auto px-4 py-2">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-4 hover:scale-105 transition-transform duration-300">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 flex items-center justify-center shadow-lg">
-                    <span className="text-xl font-playfair text-white">ЯR</span>
-                  </div>
+                  <OptimizedImage
+                    src="/logo-yar.png"
+                    alt="Logo ЯR"
+                    width={40}
+                    height={40}
+                    className="w-10 h-10 rounded-full shadow-lg"
+                    priority
+                  />
                   <div className="hidden sm:block">
                     <h1 className="text-2xl font-bold bg-gradient-to-r from-white via-purple-300 to-fuchsia-300 bg-clip-text text-transparent tracking-wider font-playfair whitespace-nowrap">
                       Гармония Души и Тела
@@ -368,7 +373,7 @@ export default function AromaSpaStudio() {
                   >
                     <OptimizedImage
                       src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-hxwo0WQe3vax9AD8KKTokvTiwnrUgq.png"
-                      alt="Aroma Spa Studio Logo"
+                      alt="AROMA SPA СТУДИЯ Logo"
                       width={250}
                       height={250}
                       className="w-full h-auto rounded-2xl"
@@ -399,7 +404,7 @@ export default function AromaSpaStudio() {
                   >
                     <OptimizedImage
                       src="https://i.ibb.co/8NDztqx/radmila-jpg.jpg"
-                      alt="Радмила Яковлева - профессиональный аромапрактик"
+                      alt="Радмила Яковлева - профессиональный аромаэксперт"
                       width={600}
                       height={800}
                       className="w-full h-auto object-cover"
@@ -433,7 +438,7 @@ export default function AromaSpaStudio() {
                 transition={{ duration: 0.5 }}
                 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center font-playfair"
               >
-                РАДМИЛА ЯКОВЛЕВА - ВАШ ПРОВОДНИК В МИР АРОМАТЕРАПИИ
+                РАДМИЛА ЯКОВЛЕВА - ВАШ ЭКСПЕРТ В МИР АРОМАТЕРАПИИ
               </motion.h2>
               <div className="max-w-4xl mx-auto mb-16 text-center">
                 <p className="text-lg text-gray-300 mb-6">
@@ -442,7 +447,7 @@ export default function AromaSpaStudio() {
 
                 </p>
                 <p className="text-lg text-gray-300 mb-6">
-                  В нашей Студии мы используем только 100% натуральные эфирные масла высочайшего качества CPTG от doTERRA, чтобы обеспечить максимальную эффективность и безопасность каждой процедуры. Узнайте больше о наших услугах и преимуществах АромаТерапии.
+                  В нашей AROMA SPA СТУДИИ мы используем только 100% натуральные эфирные масла высочайшего качества CPTG от dōTERRA, чтобы обеспечить максимальную эффективность и безопасность каждой процедуры. Узнайте больше о наших услугах и преимуществах АромаТерапии.
                 </p>
                 <p className="text-lg text-gray-300">
                   Готовы начать свое путешествие к гармонии? <a href="#контакты" className="text-fuchsia-400 hover:text-fuchsia-300">Свяжитесь с нами</a> для записи на консультацию или посетите наш <a href="/shop" className="text-fuchsia-400 hover:text-fuchsia-300">магазин эфирных масел</a>.
@@ -466,7 +471,7 @@ export default function AromaSpaStudio() {
                     <h3 className="text-xl font-bold text-white mb-4 font-playfair">Квалификация</h3>
                     <p className="text-gray-300 font-playfair">
                       Дипломированный специалист с образованием Пищевого Тенолога
-                      НИИ ИТМО (2014 г), АромаПрактик, Куратор АромаШколы
+                      НИИ ИТМО (2014 г), АромаЭксперт, Куратор АромаШколы
                     </p>
                   </motion.div>
 

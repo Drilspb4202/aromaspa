@@ -15,7 +15,7 @@ const services = [
     duration: "2 часа",
     price: "3000₽",
     image: "https://i.ibb.co/P5fxRsY/2024-11-28-21-11-31.jpg",
-    description: "Сеанс включает индивидуальную консультацию, в ходе которой мы исследуем Ваше эмоциональное и физическое состояние методом АромаДиагностирования на базе 100% эфирных масел стандарта качества CPTG doTERRA с расшифровкой, а также Вы получите в подарок индивидуальные ресурсные духи под Ваш запрос."
+    description: "Сеанс включает индивидуальную консультацию, в ходе которой мы исследуем Ваше эмоциональное и физическое состояние методом АромаДиагностирования на базе 100% эфирных масел стандарта качества CPTG dōTERRA с расшифровкой, а также Вы получите в подарок индивидуальные ресурсные духи под Ваш запрос."
   },
   {
     id: 2,
@@ -58,7 +58,7 @@ const services = [
     title: "АромаБизнес",
     icon: Briefcase,
     image: "https://i.ibb.co/VJgt0kn/photo-2024-11-19-23-02-57.jpg",
-    description: "АромаБизнес – это не просто тренд, это стиль жизни, где бизнес сочетается с заботой о здоровье и гармонии. У меня уже есть команда профессионалов – АромаПрактиков, и мы растем с каждым днем!\n\nВ нашей АромаШколе Вы сможете пройти обучение и начать зарабатывать в востребованной нише. Для моей команды – эксклюзивные условия, поддержка и программа лояльности.\n\nХочешь к нам? Запишись на услугу \"Хочу в АромаБизнес\" и начни свой путь уже сегодня!",
+    description: "АромаБизнес – это не просто тренд, это стиль жизни, где бизнес сочетается с заботой о здоровье и гармонии. У меня уже есть команда профессионалов – АромаЭкспертов, и мы растем с каждым днем!\n\nВ нашей АромаШколе Вы сможете пройти обучение и начать зарабатывать в востребованной нише. Для моей команды – эксклюзивные условия, поддержка и программа лояльности.\n\nХочешь к нам? Запишись на услугу \"Хочу в АромаБизнес\" и начни свой путь уже сегодня!",
     action: "contact"
   },
   {
@@ -66,7 +66,7 @@ const services = [
     title: "Купить Эфирные Масла",
     icon: Bottle,
     image: "https://i.ibb.co/dGLN743/photo-2024-11-28-21-13-23.jpg",
-    description: "Эфирные масла терапевтического качества и продукция на их основе об��адают мощными целебными свойствами, помогая восстановить баланс тела и ума. Благодаря своему натуральному составу они улучшают настроение, снимают стресс, поддерживают иммунитет и способствуют общему оздоровлению организма. А специализированные диффузоры помогут Вам погрузиться в уникальный мир АромаТерапии. А мы поможем определиться с выбором продукции перед покупкой с учётом Ваших индивидуальных запросов.",
+    description: "Эфирные масла терапевтического качества и продукция на их основе обладают мощными целебными свойствами, помогая восстановить баланс тела и ума. Благодаря своему натуральному составу они улучшают настроение, снимают стресс, поддерживают иммунитет и способствуют общему оздоровлению организма. А специализированные диффузоры помогут Вам погрузиться в уникальный мир АромаТерапии. А мы поможем определиться с выбором продукции перед покупкой с учётом Ваших индивидуальных запросов.",
     action: "buy"
   }
 ]
@@ -77,7 +77,7 @@ const ServiceCard = React.memo(({ service, handleAction }: {service: any, handle
       <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-xl">
         <OptimizedImage
           src={service.image}
-          alt={`${service.title} - Aroma Spa Studio`}
+          alt={`${service.title} - AROMA SPA СТУДИЯ`}
           width={300}
           height={300}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
@@ -107,7 +107,7 @@ const ServiceCard = React.memo(({ service, handleAction }: {service: any, handle
           className="w-full bg-fuchsia-600 hover:bg-fuchsia-700 text-white transition-colors font-montserrat text-sm sm:text-base py-2 sm:py-3"
           onClick={() => {
             if (service.title === "Купить Эфирные Масла") {
-              window.open('https://beta-doterra.myvoffice.com/Application/index.cfm?EnrollerID=14409682&Country=RUS', '_blank', 'noopener,noreferrer');
+              window.open('https://office.doterra.com/Application/index.cfm', '_blank', 'noopener,noreferrer');
             } else {
               handleAction(service.title, service.action || "book");
             }
@@ -155,12 +155,12 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
   return (
     <>
       <Head>
-        <title>Услуги Aroma Spa Studio | Профессиональная Ароматерапия в Санкт-Петербурге</title>
-        <meta name="description" content="Откройте для себя широкий спектр услуг ароматерапии в Aroma Spa Studio. От АромаДиагностики до АромаБизнеса - мы предлагаем уникальные решения для вашего здоровья и благополучия." />
+        <title>Услуги AROMA SPA СТУДИЯ | Профессиональная Ароматерапия в Санкт-Петербурге</title>
+        <meta name="description" content="Откройте для себя широкий спектр услуг ароматерапии в AROMA SPA СТУДИЯ. От АромаДиагностики до АромаБизнеса - мы предлагаем уникальные решения для вашего здоровья и благополучия." />
         <meta name="keywords" content="ароматерапия, эфирные масла, АромаДиагностика, АромаЙога, АромаДегустация, АромаНейрографика, АромаТимбилдинг, АромаБизнес, Санкт-Петербург" />
         <link rel="canonical" href="https://www.radmilaessentialoil.ru/services" />
-        <meta property="og:title" content="Услуги Aroma Spa Studio | Профессиональная Ароматерапия" />
-        <meta property="og:description" content="Исследуйте наши уникальные услуги ароматерапии, от индивидуальной АромаДиагностики до корпоративного АромаТимбилдинга. Погрузитесь в мир ароматов с Aroma Spa Studio." />
+        <meta property="og:title" content="Услуги AROMA SPA СТУДИЯ | Профессиональная Ароматерапия" />
+        <meta property="og:description" content="Исследуйте наши уникальные услуги ароматерапии, от индивидуальной АромаДиагностики до корпоративного АромаТимбилдинга. Погрузитесь в мир ароматов с AROMA SPA СТУДИЯ." />
         <meta property="og:image" content="https://www.radmilaessentialoil.ru/images/services-og.jpg" />
         <meta property="og:url" content="https://www.radmilaessentialoil.ru/services" />
         <meta property="og:type" content="website" />
@@ -180,7 +180,7 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
               },
               "provider": {
                 "@type": "LocalBusiness",
-                "name": "Aroma Spa Studio",
+                "name": "AROMA SPA СТУДИЯ",
                 "image": "https://www.radmilaessentialoil.ru/logo.jpg",
                 "address": {
                   "@type": "PostalAddress",
@@ -231,7 +231,7 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
               "description": service.description,
               "provider": {
                 "@type": "BeautySalon",
-                "name": "Aroma Spa Studio",
+                "name": "AROMA SPA СТУДИЯ",
                 "image": "https://www.radmilaessentialoil.ru/logo.jpg",
                 "address": {
                   "@type": "PostalAddress",
@@ -248,3 +248,4 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
     </>
   )
 }
+

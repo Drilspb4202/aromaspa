@@ -79,7 +79,7 @@ export default function PromotionsSection() {
                           {promo.validUntil && (
                             <div className="flex items-center text-gray-400">
                               <Clock className="w-4 h-4 mr-2" />
-                              <span>Действует до: 30.06.2025</span>
+                              <span>Действует до: 31.03.2026</span>
                             </div>
                           )}
                         </div>

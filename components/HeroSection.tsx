@@ -53,7 +53,7 @@ export default function HeroSection() {
             >
               <OptimizedImage
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-hxwo0WQe3vax9AD8KKTokvTiwnrUgq.png"
-                alt="Aroma Spa Studio Logo"
+                alt="AROMA SPA СТУДИЯ Logo"
                 width={250}
                 height={250}
                 className="w-full h-auto rounded-2xl"
@@ -84,7 +84,7 @@ export default function HeroSection() {
             >
               <OptimizedImage
                 src="https://i.ibb.co/8NDztqx/radmila-jpg.jpg"
-                alt="Радмила Яковлева - профессиональный аромапрактик"
+                alt="Радмила Яковлева - профессиональный аромаэксперт"
                 width={600}
                 height={800}
                 className="w-full h-auto object-cover"

@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import OptimizedImage from '@/components/OptimizedImage';
 
 export const metadata: Metadata = {
-  title: 'АромаДиагностика | Aroma Spa Studio',
-  description: 'Индивидуальная консультация с использованием эфирных масел doTERRA для анализа вашего состояния и подбора оптимального решения в Санкт-Петербурге.',
+  title: 'АромаДиагностика | AROMA SPA СТУДИЯ',
+  description: 'Индивидуальная консультация с использованием эфирных масел dōTERRA для анализа вашего состояния и подбора оптимального решения в Санкт-Петербурге.',
   openGraph: {
-    title: 'АромаДиагностика | Aroma Spa Studio',
-    description: 'Индивидуальная консультация с использованием эфирных масел doTERRA для анализа вашего состояния и подбора оптимального решения.',
+    title: 'АромаДиагностика | AROMA SPA СТУДИЯ',
+    description: 'Индивидуальная консультация с использованием эфирных масел dōTERRA для анализа вашего состояния и подбора оптимального решения.',
     images: [{ url: 'https://aroma-spa-studio.ru/images/services/aromadiagnostika.jpg' }],
   },
 };
@@ -22,13 +22,13 @@ export default function AromaDiagnosticsPage() {
         <div className="max-w-3xl mx-auto">
           <OptimizedImage
             src="/images/services/aromadiagnostika.jpg"
-            alt="АромаДиагностика в Aroma Spa Studio"
+            alt="АромаДиагностика в AROMA SPA СТУДИЯ"
             width={800}
             height={400}
             className="rounded-lg mb-8"
           />
           <p className="mb-6">
-            АромаДиагностика - это индивидуальная консультация, в ходе которой мы исследуем Ваше эмоциональное и физическое состояние методом Аромадиагностирования на базе 100% эфирных масел стандарта качества CPTG doTERRA с расшифровкой.
+            АромаДиагностика - это индивидуальная консультация, в ходе которой мы исследуем Ваше эмоциональное и физическое состояние методом Аромадиагностирования на базе 100% эфирных масел стандарта качества CPTG dōTERRA с расшифровкой.
           </p>
           <h2 className="text-2xl font-semibold mb-4">Что включает в себя сеанс:</h2>
           <ul className="list-disc list-inside mb-6">

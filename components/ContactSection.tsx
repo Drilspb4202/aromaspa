@@ -192,7 +192,27 @@ export default function ContactSection() {
                 <div className="space-y-4">
                   <div className="flex items-start space-x-4">
                     <MapPin className="w-6 h-6 text-fuchsia-500 flex-shrink-0 mt-1" />
-                    <p className="text-gray-300">г. СПб, Советский пр., д. 12, кв/оф. 2 (тер. Усть-Славянка)</p>
+                    <div className="flex flex-col gap-2">
+                      <p className="text-gray-300">г. СПб, Советский пр., д. 12, кв/оф. 2 (тер. Усть-Славянка)</p>
+                      <div className="flex gap-4">
+                        <a 
+                          href="https://2gis.ru/spb/geo/70000001101166106" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-fuchsia-400 hover:text-fuchsia-300 transition-colors text-sm"
+                        >
+                          2GIS →
+                        </a>
+                        <a 
+                          href="https://yandex.ru/navi/org/aroma_spa/35632460140" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-fuchsia-400 hover:text-fuchsia-300 transition-colors text-sm"
+                        >
+                          Яндекс Карты →
+                        </a>
+                      </div>
+                    </div>
                   </div>
                   <div className="flex items-center space-x-4">
                     <Phone className="w-6 h-6 text-fuchsia-500" />
@@ -214,7 +234,7 @@ export default function ContactSection() {
                   </div>
                   <div className="flex items-center space-x-4">
                     <ShoppingBag className="w-6 h-6 text-fuchsia-500" />
-                    <a href="https://beta-doterra.myvoffice.com/Application/index.cfm?EnrollerID=14409682&Country=RUS" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-500 transition-colors">Купить эфирные масла с 25% скидкой</a>
+                    <a href="https://office.doterra.com/Application/index.cfm" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-500 transition-colors">Купить эфирные масла с 25% скидкой</a>
                   </div>
                 </div>
               </CardContent>

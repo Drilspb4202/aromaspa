@@ -18,13 +18,6 @@ interface Message {
   timestamp: number;
 }
 
-interface BookingFormData {
-  name: string;
-  phone: string;
-  service: string;
-  date: string;
-}
-
 const services = [
   "АромаДиагностика",
   "АромаЙога",
@@ -35,7 +28,7 @@ const services = [
   "Хочу в АромаБизнес"
 ];
 
-const systemPrompt = `Ты — дружелюбный и современный эксперт по ароматерапии в Aroma Spa Studio. Вот твои основные характеристики:
+const systemPrompt = `Ты — дружелюбный и современный эксперт по ароматерапии в AROMA SPA СТУДИЯ. Вот твои основные характеристики:
 
 1. Стиль общения:
 - Говори простым, современным языком
@@ -72,7 +65,7 @@ const systemPrompt = `Ты — дружелюбный и современный 
 - Всегда предлагай записаться на консультацию
 - Рассказывай о программах лояльности
 
-Основные услуги и цены Aroma Spa Studio:
+Основные услуги и цены AROMA SPA СТУДИЯ:
 - АромаДиагностика: 3000₽, 2 часа
 - АромаЙога: 3000₽, 2,5 часа
 - АромаДегустация: 500₽, 1 час
@@ -146,7 +139,7 @@ function ChatBot() {
     } else {
       setMessages([{
         id: uuidv4(),
-        text: "Здравствуйте! Я виртуальный помощник Aroma Spa Studio. Как я могу помочь вам сегодня?",
+        text: "Здравствуйте! Я виртуальный помощник AROMA SPA СТУДИЯ. Как я могу помочь вам сегодня?",
         isBot: true,
         timestamp: Date.now()
       }]);
@@ -165,7 +158,7 @@ function ChatBot() {
 
   const getBotResponse = async (userInput: string): Promise<string> => {
     try {
-      const shortContext = `Ты — эксперт по ароматерапии в Aroma Spa Studio. Отвечай кратко (до 100 слов), но информативно. Используй эмоджи умеренно.
+      const shortContext = `Ты — эксперт по ароматерапии в AROMA SPA СТУДИЯ. Отвечай кратко (до 100 слов), но информативно. Используй эмоджи умеренно.
 
 Услуги:
 - АромаДиагностика: 3000₽, 2ч
@@ -269,7 +262,23 @@ function ChatBot() {
     setIsTyping(true);
     
     try {
-      if (services.includes(reply)) {
+      if (reply === "Адрес") {
+        const addressMessage = `📍 Адрес студии:
+г. СПб, Советский пр., д. 12, кв/оф. 2 (тер. Усть-Славянка)
+
+🗺️ Навигация:
+• 2GIS: https://2gis.ru/spb/geo/70000001101166106
+• Яндекс Карты: https://yandex.ru/navi/org/aroma_spa/35632460140
+
+Мы работаем по предварительной записи. Звоните +7 995 6000 12 2`;
+        
+        setMessages(prev => [...prev, {
+          id: uuidv4(),
+          text: addressMessage,
+          isBot: true,
+          timestamp: Date.now()
+        }]);
+      } else if (services.includes(reply)) {
         const message = `Пользователь выбрал услугу: ${reply}`;
         await submitTelegramMessage(message);
         setMessages(prev => [...prev, {
@@ -302,7 +311,7 @@ function ChatBot() {
   const clearChat = useCallback(() => {
     setMessages([{
       id: uuidv4(),
-      text: "Здравствуйте! Я виртуальный помощник Aroma Spa Studio. Как я могу помочь вам сегодня?",
+      text: "Здравствуйте! Я виртуальный помощник AROMA SPA СТУДИЯ. Как я могу помочь вам сегодня?",
       isBot: true,
       timestamp: Date.now()
     }]);
@@ -341,7 +350,7 @@ function ChatBot() {
     const transcript = messages
       .map(msg => `${msg.isBot ? 'Бот' : 'Вы'}: ${msg.text}`)
       .join('\n');
-    const mailtoLink = `mailto:?subject=Чат с Aroma Spa Studio&body=${encodeURIComponent(transcript)}`;
+    const mailtoLink = `mailto:?subject=Чат с AROMA SPA СТУДИЯ&body=${encodeURIComponent(transcript)}`;
     window.open(mailtoLink, '_blank');
   }, [messages]);
 
@@ -396,7 +405,7 @@ function ChatBot() {
         {isOpen && (
           <motion.div
             ref={chatRef}
-            className="fixed bottom-4 right-4 z-[60] bg-black/30 backdrop-blur-md md:bottom-20 md:right-4"
+            className="fixed bottom-4 right-4 z-[60] bg-black/30 backdrop-blur-md md:bottom-20 md:right-4 rounded-3xl overflow-hidden"
             initial={{ opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
             animate={{ opacity: 1, y: 0, x: 0, scale: 1, rotateX: 0 }}
             exit={{ opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
@@ -411,7 +420,7 @@ function ChatBot() {
                       <MessageCircle className="w-5 h-5 text-white" />
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold bg-gradient-to-r from-white to-purple-100 bg-clip-text text-transparent drop-shadow-lg">Aroma Spa Studio</h3>
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-white to-purple-100 bg-clip-text text-transparent drop-shadow-lg">AROMA SPA СТУДИЯ</h3>
                 </div>
                 <div className="flex items-center space-x-1">
                   <Button

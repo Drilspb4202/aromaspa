@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Блог | Aroma Spa Studio',
+  title: 'Блог | AROMA SPA СТУДИЯ',
   description: 'Узнайте больше о ароматерапии и эфирных маслах в нашем блоге.',
 }
 

@@ -8,7 +8,7 @@ const baseUrl = 'https://www.radmilaessentialoil.ru'
 const url = `${baseUrl}${path}`
 
 return {
-  title: `${title} | Aroma Spa Studio`,
+  title: `${title} | AROMA SPA СТУДИЯ`,
   description,
   canonical: url,
   openGraph: {
@@ -25,7 +25,7 @@ return {
         alt: title,
       },
     ],
-    siteName: 'Aroma Spa Studio',
+    siteName: 'AROMA SPA СТУДИЯ',
   },
   twitter: {
     card: 'summary_large_image',
@@ -60,7 +60,7 @@ return {
   },
   brand: {
     '@type': 'Brand',
-    name: 'doTERRA',
+    name: 'dōTERRA',
   },
 }
 }
@@ -78,7 +78,7 @@ return {
   description: service.description,
   provider: {
     '@type': 'LocalBusiness',
-    name: 'Aroma Spa Studio',
+    name: 'AROMA SPA СТУДИЯ',
     image: 'https://www.radmilaessentialoil.ru/logo.jpg',
     address: {
       '@type': 'PostalAddress',
@@ -119,7 +119,7 @@ return {
   },
   publisher: {
     '@type': 'Organization',
-    name: 'Aroma Spa Studio',
+    name: 'AROMA SPA СТУДИЯ',
     logo: {
       '@type': 'ImageObject',
       url: 'https://www.radmilaessentialoil.ru/logo.jpg',
