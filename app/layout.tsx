@@ -62,10 +62,23 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
+    // Настройки для Bingbot (используется ChatGPT для поиска)
+    bingbot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   verification: {
     google: 'bc0164dd53862fad',
     yandex: 'bc0164dd53862fad',
+    // Bing Webmaster Tools verification (для ChatGPT поиска)
+    // Замените на ваш код после регистрации в Bing Webmaster Tools
+    other: {
+      'msvalidate.01': 'YOUR_BING_VERIFICATION_CODE', // Замените на реальный код
+    },
   },
   alternates: {
     canonical: 'https://www.radmilaessentialoil.ru',
@@ -309,7 +322,9 @@ export default function RootLayout({
         <meta name="format-detection" content="telephone=no" />
         <meta name="format-detection" content="address=no" />
         <meta name="yandex-verification" content="bc0164dd53862fad" />
-        <meta name="google-site-verification" content="your-google-verification-code" />
+        <meta name="google-site-verification" content="bc0164dd53862fad" />
+        {/* Bing Webmaster Tools verification - замените на ваш код после регистрации */}
+        <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
         
         <link rel="alternate" href="https://www.radmilaessentialoil.ru" hrefLang="ru-RU" />
         
@@ -333,6 +348,15 @@ export default function RootLayout({
         <meta name="geo.placename" content="Санкт-Петербург" />
         <meta name="geo.position" content="59.9343;30.3351" />
         <meta name="ICBM" content="59.9343, 30.3351" />
+        
+        {/* Дополнительные метатеги для Bing и ChatGPT */}
+        <meta name="language" content="Russian" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="distribution" content="global" />
+        <meta name="rating" content="general" />
+        <meta name="coverage" content="worldwide" />
+        <meta name="target" content="all" />
+        <meta name="audience" content="all" />
 
         <Favicon />
 
@@ -398,6 +422,3 @@ export default function RootLayout({
   )
 }
 
-
-
-import './globals.css'

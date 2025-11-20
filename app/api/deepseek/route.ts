@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 import { LRUCache } from 'lru-cache'
+import { z } from 'zod'
+import { chatRateLimiter, getClientIdentifier } from '@/lib/rate-limit'
 
 // Создаем LRU кэш с ограничением по размеру и времени жизни
 const responseCache = new LRUCache({
@@ -18,6 +20,13 @@ const systemPrompt = `Ты — эксперт по ароматерапии AROM
 
 const conversationHistory = new Map<string, Array<{role: string, text: string, feedback?: 'positive' | 'negative'}>>();
 
+// Схема валидации запроса
+const requestSchema = z.object({
+  prompt: z.string().min(1, 'Промпт не может быть пустым').max(1000, 'Промпт слишком длинный'),
+  sessionId: z.string().min(1, 'Session ID обязателен'),
+  feedback: z.enum(['positive', 'negative']).optional(),
+});
+
 export async function POST(req: Request) {
   try {
     // Проверяем наличие API ключа
@@ -31,7 +40,45 @@ export async function POST(req: Request) {
       )
     }
 
-    const { prompt, sessionId, feedback } = await req.json()
+    // Rate limiting
+    const clientId = getClientIdentifier(req);
+    const rateLimitResult = chatRateLimiter.check(clientId);
+    
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Превышен лимит запросов. Попробуйте позже.',
+          resetTime: rateLimitResult.resetTime,
+        },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Limit': '20',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimitResult.resetTime.toString(),
+            'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+          },
+        }
+      );
+    }
+
+    // Валидация входных данных
+    const body = await req.json();
+    const validationResult = requestSchema.safeParse(body);
+    
+    if (!validationResult.success) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Неверные данные запроса',
+          details: validationResult.error.errors,
+        },
+        { status: 400 }
+      );
+    }
+
+    const { prompt, sessionId, feedback } = validationResult.data;
     
     // Проверяем кэш
     const cacheKey = prompt.toLowerCase().trim();
@@ -111,11 +158,20 @@ export async function POST(req: Request) {
     recentHistory.push({ role: 'assistant', text: assistantResponse });
     conversationHistory.set(sessionId, recentHistory);
     
-    return NextResponse.json({ 
-      success: true,
-      result: assistantResponse,
-      context: recentHistory
-    })
+    return NextResponse.json(
+      { 
+        success: true,
+        result: assistantResponse,
+        context: recentHistory
+      },
+      {
+        headers: {
+          'X-RateLimit-Limit': '20',
+          'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+          'X-RateLimit-Reset': rateLimitResult.resetTime.toString(),
+        },
+      }
+    )
 
   } catch (error) {
     console.error('Error calling DeepSeek API:', error)

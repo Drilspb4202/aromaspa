@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import OptimizedImage from './OptimizedImage'
 import { Droplet, SpaceIcon as Yoga, Coffee, Palette, Users2, BoxIcon as Bottle, Briefcase } from 'lucide-react'
 import ShareButton from './ShareButton'
+import StructuredData from './StructuredData'
 
 const services = [
   {
@@ -70,55 +71,72 @@ const services = [
   }
 ]
 
-const ServiceCard = React.memo(({ service, handleAction }: {service: any, handleAction: any}) => (
-  <Card className="bg-purple-950/30 border-fuchsia-500/30 overflow-hidden transition-all duration-300 hover:bg-purple-900/40 rounded-2xl h-full flex flex-col backdrop-blur-sm">
-    <CardContent className="p-3 flex flex-col h-full">
-      <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-xl">
-        <OptimizedImage
-          src={service.image}
-          alt={`${service.title} - AROMA SPA СТУДИЯ`}
-          width={300}
-          height={300}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-          loading="lazy"
-        />
-      </div>
-      <div className="flex-grow space-y-3">
-        <div className="flex items-center justify-center gap-2">
-          {React.createElement(service.icon, { className: "w-5 h-5 text-fuchsia-400" })}
-          <h3 className="text-base sm:text-lg font-bold text-fuchsia-400 group-hover:text-fuchsia-300 font-montserrat"> {service.title}</h3>
+const ServiceCard = React.memo(({ service, handleAction }: {service: any, handleAction: any}) => {
+  // Парсим цену для микроразметки
+  const priceMatch = service.price?.match(/(\d+)/)
+  const price = priceMatch ? priceMatch[1] : undefined
+  
+  return (
+    <Card className="bg-purple-950/30 border-fuchsia-500/30 overflow-hidden transition-all duration-300 hover:bg-purple-900/40 rounded-2xl h-full flex flex-col backdrop-blur-sm" itemScope itemType="https://schema.org/Service">
+      <CardContent className="p-3 flex flex-col h-full">
+        <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-xl">
+          <OptimizedImage
+            src={service.image}
+            alt={`${service.title} - AROMA SPA СТУДИЯ`}
+            width={300}
+            height={300}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+            loading="lazy"
+            itemProp="image"
+          />
         </div>
-        {service.duration && (
-          <div className="flex justify-between items-center bg-fuchsia-600/20 px-4 py-2 rounded-lg border border-fuchsia-500/30">
-            <span className="text-sm sm:text-base text-white font-medium font-montserrat">{service.duration}</span>
-            <span className="text-xl sm:text-2xl font-bold text-fuchsia-400 group-hover:text-fuchsia-300 font-montserrat">
-              {service.title === "АромаДегустация" ? "Бесплатно" : service.price}
-            </span>
+        <div className="flex-grow space-y-3">
+          <div className="flex items-center justify-center gap-2">
+            {React.createElement(service.icon, { className: "w-5 h-5 text-fuchsia-400" })}
+            <h3 className="text-base sm:text-lg font-bold text-fuchsia-400 group-hover:text-fuchsia-300 font-montserrat" itemProp="name"> {service.title}</h3>
           </div>
-        )}
-        <h4 className="text-sm sm:text-md font-semibold text-white mb-2 font-montserrat">Описание услуги</h4>
-        <p className="text-xs sm:text-sm text-white/90 leading-relaxed group-hover:text-white font-montserrat sm:line-clamp-none">
-          {service.description}
-        </p>
-      </div>
-      <div className="mt-4">
-        <Button
-          className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 font-montserrat text-sm sm:text-base py-2 sm:py-3 rounded-xl"
-          onClick={() => {
-            if (service.title === "Купить Эфирные Масла") {
-              window.open('https://office.doterra.com/Application/index.cfm', '_blank', 'noopener,noreferrer');
-            } else {
-              handleAction(service.title, service.action || "book");
-            }
-          }}
-          aria-label={service.action === "buy" ? `Купить ${service.title}` : `Записаться на ${service.title}`}
-        >
-          {service.action === "buy" ? "Купить" : "Записаться"}
-        </Button>
-      </div>
-    </CardContent>
-  </Card>
-))
+          {service.duration && (
+            <div className="flex justify-between items-center bg-fuchsia-600/20 px-4 py-2 rounded-lg border border-fuchsia-500/30">
+              <span className="text-sm sm:text-base text-white font-medium font-montserrat" itemProp="duration">{service.duration}</span>
+              <span className="text-xl sm:text-2xl font-bold text-fuchsia-400 group-hover:text-fuchsia-300 font-montserrat">
+                {service.title === "АромаДегустация" ? "Бесплатно" : service.price}
+              </span>
+              {price && (
+                <meta itemProp="offers" itemScope itemType="https://schema.org/Offer" />
+              )}
+            </div>
+          )}
+          {price && (
+            <div itemScope itemType="https://schema.org/Offer" style={{ display: 'none' }}>
+              <meta itemProp="price" content={price} />
+              <meta itemProp="priceCurrency" content="RUB" />
+              <meta itemProp="availability" content="https://schema.org/InStock" />
+            </div>
+          )}
+          <h4 className="text-sm sm:text-md font-semibold text-white mb-2 font-montserrat">Описание услуги</h4>
+          <p className="text-xs sm:text-sm text-white/90 leading-relaxed group-hover:text-white font-montserrat sm:line-clamp-none" itemProp="description">
+            {service.description}
+          </p>
+        </div>
+        <div className="mt-4">
+          <Button
+            className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 font-montserrat text-sm sm:text-base py-2 sm:py-3 rounded-xl"
+            onClick={() => {
+              if (service.title === "Купить Эфирные Масла") {
+                window.open('https://office.doterra.com/Application/index.cfm', '_blank', 'noopener,noreferrer');
+              } else {
+                handleAction(service.title, service.action || "book");
+              }
+            }}
+            aria-label={service.action === "buy" ? `Купить ${service.title}` : `Записаться на ${service.title}`}
+          >
+            {service.action === "buy" ? "Купить" : "Записаться"}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  )
+})
 
 interface ServicesSectionProps {
   setIsShopOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -178,6 +196,15 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
           >
             НАШИ УСЛУГИ
           </motion.h2>
+          {/* JSON-LD микроразметка для услуг */}
+          <StructuredData
+            type="services"
+            data={memoizedServices}
+            businessName="AROMA SPA СТУДИЯ"
+            businessUrl="https://www.radmilaessentialoil.ru"
+            businessImage="https://www.radmilaessentialoil.ru/logo.jpg"
+          />
+          
           <div className="flex justify-center mb-8">
             <ShareButton className="bg-purple-900/50 hover:bg-purple-800/70 text-white border-fuchsia-500/30" />
           </div>
@@ -192,33 +219,13 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`group h-full ${index === memoizedServices.length - 1 ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2' : ''}`}
+                itemScope
+                itemType="https://schema.org/Service"
               >
                 <ServiceCard service={service} handleAction={handleAction} />
               </motion.div>
             ))}
           </div>
-          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            "itemListElement": services.map((service, index) => ({
-              "@type": "Service",
-              "position": index + 1,
-              "name": service.title,
-              "description": service.description,
-              "provider": {
-                "@type": "BeautySalon",
-                "name": "AROMA SPA СТУДИЯ",
-                "image": "https://www.radmilaessentialoil.ru/logo.jpg",
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "Советский пр., д. 12, кв/оф. 2",
-                  "addressLocality": "Санкт-Петербург",
-                  "postalCode": "192076",
-                  "addressCountry": "RU"
-                }
-              }
-            }))
-          }) }} />
         </div>
       </section>
   )

@@ -20,16 +20,10 @@ import ContactSection from '../components/ContactSection'
 import PromotionsSection from '../components/PromotionsSection'
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useLocalStorage } from '../hooks/useLocalStorage'
 import { measurePerformance } from '../utils/performance'
 import { CarouselSection } from '@/components/CarouselSection';
-
-type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-};
+import { useCart } from '@/contexts/CartContext';
+import { getSafeBackgroundImage } from '../utils/imageUtils';
 
 const AnimatedCounter = React.memo(({ number, text }: { number: number, text: string }) => {
   const [count, setCount] = useState(0)
@@ -71,11 +65,23 @@ function Spinner({ size = "default" }: { size?: "default" | "sm" | "lg" }) {
 }
 
 const DynamicOilSelector = dynamic(() => import('../components/OilSelector'), {
-  loading: () => <p>Загрузка...</p>,
+  loading: () => (
+    <div className="py-20 text-center text-white">
+      <Spinner size="lg" />
+      <p className="mt-4">Загрузка подбора масел...</p>
+    </div>
+  ),
+  ssr: false,
 })
 
 const DynamicGallerySection = dynamic(() => import('../components/GallerySection'), {
-  loading: () => <p>Загрузка галереи...</p>,
+  loading: () => (
+    <div className="py-20 text-center text-white">
+      <Spinner size="lg" />
+      <p className="mt-4">Загрузка галереи...</p>
+    </div>
+  ),
+  ssr: false,
 })
 
 export default function AromaSpaStudio() {
@@ -91,7 +97,7 @@ export default function AromaSpaStudio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrollPosition, setScrollPosition] = useState(0)
   const [activeSection, setActiveSection] = useState('')
-  const [cart, setCart] = useLocalStorage<CartItem[]>('cart', []);
+  const { cart, addToCart: addToCartContext, removeFromCart: removeFromCartContext } = useCart();
   const [isShopOpen, setIsShopOpen] = useState(false)
   const [selectedQRCode, setSelectedQRCode] = useState<string | null>(null)
 
@@ -111,28 +117,51 @@ export default function AromaSpaStudio() {
   }
 
 
+  // Оптимизированный обработчик скролла с throttling
   useEffect(() => {
+    let rafId: number | null = null;
+    let lastScrollTime = 0;
+    const throttleMs = 100; // Throttle до 100ms
+
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100; // Add offset to account for header height
-      
-      let currentSection = '';
-      Object.entries(sectionRefs).forEach(([key, ref]) => {
-        if (ref.current) {
-          const { offsetTop, offsetHeight } = ref.current;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            currentSection = key;
+      const now = Date.now();
+      if (now - lastScrollTime < throttleMs) {
+        return;
+      }
+      lastScrollTime = now;
+
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+
+      rafId = requestAnimationFrame(() => {
+        const scrollPosition = window.scrollY + 100;
+        let currentSection = '';
+        
+        Object.entries(sectionRefs).forEach(([key, ref]) => {
+          if (ref.current) {
+            const { offsetTop, offsetHeight } = ref.current;
+            if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+              currentSection = key;
+            }
           }
+        });
+
+        if (currentSection !== activeSection) {
+          setActiveSection(currentSection);
         }
       });
-
-      if (currentSection !== activeSection) {
-        setActiveSection(currentSection);
-      }
-    }
+    };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Call once to set initial active section
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+    };
   }, [activeSection]);
 
   useEffect(() => {
@@ -160,26 +189,14 @@ export default function AromaSpaStudio() {
     return cart.reduce((total, item) => total + item.quantity, 0);
   }, [cart]);
 
+  // Используем функции из CartContext
   const addToCart = useCallback((oil: Oil) => {
-    setCart(prevCart => {
-      const existingItem = prevCart.find(item => item.id === oil.id);
-      if (existingItem) {
-        return prevCart.map(item =>
-          item.id === oil.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-      return [...prevCart, { ...oil, quantity: 1 }];
-    });
-  }, [setCart]);
+    addToCartContext(oil);
+  }, [addToCartContext]);
 
   const removeFromCart = useCallback((oilId: string) => {
-    setCart(prevCart => {
-      const updatedCart = prevCart.map(item =>
-        item.id === oilId ? { ...item, quantity: Math.max(0, item.quantity - 1) } : item
-      );
-      return updatedCart.filter(item => item.quantity > 0);
-    });
-  }, [setCart]);
+    removeFromCartContext(oilId);
+  }, [removeFromCartContext]);
 
   const navigation = [
     { name: 'О нас', href: '#о-нас', icon: Users },
@@ -215,7 +232,8 @@ export default function AromaSpaStudio() {
           <div 
             className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0"
             style={{
-              backgroundImage: 'url("https://i.ibb.co/5LmmGTK/DALL-E-2024-12-06-03-15-04-A-luxurious-image-featuring-a-purple-theme-redesigned-to-showcase-drops-o.webp")',
+              backgroundImage: getSafeBackgroundImage('https://i.ibb.co/5LmmGTK/DALL-E-2024-12-06-03-15-04-A-luxurious-image-featuring-a-purple-theme-redesigned-to-showcase-drops-o.webp'),
+              backgroundColor: 'rgba(139, 92, 246, 0.1)',
             }}
           >
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>

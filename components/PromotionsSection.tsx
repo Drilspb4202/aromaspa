@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Clock, Tag } from 'lucide-react'
 import OptimizedImage from './OptimizedImage'
+import { getSafeBackgroundImage } from '../utils/imageUtils'
 
 const promotions = [
   {
@@ -30,7 +31,8 @@ export default function PromotionsSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
         style={{
-          backgroundImage: 'url("https://i.ibb.co/5LmmGTK/DALL-E-2024-12-06-03-15-04-A-luxurious-image-featuring-a-purple-theme-redesigned-to-showcase-drops-o.webp")',
+          backgroundImage: getSafeBackgroundImage('https://i.ibb.co/5LmmGTK/DALL-E-2024-12-06-03-15-04-A-luxurious-image-featuring-a-purple-theme-redesigned-to-showcase-drops-o.webp'),
+          backgroundColor: 'rgba(139, 92, 246, 0.1)',
         }}
       >
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>

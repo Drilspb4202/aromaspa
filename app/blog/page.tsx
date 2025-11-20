@@ -5,6 +5,7 @@ import BlogList from '../../components/BlogList';
 import { motion } from 'framer-motion';
 import { Button } from "../../components/ui/button";
 import { useRouter } from 'next/navigation';
+import { getSafeBackgroundImage } from '../../utils/imageUtils';
 const BlogPage: React.FC = () => {
   const router = useRouter();
 
@@ -17,7 +18,8 @@ const BlogPage: React.FC = () => {
       <div 
         className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0"
         style={{
-          backgroundImage: 'url("https://i.ibb.co/5LmmGTK/DALL-E-2024-12-06-03-15-04-A-luxurious-image-featuring-a-purple-theme-redesigned-to-showcase-drops-o.webp")',
+          backgroundImage: getSafeBackgroundImage('https://i.ibb.co/5LmmGTK/DALL-E-2024-12-06-03-15-04-A-luxurious-image-featuring-a-purple-theme-redesigned-to-showcase-drops-o.webp'),
+          backgroundColor: 'rgba(139, 92, 246, 0.1)',
         }}
       >
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>

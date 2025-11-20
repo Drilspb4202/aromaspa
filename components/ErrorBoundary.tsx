@@ -21,7 +21,31 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // Логируем ошибку
     console.error('Uncaught error:', error, errorInfo)
+    
+    // В production можно отправлять ошибки в систему мониторинга
+    // Например, Sentry:
+    // if (process.env.NODE_ENV === 'production') {
+    //   Sentry.captureException(error, { contexts: { react: errorInfo } });
+    // }
+    
+    // Можно также отправлять на сервер для анализа
+    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
+      // Отправка ошибки на сервер (опционально)
+      fetch('/api/error-log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          error: error.message,
+          stack: error.stack,
+          componentStack: errorInfo.componentStack,
+          timestamp: new Date().toISOString(),
+        }),
+      }).catch(() => {
+        // Игнорируем ошибки отправки логов
+      });
+    }
   }
 
   public render() {
