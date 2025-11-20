@@ -12,7 +12,7 @@ import Script from 'next/script';
 import { CartProvider } from '@/contexts/CartContext';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.radmilaessentialoil.ru'),
+  metadataBase: new URL('https://radmilaessentialoil.ru'),
   title: {
     default: 'Арома Спа Студия | Радмила Яковлева - Аромопрактик | Эфирные масла dōTERRA',
     template: '%s | Арома Спа Студия'
@@ -81,21 +81,21 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://www.radmilaessentialoil.ru',
+    canonical: 'https://radmilaessentialoil.ru',
   },
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
-    url: 'https://www.radmilaessentialoil.ru',
+    url: 'https://radmilaessentialoil.ru',
     title: 'Арома Спа Студия | Радмила Яковлева - Аромопрактик | Эфирные масла dōTERRA',
     description: 'Арома Спа Студия Радмилы Яковлевой - индивидуальные услуги ароматерапии от профессионального аромопрактика. АромаДиагностика, АромаЙога, АромаДегустация и другие уникальные процедуры с эфирными маслами dōTERRA CPTG.',
     siteName: 'Арома Спа Студия',
     images: [
       {
-        url: 'https://www.radmilaessentialoil.ru/og-image.jpg',
+        url: 'https://i.ibb.co/8NDztqx/radmila-jpg.jpg',
         width: 1200,
-        height: 630,
-        alt: 'Арома Спа Студия - Профессиональная Ароматерапия',
+        height: 800,
+        alt: 'Арома Спа Студия - Профессиональная Ароматерапия от Радмилы Яковлевой',
       },
     ],
   },
@@ -103,7 +103,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Арома Спа Студия | Радмила Яковлева - Аромопрактик',
     description: 'Индивидуальные услуги ароматерапии от Радмилы Яковлевой в Санкт-Петербурге. Эфирные масла dōTERRA для вашего здоровья и гармонии.',
-    images: ['https://www.radmilaessentialoil.ru/twitter-card-image.jpg'],
+    images: ['https://i.ibb.co/8NDztqx/radmila-jpg.jpg'],
     creator: '@AromaSpaStudio',
     creatorId: '1467726470533754880',
     siteId: '1467726470533754880',
@@ -326,7 +326,7 @@ export default function RootLayout({
         {/* Bing Webmaster Tools verification - замените на ваш код после регистрации */}
         <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
         
-        <link rel="alternate" href="https://www.radmilaessentialoil.ru" hrefLang="ru-RU" />
+        <link rel="alternate" href="https://radmilaessentialoil.ru" hrefLang="ru-RU" />
         
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -348,6 +348,25 @@ export default function RootLayout({
         <meta name="geo.placename" content="Санкт-Петербург" />
         <meta name="geo.position" content="59.9343;30.3351" />
         <meta name="ICBM" content="59.9343, 30.3351" />
+        
+        {/* Явные Open Graph теги для Telegram и других социальных сетей */}
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="ru_RU" />
+        <meta property="og:url" content="https://radmilaessentialoil.ru" />
+        <meta property="og:title" content="Арома Спа Студия | Радмила Яковлева - Аромопрактик | Эфирные масла dōTERRA" />
+        <meta property="og:description" content="Арома Спа Студия Радмилы Яковлевой - индивидуальные услуги ароматерапии от профессионального аромопрактика. АромаДиагностика, АромаЙога, АромаДегустация и другие уникальные процедуры с эфирными маслами dōTERRA CPTG." />
+        <meta property="og:image" content="https://i.ibb.co/8NDztqx/radmila-jpg.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="800" />
+        <meta property="og:image:alt" content="Арома Спа Студия - Профессиональная Ароматерапия от Радмилы Яковлевой" />
+        <meta property="og:site_name" content="Арома Спа Студия" />
+        
+        {/* Twitter Card теги */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Арома Спа Студия | Радмила Яковлева - Аромопрактик" />
+        <meta name="twitter:description" content="Индивидуальные услуги ароматерапии от Радмилы Яковлевой в Санкт-Петербурге. Эфирные масла dōTERRA для вашего здоровья и гармонии." />
+        <meta name="twitter:image" content="https://i.ibb.co/8NDztqx/radmila-jpg.jpg" />
+        <meta name="twitter:creator" content="@AromaSpaStudio" />
         
         {/* Дополнительные метатеги для Bing и ChatGPT */}
         <meta name="language" content="Russian" />
