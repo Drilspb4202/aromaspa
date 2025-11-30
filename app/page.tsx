@@ -733,9 +733,9 @@ export default function AromaSpaStudio() {
               </motion.div>
             </motion.div>
           )}
-        </AnimatePresence>
-        
-        {/* Floating CTA - плавающая кнопка */}
+         </AnimatePresence>
+
+         {/* Floating CTA - плавающая кнопка */}
         <FloatingCTA phone="+7 995 600 01 22" showAfterScroll={300} />
 
         {/* Exit Intent Popup - попап при уходе */}
