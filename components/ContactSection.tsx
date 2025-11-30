@@ -11,6 +11,7 @@ import { format } from 'date-fns'
 import { ru } from 'date-fns/locale'
 import { DatePicker } from "@/components/ui/date-picker"
 import { submitTelegramMessage } from '@/app/actions/telegram'
+import LeadCaptureForm from './LeadCaptureForm'
 
 export default function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -248,6 +249,15 @@ export default function ContactSection() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Форма захвата лидов */}
+            <div className="mt-6">
+              <LeadCaptureForm
+                title="Получите бесплатную консультацию"
+                description="Оставьте контакты и мы свяжемся с вами в течение 15 минут"
+                offer="Бесплатная консультация + скидка 10% на первый визит"
+              />
+            </div>
           </motion.div>
         </div>
       </div>
