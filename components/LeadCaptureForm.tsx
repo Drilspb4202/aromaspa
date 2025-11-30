@@ -69,22 +69,22 @@ Email: ${email || 'Не указан'}
       className={className}
     >
       <Card className="bg-gradient-to-br from-purple-900/40 via-fuchsia-900/40 to-pink-900/40 border-fuchsia-500/30 backdrop-blur-sm">
-        <CardHeader>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="bg-gradient-to-br from-fuchsia-500 to-pink-500 rounded-full p-2">
-              <Gift className="w-5 h-5 text-white" />
+        <CardHeader className="p-5 pb-3">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="bg-gradient-to-br from-fuchsia-500 to-pink-500 rounded-full p-1.5">
+              <Gift className="w-4 h-4 text-white" />
             </div>
-            <CardTitle className="text-white text-xl">{title}</CardTitle>
+            <CardTitle className="text-white text-lg md:text-xl">{title}</CardTitle>
           </div>
-          <p className="text-gray-300 text-sm">{description}</p>
+          <p className="text-gray-300 text-xs md:text-sm">{description}</p>
           {offer && (
-            <div className="mt-3 bg-fuchsia-500/20 border border-fuchsia-400/30 rounded-lg p-3">
-              <p className="text-fuchsia-300 font-semibold text-sm">🎁 {offer}</p>
+            <div className="mt-2 bg-fuchsia-500/20 border border-fuchsia-400/30 rounded-lg p-2">
+              <p className="text-fuchsia-300 font-semibold text-xs md:text-sm">🎁 {offer}</p>
             </div>
           )}
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="p-5 pt-3">
+          <form onSubmit={handleSubmit} className="space-y-3">
             <div>
               <Input
                 type="text"
@@ -92,7 +92,7 @@ Email: ${email || 'Не указан'}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400"
+                className="bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400 h-11 rounded-xl"
               />
             </div>
             <div>
@@ -102,7 +102,7 @@ Email: ${email || 'Не указан'}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 required
-                className="bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400"
+                className="bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400 h-11 rounded-xl"
               />
             </div>
             <div>
@@ -111,13 +111,13 @@ Email: ${email || 'Не указан'}
                 placeholder="Email (необязательно)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400"
+                className="bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400 h-11 rounded-xl"
               />
             </div>
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white font-semibold py-6 text-lg"
+              className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white font-semibold py-4 md:py-5 text-sm md:text-base rounded-xl"
             >
               {isSubmitting ? 'Отправка...' : 'Получить консультацию бесплатно'}
             </Button>
