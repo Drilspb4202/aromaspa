@@ -14,7 +14,11 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   images: {
-    unoptimized: false,
+    unoptimized: false, // Включаем оптимизацию изображений Next.js
+    formats: ['image/avif', 'image/webp'], // Поддержка современных форматов
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60, // Кэширование на 60 секунд
     remotePatterns: [
       {
         protocol: 'https',
@@ -27,11 +31,6 @@ const nextConfig = {
     ],
   },
   output: 'standalone',
-  experimental: {
-    webpackBuildWorker: true,
-    parallelServerBuildTraces: true,
-    parallelServerCompiles: true,
-  },
 }
 
 mergeConfig(nextConfig, userConfig)
