@@ -62,11 +62,19 @@ class SimpleRateLimiter {
   // Очистка старых записей (можно вызывать периодически)
   cleanup() {
     const now = Date.now();
-    for (const [key, value] of this.requests.entries()) {
+    const keysToDelete: string[] = [];
+    
+    // Собираем ключи для удаления
+    this.requests.forEach((value, key) => {
       if (now > value.resetTime) {
-        this.requests.delete(key);
+        keysToDelete.push(key);
       }
-    }
+    });
+    
+    // Удаляем устаревшие записи
+    keysToDelete.forEach(key => {
+      this.requests.delete(key);
+    });
   }
 }
 
