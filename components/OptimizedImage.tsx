@@ -15,6 +15,7 @@ interface OptimizedImageProps {
   sizes?: string
   onClick?: () => void
   useProxy?: boolean
+  itemProp?: string
 }
 
 const fallbackBlurDataURL = getBlurPlaceholder()
@@ -29,7 +30,8 @@ export default function OptimizedImage({
   loading, 
   sizes, 
   onClick,
-  useProxy = true
+  useProxy = true,
+  itemProp
 }: OptimizedImageProps) {
   const [imageSrc, setImageSrc] = useState(() => processImageUrl(src, useProxy))
   const [hasError, setHasError] = useState(false)
@@ -68,6 +70,7 @@ export default function OptimizedImage({
       onClick={onClick}
       onError={handleError}
       style={onClick ? { cursor: 'pointer' } : undefined}
+      itemProp={itemProp}
     />
   )
 }
