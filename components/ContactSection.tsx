@@ -183,7 +183,7 @@ export default function ContactSection() {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col gap-8 h-full"
+            className="flex flex-col gap-4 h-full"
           >
             {/* Контакты */}
             <Card className="bg-purple-900/30 border-fuchsia-500/30 flex-grow">
@@ -242,16 +242,14 @@ export default function ContactSection() {
 
             {/* Часы работы */}
             <Card className="bg-purple-900/30 border-fuchsia-500/30">
-              <CardContent className="p-6">
-                <h3 className="text-2xl font-bold text-fuchsia-400 mb-6">Часы работы</h3>
-                <div className="space-y-2 text-gray-300">
-                  <p>По предварительной записи</p>
-                </div>
+              <CardContent className="p-4">
+                <h3 className="text-xl font-bold text-fuchsia-400 mb-2">Часы работы</h3>
+                <p className="text-gray-300 text-sm">По предварительной записи</p>
               </CardContent>
             </Card>
 
             {/* Lead Capture Form - форма захвата лидов */}
-            <div className="mt-8">
+            <div className="mt-4">
               <LeadCaptureForm
                 title="Получите бесплатную консультацию"
                 description="Оставьте контакты и мы свяжемся с вами в течение 15 минут"
