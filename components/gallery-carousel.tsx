@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { processImageUrl } from '@/utils/imageUtils'
 
 interface GalleryCarouselProps {
   images: Array<{
@@ -62,7 +63,8 @@ export function GalleryCarousel({ images }: GalleryCarouselProps) {
         const imagePromises = images.map((image) => {
           return new Promise((resolve, reject) => {
             const img = document.createElement('img')
-            img.src = image.url
+            // Используем проксированный URL для предзагрузки
+            img.src = processImageUrl(image.url)
             img.onload = resolve
             img.onerror = reject
           })
@@ -106,7 +108,7 @@ export function GalleryCarousel({ images }: GalleryCarouselProps) {
                 />
               ) : (
                 <Image
-                  src={images[currentSlide].url}
+                  src={processImageUrl(images[currentSlide].url)}
                   alt={`Gallery content ${currentSlide + 1}`}
                   fill
                   className="object-cover"
