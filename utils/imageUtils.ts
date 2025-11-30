@@ -101,3 +101,20 @@ export function optimizeImageUrlForNext(url: string): string {
   return processImageUrl(url)
 }
 
+/**
+ * Получает безопасный URL для использования в CSS свойстве backgroundImage
+ * Проксирует внешние URL и возвращает строку в формате url("...")
+ * 
+ * @param url - Оригинальный URL изображения
+ * @returns Строка в формате url("...") для использования в backgroundImage
+ */
+export function getSafeBackgroundImage(url: string): string {
+  if (!url) {
+    return `url("${getImageFallbackUrl()}")`
+  }
+
+  // Обрабатываем URL через прокси, если нужно
+  const processedUrl = processImageUrl(url)
+  return `url("${processedUrl}")`
+}
+
