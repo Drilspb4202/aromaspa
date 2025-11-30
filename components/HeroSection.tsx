@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import OptimizedImage from './OptimizedImage'
-import TrustBadges from './TrustBadges'
 
 export default function HeroSection() {
   const [isMounted, setIsMounted] = useState(false)
@@ -118,16 +117,6 @@ export default function HeroSection() {
               <p className="text-gray-300 text-sm text-center">
                 🎁 Бесплатная консультация + скидка 10% на первый визит
               </p>
-            </motion.div>
-            
-            {/* Trust Badges в Hero секции */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1 }}
-              className="w-full mt-8"
-            >
-              <TrustBadges />
             </motion.div>
           </div>
         </motion.div>
