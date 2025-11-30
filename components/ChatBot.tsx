@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback, useMemo, memo } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MessageCircle, X, Send, Trash2, ThumbsUp, ThumbsDown, Mail, Loader2 } from 'lucide-react';
@@ -112,6 +112,118 @@ const quickReplies = [
   },
 ];
 
+// Мемоизированный компонент сообщения для оптимизации производительности
+const MessageItem = memo(({ 
+  message, 
+  onFeedback,
+  messageVariants,
+  shouldReduceMotion 
+}: { 
+  message: Message; 
+  onFeedback: (id: string, type: 'positive' | 'negative') => void;
+  messageVariants: { hidden: { opacity: number; y: number }; visible: { opacity: number; y: number } };
+  shouldReduceMotion: boolean;
+}) => {
+  const processedText = useMemo(() => {
+    return message.text.split('\n').map((line, index) => {
+      // Обработка ссылок в формате [текст](url)
+      if (line.includes('[') && line.includes('](') && line.includes(')')) {
+        const parts = line.split(/(\[.*?\]\(.*?\))/g);
+        return (
+          <div key={index}>
+            {parts.map((part, partIndex) => {
+              const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
+              if (linkMatch) {
+                return (
+                  <a
+                    key={partIndex}
+                    href={linkMatch[2]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-fuchsia-300 hover:text-fuchsia-200 underline transition-colors"
+                  >
+                    {linkMatch[1]}
+                  </a>
+                );
+              }
+              return part;
+            })}
+          </div>
+        );
+      }
+      // Обработка жирного текста **текст**
+      if (line.includes('**')) {
+        const parts = line.split(/(\*\*.*?\*\*)/g);
+        return (
+          <div key={index}>
+            {parts.map((part, partIndex) => {
+              if (part.startsWith('**') && part.endsWith('**')) {
+                return (
+                  <strong key={partIndex} className="text-white font-semibold">
+                    {part.slice(2, -2)}
+                  </strong>
+                );
+              }
+              return part;
+            })}
+          </div>
+        );
+      }
+      return <div key={index}>{line}</div>;
+    });
+  }, [message.text]);
+
+  return (
+    <motion.div
+      variants={messageVariants}
+      initial="hidden"
+      animate="visible"
+      transition={{ duration: shouldReduceMotion ? 0 : 0.3 }}
+      className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
+      style={{ willChange: 'transform, opacity' }}
+    >
+      <div
+        className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-lg transition-all duration-200 ${
+          message.isBot
+            ? 'bg-white/15 backdrop-blur-md text-white border border-white/20'
+            : 'bg-white text-purple-900 border border-white/30 shadow-xl'
+        }`}
+        style={{ willChange: 'transform' }}
+      >
+        <div className="text-sm leading-relaxed whitespace-pre-wrap">
+          {processedText}
+        </div>
+        {message.isBot && !message.feedback && (
+          <div className="mt-3 flex space-x-2">
+            <Button
+              onClick={() => onFeedback(message.id, 'positive')}
+              variant="ghost"
+              size="sm"
+              className="text-white/60 hover:text-green-400 hover:bg-white/20 rounded-xl transition-all duration-200"
+            >
+              <ThumbsUp size={14} />
+            </Button>
+            <Button
+              onClick={() => onFeedback(message.id, 'negative')}
+              variant="ghost"
+              size="sm"
+              className="text-white/60 hover:text-red-400 hover:bg-white/20 rounded-xl transition-all duration-200"
+            >
+              <ThumbsDown size={14} />
+            </Button>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}, (prevProps, nextProps) => {
+  // Кастомная функция сравнения для мемоизации
+  return prevProps.message.id === nextProps.message.id &&
+         prevProps.message.feedback === nextProps.message.feedback;
+});
+
+MessageItem.displayName = 'MessageItem';
+
 function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -125,12 +237,22 @@ function ChatBot() {
   const chatWindowRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  
+  // Оптимизированный скролл с debounce для мобильных
+  const scrollToBottom = useCallback(() => {
+    if (messagesEndRef.current) {
+      // Используем requestAnimationFrame для плавного скролла
+      requestAnimationFrame(() => {
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      });
+    }
+  }, []);
 
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
+    scrollToBottom();
+  }, [messages, scrollToBottom]);
 
   useEffect(() => {
     const savedMessages = localStorage.getItem('chatMessages');
@@ -469,18 +591,22 @@ function ChatBot() {
   }, [toast]);
 
 
-  const messageVariants = {
-    hidden: { opacity: 0, y: 20 },
+  // Определяем, нужно ли уменьшить анимации (для мобильных и доступности)
+  const shouldReduceMotion = useReducedMotion();
+
+  const messageVariants = useMemo(() => ({
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
     visible: { opacity: 1, y: 0 },
-  };
+  }), [shouldReduceMotion]);
 
 
   return (
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed z-[60] rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-700 hover:via-fuchsia-700 hover:to-pink-700 text-white p-4 shadow-2xl transition-all duration-300 hover:scale-110 bottom-20 right-4 md:bottom-4 ring-2 ring-fuchsia-400/30 hover:ring-fuchsia-400/60 backdrop-blur-sm"
+        className="fixed z-[60] rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-700 hover:via-fuchsia-700 hover:to-pink-700 text-white p-4 shadow-2xl transition-transform duration-200 active:scale-95 bottom-20 right-4 md:bottom-4 ring-2 ring-fuchsia-400/30 hover:ring-fuchsia-400/60 backdrop-blur-sm touch-manipulation"
         aria-label="Открыть чат"
+        style={{ willChange: 'transform' }}
       >
         <MessageCircle size={24} />
       </Button>
@@ -489,10 +615,11 @@ function ChatBot() {
           <motion.div
             ref={chatRef}
             className="fixed bottom-4 right-4 z-[60] bg-black/30 backdrop-blur-md md:bottom-20 md:right-4 rounded-3xl overflow-hidden"
-            initial={{ opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
-            animate={{ opacity: 1, y: 0, x: 0, scale: 1, rotateX: 0 }}
-            exit={{ opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
-            transition={{ type: "spring", duration: 0.6, bounce: 0.3 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
+            animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, x: 0, scale: 1, rotateX: 0 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 50, x: 20, scale: 0.9, rotateX: 15 }}
+            transition={shouldReduceMotion ? { duration: 0.2 } : { type: "spring", duration: 0.4, bounce: 0.2 }}
+            style={{ willChange: 'transform, opacity' }}
           >
             <div className="relative w-[calc(100vw-2rem)] h-[calc(100vh-8rem)] md:w-96 md:h-[32rem] max-h-[32rem] bg-gradient-to-br from-purple-900/95 via-fuchsia-900/95 to-pink-900/95 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-fuchsia-400/30">
               <div className="p-5 flex justify-between items-center bg-gradient-to-r from-purple-800/60 to-fuchsia-800/60 backdrop-blur-sm border-b border-fuchsia-400/30 shadow-lg">
@@ -535,92 +662,22 @@ function ChatBot() {
                 </div>
               </div>
 
-                <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent backdrop-blur-sm">
+                <div 
+                  className="flex-1 overflow-y-auto p-5 space-y-4 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent backdrop-blur-sm"
+                  style={{ 
+                    WebkitOverflowScrolling: 'touch',
+                    willChange: 'scroll-position',
+                    overscrollBehavior: 'contain'
+                  }}
+                >
                   {messages.map((message) => (
-                    <motion.div
-                      key={message.id}
-                      variants={messageVariants}
-                      initial="hidden"
-                      animate="visible"
-                      className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
-                    >
-                      <div
-                        className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-lg transition-all duration-200 hover:scale-[1.02] ${
-                          message.isBot
-                            ? 'bg-white/15 backdrop-blur-md text-white border border-white/20'
-                            : 'bg-white text-purple-900 border border-white/30 shadow-xl'
-                        }`}
-                      >
-                        <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                          {message.text.split('\n').map((line, index) => {
-                            // Обработка ссылок в формате [текст](url)
-                            if (line.includes('[') && line.includes('](') && line.includes(')')) {
-                              const parts = line.split(/(\[.*?\]\(.*?\))/g);
-                              return (
-                                <div key={index}>
-                                  {parts.map((part, partIndex) => {
-                                    const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
-                                    if (linkMatch) {
-                                      return (
-                                        <a
-                                          key={partIndex}
-                                          href={linkMatch[2]}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="text-fuchsia-300 hover:text-fuchsia-200 underline transition-colors"
-                                        >
-                                          {linkMatch[1]}
-                                        </a>
-                                      );
-                                    }
-                                    return part;
-                                  })}
-                                </div>
-                              );
-                            }
-                            // Обработка жирного текста **текст**
-                            if (line.includes('**')) {
-                              const parts = line.split(/(\*\*.*?\*\*)/g);
-                              return (
-                                <div key={index}>
-                                  {parts.map((part, partIndex) => {
-                                    if (part.startsWith('**') && part.endsWith('**')) {
-                                      return (
-                                        <strong key={partIndex} className="text-white font-semibold">
-                                          {part.slice(2, -2)}
-                                        </strong>
-                                      );
-                                    }
-                                    return part;
-                                  })}
-                                </div>
-                              );
-                            }
-                            return <div key={index}>{line}</div>;
-                          })}
-                        </div>
-                        {message.isBot && !message.feedback && (
-                          <div className="mt-3 flex space-x-2">
-                            <Button
-                              onClick={() => handleFeedback(message.id, 'positive')}
-                              variant="ghost"
-                              size="sm"
-                              className="text-white/60 hover:text-green-400 hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110"
-                            >
-                              <ThumbsUp size={14} />
-                            </Button>
-                            <Button
-                              onClick={() => handleFeedback(message.id, 'negative')}
-                              variant="ghost"
-                              size="sm"
-                              className="text-white/60 hover:text-red-400 hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110"
-                            >
-                              <ThumbsDown size={14} />
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </motion.div>
+                    <MessageItem 
+                      key={message.id} 
+                      message={message} 
+                      onFeedback={handleFeedback}
+                      messageVariants={messageVariants}
+                      shouldReduceMotion={shouldReduceMotion ?? false}
+                    />
                   ))}
                   {isTyping && (
                     <motion.div
@@ -656,7 +713,8 @@ function ChatBot() {
                     />
                     <Button
                       onClick={handleSend}
-                      className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white hover:from-fuchsia-600 hover:to-pink-600 shadow-lg rounded-xl px-6 hover:scale-105 transition-all duration-200 font-semibold"
+                      className="bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white hover:from-fuchsia-600 hover:to-pink-600 shadow-lg rounded-xl px-6 active:scale-95 transition-transform duration-150 font-semibold touch-manipulation"
+                      style={{ willChange: 'transform' }}
                     >
                       <Send size={18} />
                     </Button>
@@ -668,8 +726,9 @@ function ChatBot() {
                         key={index}
                         onClick={() => handleQuickReply(reply.text)}
                         variant="outline"
-                        className="bg-white/10 backdrop-blur-md border-fuchsia-400/30 text-white hover:bg-fuchsia-400/20 hover:scale-105 transition-all duration-200 rounded-xl shadow-md hover:shadow-lg"
+                        className="bg-white/10 backdrop-blur-md border-fuchsia-400/30 text-white hover:bg-fuchsia-400/20 active:scale-95 transition-transform duration-150 rounded-xl shadow-md touch-manipulation"
                         size="sm"
+                        style={{ willChange: 'transform' }}
                       >
                         <span className="mr-1.5 text-base">{reply.icon}</span>
                         {reply.text}

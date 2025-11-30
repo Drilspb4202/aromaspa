@@ -4,6 +4,44 @@
 
 @import "tw-animate-css";
 
+/* Оптимизации для мобильных устройств */
+@layer base {
+  * {
+    /* Улучшение производительности на мобильных */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  
+  html {
+    /* Плавный скролл на мобильных */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    /* Оптимизация рендеринга */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Предотвращение горизонтального скролла */
+    overflow-x: hidden;
+  }
+  
+  /* Оптимизация для интерактивных элементов */
+  button,
+  a,
+  [role="button"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Оптимизация изображений */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
 /* Font Variables */
 :root {
   --font-playfair: "Playfair Display", serif;
