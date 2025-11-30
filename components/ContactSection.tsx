@@ -89,13 +89,13 @@ export default function ContactSection() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col h-full"
+            className="flex flex-col"
           >
-            <Card className="bg-purple-900/30 border-fuchsia-500/30 flex-grow">
-              <CardContent className="p-6 flex flex-col h-full">
-                <h3 className="text-2xl font-bold text-fuchsia-400 mb-6">Записаться на услугу</h3>
-                <form onSubmit={handleSubmit} className="space-y-6 flex-grow flex flex-col">
-                  <div className="space-y-4">
+            <Card className="bg-purple-900/30 border-fuchsia-500/30">
+              <CardContent className="p-4 flex flex-col">
+                <h3 className="text-xl font-bold text-fuchsia-400 mb-4">Записаться на услугу</h3>
+                <form onSubmit={handleSubmit} className="space-y-3 flex flex-col">
+                  <div className="space-y-3">
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-fuchsia-500" />
                       <Input
@@ -147,13 +147,13 @@ export default function ContactSection() {
                         className="bg-purple-800/50 border-fuchsia-500/30 text-white placeholder-gray-400 w-full pl-10"
                       />
                     </div>
-                    <div className="relative flex-grow">
+                    <div className="relative">
                       <MessageSquare className="absolute left-3 top-3 text-fuchsia-500" />
                       <Textarea
                         name="additional_info"
                         placeholder="Дополнительная информация"
-                        className="bg-purple-800/50 border-fuchsia-500/30 text-white placeholder-gray-400 pl-10 resize-none min-h-[120px]"
-                        rows={4}
+                        className="bg-purple-800/50 border-fuchsia-500/30 text-white placeholder-gray-400 pl-10 resize-none min-h-[100px]"
+                        rows={3}
                         value={formData.additional_info}
                         onChange={handleChange}
                       />
@@ -161,7 +161,7 @@ export default function ContactSection() {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 mt-auto rounded-xl py-6 text-lg font-semibold"
+                    className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 rounded-xl py-4 text-base font-semibold mt-2"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
