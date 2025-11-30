@@ -63,13 +63,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
     // Настройки для Bingbot (используется ChatGPT для поиска)
-    bingbot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+    // Bingbot следует общим настройкам robots (index: true, follow: true)
   },
   verification: {
     google: 'bc0164dd53862fad',
