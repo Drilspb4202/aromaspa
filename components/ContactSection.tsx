@@ -91,68 +91,73 @@ export default function ContactSection() {
             transition={{ duration: 0.5 }}
             className="flex flex-col h-full"
           >
-            <Card className="bg-purple-900/30 border-fuchsia-500/30 flex-grow">
-              <CardContent className="p-6 flex flex-col h-full">
-                <h3 className="text-2xl font-bold text-fuchsia-400 mb-6">Записаться на услугу</h3>
-                <form onSubmit={handleSubmit} className="space-y-6 flex-grow flex flex-col">
+            <Card className="bg-gradient-to-br from-purple-900/40 via-fuchsia-900/40 to-pink-900/40 border-fuchsia-500/30 backdrop-blur-sm flex-grow shadow-xl">
+              <CardContent className="p-6 md:p-8 flex flex-col h-full">
+                <div className="mb-6">
+                  <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-fuchsia-400 to-purple-400 bg-clip-text text-transparent mb-2">
+                    Записаться на услугу
+                  </h3>
+                  <p className="text-gray-300 text-sm">Заполните форму и мы свяжемся с вами</p>
+                </div>
+                <form onSubmit={handleSubmit} className="space-y-5 flex-grow flex flex-col">
                   <div className="space-y-4">
                     <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-fuchsia-500" />
+                      <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-fuchsia-400 w-5 h-5" />
                       <Input
                         name="name"
                         type="text"
                         placeholder="Ваше имя"
-                        className="bg-purple-800/50 border-fuchsia-500/30 text-white placeholder-gray-400 pl-10"
+                        className="bg-white/10 backdrop-blur-sm border-fuchsia-500/30 text-white placeholder:text-gray-400 pl-12 h-12 rounded-xl focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-400/50 transition-all"
                         required
                         value={formData.name}
                         onChange={handleChange}
                       />
                     </div>
                     <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-fuchsia-500" />
+                      <Phone className="absolute left-4 top-1/2 transform -translate-y-1/2 text-fuchsia-400 w-5 h-5" />
                       <Input
                         name="phone"
                         type="tel"
                         placeholder="Ваш телефон"
-                        className="bg-purple-800/50 border-fuchsia-500/30 text-white placeholder-gray-400 pl-10"
+                        className="bg-white/10 backdrop-blur-sm border-fuchsia-500/30 text-white placeholder:text-gray-400 pl-12 h-12 rounded-xl focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-400/50 transition-all"
                         required
                         value={formData.phone}
                         onChange={handleChange}
                       />
                     </div>
                     <div className="relative">
-                      <Briefcase className="absolute left-3 top-1/2 transform -translate-y-1/2 text-fuchsia-500 z-10" />
+                      <Briefcase className="absolute left-4 top-1/2 transform -translate-y-1/2 text-fuchsia-400 w-5 h-5 z-10" />
                       <Select onValueChange={handleServiceChange} value={formData.service}>
-                        <SelectTrigger className="bg-purple-800/50 border-fuchsia-500/30 text-white pl-10">
+                        <SelectTrigger className="bg-white/10 backdrop-blur-sm border-fuchsia-500/30 text-white pl-12 h-12 rounded-xl focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-400/50">
                           <SelectValue placeholder="Выберите услугу" />
                         </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Консультация">Консультация</SelectItem>
-                          <SelectItem value="АромаДиагностика">АромаДиагностика</SelectItem>
-                          <SelectItem value="АромаЙога">АромаЙога</SelectItem>
-                          <SelectItem value="АромаДегустация">АромаДегустация</SelectItem>
-                          <SelectItem value="АромаНейрографика">АромаНейрографика</SelectItem>
-                          <SelectItem value="АромаТимбилдинг">АромаТимбилдинг</SelectItem>
-                          <SelectItem value="Продажа Эфирных Масел">Продажа Эфирных Масел</SelectItem>
-                          <SelectItem value="Хочу в АромаБизнес">Хочу в АромаБизнес</SelectItem>
+                        <SelectContent className="bg-purple-900 border-fuchsia-500/30">
+                          <SelectItem value="Консультация" className="text-white hover:bg-fuchsia-500/20">Консультация</SelectItem>
+                          <SelectItem value="АромаДиагностика" className="text-white hover:bg-fuchsia-500/20">АромаДиагностика</SelectItem>
+                          <SelectItem value="АромаЙога" className="text-white hover:bg-fuchsia-500/20">АромаЙога</SelectItem>
+                          <SelectItem value="АромаДегустация" className="text-white hover:bg-fuchsia-500/20">АромаДегустация</SelectItem>
+                          <SelectItem value="АромаНейрографика" className="text-white hover:bg-fuchsia-500/20">АромаНейрографика</SelectItem>
+                          <SelectItem value="АромаТимбилдинг" className="text-white hover:bg-fuchsia-500/20">АромаТимбилдинг</SelectItem>
+                          <SelectItem value="Продажа Эфирных Масел" className="text-white hover:bg-fuchsia-500/20">Продажа Эфирных Масел</SelectItem>
+                          <SelectItem value="Хочу в АромаБизнес" className="text-white hover:bg-fuchsia-500/20">Хочу в АромаБизнес</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="relative">
-                      <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-fuchsia-500" />
+                      <Calendar className="absolute left-4 top-1/2 transform -translate-y-1/2 text-fuchsia-400 w-5 h-5" />
                       <DatePicker
                         selected={formData.date}
                         onSelect={handleDateChange}
                         placeholderText="Выберите дату"
-                        className="bg-purple-800/50 border-fuchsia-500/30 text-white placeholder-gray-400 w-full pl-10"
+                        className="bg-white/10 backdrop-blur-sm border-fuchsia-500/30 text-white placeholder:text-gray-400 w-full pl-12 h-12 rounded-xl"
                       />
                     </div>
-                    <div className="relative flex-grow">
-                      <MessageSquare className="absolute left-3 top-3 text-fuchsia-500" />
+                    <div className="relative">
+                      <MessageSquare className="absolute left-4 top-4 text-fuchsia-400 w-5 h-5" />
                       <Textarea
                         name="additional_info"
-                        placeholder="Дополнительная информация"
-                        className="bg-purple-800/50 border-fuchsia-500/30 text-white placeholder-gray-400 pl-10 resize-none min-h-[120px]"
+                        placeholder="Дополнительная информация (необязательно)"
+                        className="bg-white/10 backdrop-blur-sm border-fuchsia-500/30 text-white placeholder:text-gray-400 pl-12 resize-none min-h-[100px] rounded-xl focus:border-fuchsia-400 focus:ring-2 focus:ring-fuchsia-400/50 transition-all"
                         rows={4}
                         value={formData.additional_info}
                         onChange={handleChange}
@@ -161,7 +166,7 @@ export default function ContactSection() {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 mt-auto rounded-xl py-6 text-lg font-semibold"
+                    className="w-full bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 mt-auto rounded-xl py-6 text-base md:text-lg font-semibold"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (

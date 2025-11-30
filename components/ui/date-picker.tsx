@@ -31,12 +31,13 @@ export function DatePicker({ selected, onSelect, className, placeholderText }: D
         <Button
           variant={"outline"}
           className={cn(
-            "w-full justify-start text-left font-normal",
-            !selected && "text-muted-foreground",
+            "w-full justify-start text-left font-normal h-12",
+            !selected && "text-gray-400",
+            selected && "text-white",
             className
           )}
         >
-          {selected ? format(selected, "PPP", { locale: ru }) : placeholderText}
+          {selected ? format(selected, "PPP", { locale: ru }) : (placeholderText || "Выберите дату")}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0 bg-purple-900 border-fuchsia-500" align="start">
