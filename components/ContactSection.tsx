@@ -247,17 +247,24 @@ export default function ContactSection() {
                 <p className="text-gray-300 text-sm">По предварительной записи</p>
               </CardContent>
             </Card>
-
-            {/* Lead Capture Form - форма захвата лидов */}
-            <div className="mt-4">
-              <LeadCaptureForm
-                title="Получите бесплатную консультацию"
-                description="Оставьте контакты и мы свяжемся с вами в течение 15 минут"
-                offer="Бесплатная консультация + скидка 10% на первый визит"
-              />
-            </div>
           </motion.div>
         </div>
+
+        {/* Lead Capture Form - форма захвата лидов по центру */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mt-8 flex justify-center"
+        >
+          <div className="w-full max-w-2xl">
+            <LeadCaptureForm
+              title="Получите бесплатную консультацию"
+              description="Оставьте контакты и мы свяжемся с вами в течение 15 минут"
+              offer="Бесплатная консультация + скидка 10% на первый визит"
+            />
+          </div>
+        </motion.div>
       </div>
     </section>
   )
