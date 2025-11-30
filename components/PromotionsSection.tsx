@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Clock, Tag } from 'lucide-react'
 import OptimizedImage from './OptimizedImage'
 import { getProxiedImageUrl } from '@/utils/imageProxy'
+import UrgencyTimer from './UrgencyTimer'
+import SocialProof from './SocialProof'
 
 const promotions = [
   {
@@ -41,10 +43,25 @@ export default function PromotionsSection() {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-3xl md:text-4xl font-bold text-white mb-12 text-center"
+          className="text-3xl md:text-4xl font-bold text-white mb-8 text-center"
         >
           АКЦИИ И СКИДКИ
         </motion.h2>
+        
+        {/* Таймер срочности */}
+        <div className="mb-8 max-w-2xl mx-auto">
+          <UrgencyTimer
+            endDate={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)} // 7 дней
+            title="Ограниченное предложение!"
+            description="Акция действует только до конца месяца"
+          />
+        </div>
+
+        {/* Социальное доказательство */}
+        <div className="mb-8 max-w-2xl mx-auto">
+          <SocialProof />
+        </div>
+
         <div className="flex flex-col md:flex-row gap-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}

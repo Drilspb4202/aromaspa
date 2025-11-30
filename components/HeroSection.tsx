@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import OptimizedImage from './OptimizedImage'
+import TrustBadges from './TrustBadges'
 
 export default function HeroSection() {
   const [isMounted, setIsMounted] = useState(false)
@@ -101,7 +102,7 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
-              className="w-full flex justify-center"
+              className="w-full flex flex-col items-center gap-4"
             >
               <Button
                 onClick={() => {
@@ -110,10 +111,23 @@ export default function HeroSection() {
                     servicesSection.scrollIntoView({ behavior: 'smooth' })
                   }
                 }}
-                className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 text-lg rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-purple-500/50"
+                className="w-full sm:w-auto bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white px-8 py-4 text-lg rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 font-semibold"
               >
-                Начать путешествие
+                Записаться на консультацию
               </Button>
+              <p className="text-gray-300 text-sm text-center">
+                🎁 Бесплатная консультация + скидка 10% на первый визит
+              </p>
+            </motion.div>
+            
+            {/* Trust Badges в Hero секции */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1 }}
+              className="w-full mt-8"
+            >
+              <TrustBadges />
             </motion.div>
           </div>
         </motion.div>

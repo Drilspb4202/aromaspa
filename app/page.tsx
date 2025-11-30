@@ -24,6 +24,10 @@ import { measurePerformance } from '../utils/performance'
 import { CarouselSection } from '@/components/CarouselSection';
 import { useCart } from '@/contexts/CartContext';
 import { getSafeBackgroundImage } from '../utils/imageUtils';
+import TrustBadges from '../components/TrustBadges';
+import LeadCaptureForm from '../components/LeadCaptureForm';
+import FloatingCTA from '../components/FloatingCTA';
+import ExitIntentPopup from '../components/ExitIntentPopup';
 
 const AnimatedCounter = React.memo(({ number, text }: { number: number, text: string }) => {
   const [count, setCount] = useState(0)
@@ -732,6 +736,32 @@ export default function AromaSpaStudio() {
             </motion.div>
           )}
         </AnimatePresence>
+        
+        {/* Trust Badges - значки доверия */}
+        <section className="py-12 relative z-10">
+          <div className="container mx-auto px-4">
+            <TrustBadges className="mb-8" />
+          </div>
+        </section>
+
+        {/* Lead Capture Form - форма захвата лидов */}
+        <section className="py-12 relative z-10">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto">
+              <LeadCaptureForm
+                title="Получите бесплатную консультацию"
+                description="Оставьте контакты и мы свяжемся с вами в течение 15 минут"
+                offer="Бесплатная консультация + скидка 10% на первый визит"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Floating CTA - плавающая кнопка */}
+        <FloatingCTA phone="+7 995 600 01 22" showAfterScroll={300} />
+
+        {/* Exit Intent Popup - попап при уходе */}
+        <ExitIntentPopup />
       </main>
     </ErrorBoundary>
   )
