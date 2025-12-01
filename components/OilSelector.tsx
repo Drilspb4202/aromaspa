@@ -186,7 +186,7 @@ ${initialRecommendations[0].name}:
       const response = await fetch('/api/deepseek', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
+        body: JSON.stringify({ prompt, sessionId: userId })
       });
 
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
