@@ -6,6 +6,7 @@ import OptimizedImage from './OptimizedImage'
 import { Droplet, SpaceIcon as Yoga, Coffee, Palette, Users2, BoxIcon as Bottle, Briefcase } from 'lucide-react'
 import ShareButton from './ShareButton'
 import StructuredData from './StructuredData'
+import LeadCaptureForm from './LeadCaptureForm'
 
 const services = [
   {
@@ -281,6 +282,15 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
                   <ServiceCard service={service} handleAction={handleAction} />
                 </motion.div>
               ))}
+            </div>
+
+            <div className="mt-10 max-w-xl mx-auto">
+              <LeadCaptureForm
+                title="Подобрать масла под ваш запрос"
+                description="Расскажите, что для вас сейчас важно — сон, стресс, энергия, иммунитет — и мы подберём масла и формат работы."
+                offer="Индивидуальные рекомендации по маслам + схема применения"
+                source="Услуги: подбор масел"
+              />
             </div>
           </div>
         </div>

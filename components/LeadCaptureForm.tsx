@@ -5,10 +5,11 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Gift, Phone, Mail } from 'lucide-react'
+import { Gift } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import { submitTelegramMessage } from '@/app/actions/telegram'
 import { cn } from '@/lib/utils'
+import { Textarea } from '@/components/ui/textarea'
 
 interface LeadCaptureFormProps {
   title?: string
@@ -16,6 +17,7 @@ interface LeadCaptureFormProps {
   offer?: string
   className?: string
   variant?: 'default' | 'popup'
+  source?: string
 }
 
 export default function LeadCaptureForm({
@@ -23,11 +25,14 @@ export default function LeadCaptureForm({
   description = "Оставьте контакты и мы свяжемся с вами в течение 15 минут",
   offer = "Бесплатная консультация + скидка 10% на первый визит",
   className = "",
-  variant = 'default'
+  variant = 'default',
+  source,
 }: LeadCaptureFormProps) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
+  const [messenger, setMessenger] = useState('')
+  const [request, setRequest] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
 
@@ -36,10 +41,12 @@ export default function LeadCaptureForm({
     setIsSubmitting(true)
 
     try {
-      const message = `Новая заявка на консультацию:
+      const message = `Новая заявка на консультацию${source ? ` (${source})` : ''}:
 Имя: ${name}
 Телефон: ${phone}
 Email: ${email || 'Не указан'}
+Мессенджер: ${messenger || 'Не указан'}
+Запрос: ${request || 'Не указан'}
 Предложение: ${offer}`
 
       await submitTelegramMessage(message)
@@ -52,6 +59,8 @@ Email: ${email || 'Не указан'}
       setName('')
       setPhone('')
       setEmail('')
+      setMessenger('')
+      setRequest('')
     } catch (error) {
       console.error('Error submitting form:', error)
       toast({
@@ -143,6 +152,29 @@ Email: ${email || 'Не указан'}
                 onChange={(e) => setEmail(e.target.value)}
                 className={cn(
                   "bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400",
+                  isPopup && "bg-white/15 border-white/20 text-white/90 placeholder:text-white/60"
+                )}
+              />
+            </div>
+            <div>
+              <Input
+                type="text"
+                placeholder="Удобный мессенджер (WhatsApp, Telegram и т.д.)"
+                value={messenger}
+                onChange={(e) => setMessenger(e.target.value)}
+                className={cn(
+                  "bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400",
+                  isPopup && "bg-white/15 border-white/20 text-white/90 placeholder:text-white/60"
+                )}
+              />
+            </div>
+            <div>
+              <Textarea
+                placeholder="Кратко опишите ваш запрос (например: «Хочу снятие стресса и лучше спать»)"
+                value={request}
+                onChange={(e) => setRequest(e.target.value)}
+                className={cn(
+                  "bg-white/10 border-fuchsia-400/30 text-white placeholder:text-gray-400 focus:border-fuchsia-400 min-h-[80px]",
                   isPopup && "bg-white/15 border-white/20 text-white/90 placeholder:text-white/60"
                 )}
               />

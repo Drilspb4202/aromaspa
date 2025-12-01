@@ -67,14 +67,28 @@ export default function PromotionsSection() {
                       <p className="text-sm uppercase tracking-[0.3em] text-white/60 mb-3">Главное предложение</p>
                       <h3 className="text-2xl font-bold text-white mb-3">{promotions[0].title}</h3>
                       <p className="text-white/80 mb-6">{promotions[0].description}</p>
-                      <Button
-                        className="w-full sm:w-auto bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-400 hover:to-purple-500 text-white px-6 py-3 rounded-full"
-                        onClick={() => {
-                          window.open('https://beta-doterra.myvoffice.com/Application/index.cfm?EnrollerID=14409682&Country=RUS', '_blank', 'noopener,noreferrer')
-                        }}
-                      >
-                        Перейти к покупке
-                      </Button>
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <Button
+                          className="w-full sm:w-auto bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-400 hover:to-purple-500 text-white px-6 py-3 rounded-full"
+                          onClick={() => {
+                            window.open('https://beta-doterra.myvoffice.com/Application/index.cfm?EnrollerID=14409682&Country=RUS', '_blank', 'noopener,noreferrer')
+                          }}
+                        >
+                          Перейти к покупке
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 rounded-full"
+                          onClick={() => {
+                            const contactForm = document.getElementById('контакты')
+                            if (contactForm) {
+                              contactForm.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                            }
+                          }}
+                        >
+                          Записаться со скидкой
+                        </Button>
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

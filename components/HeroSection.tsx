@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import OptimizedImage from './OptimizedImage'
+import LeadCaptureForm from './LeadCaptureForm'
 
 export default function HeroSection() {
   const [isMounted, setIsMounted] = useState(false)
@@ -105,18 +106,33 @@ export default function HeroSection() {
             >
               <Button
                 onClick={() => {
-                  const servicesSection = document.getElementById('услуги')
-                  if (servicesSection) {
-                    servicesSection.scrollIntoView({ behavior: 'smooth' })
+                  const form = document.getElementById('hero-cta-form')
+                  if (form) {
+                    form.scrollIntoView({ behavior: 'smooth', block: 'center' })
                   }
                 }}
                 className="w-full sm:w-auto bg-gradient-to-r from-fuchsia-600 to-purple-700 hover:from-fuchsia-500 hover:to-purple-600 text-white px-8 py-4 text-lg rounded-full transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-fuchsia-500/50 border-2 border-fuchsia-400 font-semibold"
               >
-                Записаться на консультацию
+                Записаться на АромаДиагностику
               </Button>
               <p className="text-gray-300 text-sm text-center">
                 🎁 Бесплатная консультация + скидка 10% на первый визит
               </p>
+            </motion.div>
+
+            <motion.div
+              id="hero-cta-form"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+              className="w-full max-w-md mx-auto mt-2"
+            >
+              <LeadCaptureForm
+                title="Записаться на АромаДиагностику"
+                description="Оставьте контакты и краткий запрос, мы подберём время и формат сеанса под вас."
+                offer="АромаДиагностика + рекомендации по маслам под ваш запрос"
+                source="Hero: АромаДиагностика"
+              />
             </motion.div>
           </div>
         </motion.div>
