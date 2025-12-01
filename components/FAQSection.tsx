@@ -130,7 +130,6 @@ export default function FAQSection() {
     const searchLower = searchTerm.toLowerCase();
     return faqItems.filter(item => {
       const questionMatch = item.question.toLowerCase().includes(searchLower);
-      // Проверяем, является ли answer строкой, иначе пропускаем фильтрацию по нему
       let answerMatch = false;
       if (typeof item.answer === 'string') {
         const answerStr = item.answer as string;
@@ -145,21 +144,22 @@ export default function FAQSection() {
   }
 
   return (
-    <section id="faq" className="py-20 relative z-10">
+    <section id="faq" className="py-10 sm:py-14 relative z-10">
       <div className="container mx-auto px-4 relative">
-        <motion.h2
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-3xl md:text-4xl font-bold text-white mb-12 text-center font-playfair tracking-wide"
-        >
-          ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ
-        </motion.h2>
-        <div className="max-w-3xl mx-auto">
-          <div className="space-y-4">
+        <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#24002C]/90 via-[#19001F]/85 to-[#08000F]/90 backdrop-blur-2xl p-6 sm:p-10 shadow-[0_25px_90px_rgba(22,3,32,0.55)]">
+          <div className="pointer-events-none absolute inset-0 opacity-35 bg-[radial-gradient(circle_at_15%_10%,rgba(255,255,255,0.12),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(147,51,234,0.25),transparent_40%)]" />
+          <div className="relative max-w-4xl mx-auto">
+            <motion.h2
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-3xl md:text-4xl font-bold text-white mb-10 text-center font-playfair tracking-[0.25em] uppercase"
+            >
+              FAQ
+            </motion.h2>
             <motion.div 
               className="relative mb-8"
-              animate={{ scale: isSearchFocused ? 1.05 : 1 }}
+              animate={{ scale: isSearchFocused ? 1.02 : 1 }}
               transition={{ duration: 0.3 }}
             >
               <Input
@@ -169,23 +169,23 @@ export default function FAQSection() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
                 onBlur={() => setIsSearchFocused(false)}
-                className="pl-10 bg-purple-900/50 border-fuchsia-500/30 text-white placeholder-gray-400 transition-all duration-300"
+                className="pl-10 bg-white/10 border-white/20 text-white placeholder-white/50 transition-all duration-300"
                 aria-label="Поиск по вопросам"
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" aria-hidden="true" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/60" aria-hidden="true" />
             </motion.div>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {filteredFAQ.map((item, index) => (
                 <motion.li
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-purple-950/40 border border-fuchsia-500/30 rounded-lg overflow-hidden"
+                  className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-md"
                 >
                   <button
                     onClick={() => toggleQuestion(index)}
-                    className="w-full text-left p-4 flex justify-between items-center text-white hover:text-fuchsia-400 transition-colors"
+                    className="w-full text-left p-4 flex justify-between items-center text-white hover:text-fuchsia-300 transition-colors"
                     aria-expanded={openIndex === index}
                     aria-controls={`faq-answer-${index}`}
                   >
@@ -206,7 +206,7 @@ export default function FAQSection() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="p-4 text-gray-300">{item.answer}</div>
+                    <div className="p-4 text-white/80">{item.answer}</div>
                   </motion.div>
                 </motion.li>
               ))}

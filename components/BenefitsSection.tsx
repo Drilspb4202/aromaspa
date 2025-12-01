@@ -61,27 +61,35 @@ const BenefitCard = ({ icon: Icon, title, description }: BenefitCardProps) => {
 
 export default function BenefitsSection() {
   return (
-    <section className="py-20 relative z-10">
+    <section id="преимущества" className="py-10 sm:py-14 relative z-10">
       <div className="container mx-auto px-4 relative">
-        <motion.h2
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-3xl md:text-4xl font-bold text-white mb-12 text-center"
-        >
-          ПРЕИМУЩЕСТВА АРОМАТЕРАПИИ 
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-7xl mx-auto">
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
+        <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#0E0317]/95 via-[#190226]/85 to-[#08010F]/95 backdrop-blur-2xl p-6 sm:p-10 shadow-[0_25px_90px_rgba(43,8,75,0.55)]">
+          <div className="pointer-events-none absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_10%_20%,rgba(255,255,255,0.12),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(100,65,165,0.3),transparent_40%)]" />
+          <div className="relative space-y-8">
+            <motion.h2
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.5 }}
+              className="text-3xl md:text-4xl font-bold text-white text-center font-playfair tracking-[0.25em] uppercase"
             >
-              <BenefitCard {...benefit} />
-            </motion.div>
-          ))}
+              Преимущества
+            </motion.h2>
+            <p className="text-center text-white/80 max-w-2xl mx-auto text-base sm:text-lg">
+              Натуральные масла CPTG стандарта работают на всех уровнях — от эмоционального до физиологического, помогая возвращать баланс и энергию.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto">
+              {benefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <BenefitCard {...benefit} />
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

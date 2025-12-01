@@ -231,7 +231,6 @@ export default function GallerySection() {
               onTouchEnd={handleTouchEnd}
             >
               <motion.div
-                key={currentIndex}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
@@ -246,7 +245,6 @@ export default function GallerySection() {
                   className="w-full h-full max-h-[70vh] object-contain rounded-lg"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
                   priority
-                  useProxy={true}
                 />
                 <Button
                   className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 cursor-pointer"

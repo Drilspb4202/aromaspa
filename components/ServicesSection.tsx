@@ -186,48 +186,53 @@ export default function ServicesSection({ setIsShopOpen }: ServicesSectionProps)
   }
 
   return (
-    <section id="услуги" className="py-8 sm:py-12 relative z-10">
-        <div className="container mx-auto px-4 relative">
-          <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-12 text-center font-playfair tracking-wide"
-          >
-            НАШИ УСЛУГИ
-          </motion.h2>
-          {/* JSON-LD микроразметка для услуг */}
-          <StructuredData
-            type="services"
-            data={memoizedServices}
-            businessName="AROMA SPA СТУДИЯ"
-            businessUrl="https://www.radmilaessentialoil.ru"
-            businessImage="https://www.radmilaessentialoil.ru/logo.jpg"
-          />
-          
-          <div className="flex justify-center mb-8">
-            <ShareButton className="bg-purple-900/50 hover:bg-purple-800/70 text-white border-fuchsia-500/30" />
-          </div>
-          <p className="text-center text-white/90 mb-8 max-w-xl mx-auto font-montserrat">
-            Откройте для себя мир профессиональной АромаТерапии с нашими уникальными услугами. Каждая услуга разработана для улучшения Вашего физического и эмоционального благополучия.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {memoizedServices.map((service, index) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`group h-full ${index === memoizedServices.length - 1 ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2' : ''}`}
-                itemScope
-                itemType="https://schema.org/Service"
-              >
-                <ServiceCard service={service} handleAction={handleAction} />
-              </motion.div>
-            ))}
+    <section id="услуги" className="py-10 sm:py-14 relative z-10">
+      <div className="container mx-auto px-4 relative">
+        <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-gradient-to-br from-[#1F0228]/90 via-[#250230]/80 to-[#0B0115]/90 backdrop-blur-2xl p-6 sm:p-10 shadow-[0_25px_90px_rgba(68,10,98,0.5)]">
+          <div className="pointer-events-none absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_20%_20%,rgba(249,115,255,0.25),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(124,58,237,0.2),transparent_35%)]" />
+          <div className="relative space-y-6">
+            <motion.h2
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-3xl md:text-4xl font-bold text-white text-center font-playfair tracking-[0.2em] uppercase"
+            >
+              Услуги
+            </motion.h2>
+            {/* JSON-LD микроразметка для услуг */}
+            <StructuredData
+              type="services"
+              data={memoizedServices}
+              businessName="AROMA SPA СТУДИЯ"
+              businessUrl="https://www.radmilaessentialoil.ru"
+              businessImage="https://www.radmilaessentialoil.ru/logo.jpg"
+            />
+            
+            <div className="flex justify-center">
+              <ShareButton className="bg-white/10 hover:bg-white/20 text-white border-white/20" />
+            </div>
+            <p className="text-center text-white/90 mb-4 max-w-2xl mx-auto font-montserrat text-base sm:text-lg">
+              Откройте для себя мир профессиональной ароматерапии с нашими авторскими программами. Каждая услуга — это бережный ритуал заботы о теле и душе.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {memoizedServices.map((service, index) => (
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className={`group h-full ${index === memoizedServices.length - 1 ? 'sm:col-span-2 lg:col-span-1 lg:col-start-2' : ''}`}
+                  itemScope
+                  itemType="https://schema.org/Service"
+                >
+                  <ServiceCard service={service} handleAction={handleAction} />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
   )
 }
 

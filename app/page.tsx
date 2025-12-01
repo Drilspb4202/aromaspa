@@ -13,6 +13,8 @@ import OilShop from '@/components/OilShop'
 import { Oil } from '@/data/oils'
 import ServicesSection from '../components/ServicesSection'
 import BenefitsSection from '../components/BenefitsSection'
+import ForWhomSection from '../components/ForWhomSection'
+import AromaBusinessSection from '../components/AromaBusinessSection'
 import GallerySection from '../components/GallerySection'
 import ReviewsSection from '../components/ReviewsSection'
 import FAQSection from '../components/FAQSection'
@@ -110,6 +112,8 @@ export default function AromaSpaStudio() {
     'о-нас': useRef<HTMLElement>(null),
     'выбор-масел': useRef<HTMLElement>(null),
     'услуги': useRef<HTMLElement>(null),
+    'для-кого': useRef<HTMLElement>(null),
+    'арома-бизнес': useRef<HTMLElement>(null),
     'акции': useRef<HTMLElement>(null),
     'преимущества': useRef<HTMLElement>(null),
     'галерея': useRef<HTMLElement>(null),
@@ -204,6 +208,7 @@ export default function AromaSpaStudio() {
     { name: 'О нас', href: '#о-нас', icon: Users },
     { name: 'Выбор масел', href: '#выбор-масел', icon: Droplet },
     { name: 'Услуги', href: '#услуги', icon: Award },
+    { name: 'Для кого', href: '#для-кого', icon: Users2 },
     { name: 'Акции', href: '#акции', icon: Gift },
     { name: 'Преимущества', href: '#преимущества', icon: Award },
     { name: 'Галерея', href: '#галерея', icon: Image },
@@ -579,11 +584,31 @@ export default function AromaSpaStudio() {
                   <ServicesSection setIsShopOpen={setIsShopOpen} />
                 </Suspense>
               </ErrorBoundary>
-              <div className="text-center mt-8">
-                <p className="text-lg text-gray-300">
-                  Хотите подобрать идеальное масло для Вашей процедуры? Воспользуйтесь нашим инструментом подбора масел.
-                </p>
-              </div>
+            </div>
+          </section>
+
+          {/* For Whom Section */}
+          <section id="для-кого" ref={sectionRefs['для-кого']} aria-label="Для кого" className="relative z-10">
+            <ErrorBoundary>
+              <ForWhomSection />
+            </ErrorBoundary>
+          </section>
+
+          {/* Aroma Business Section */}
+          <section id="арома-бизнес" ref={sectionRefs['арома-бизнес']} aria-label="АромаБизнес" className="relative z-10">
+            <ErrorBoundary>
+              <AromaBusinessSection />
+            </ErrorBoundary>
+          </section>
+
+          {/* Benefits Section */}
+          <section id="преимущества" ref={sectionRefs['преимущества']} aria-label="Преимущества" className="relative z-10">
+            <div className="container mx-auto px-4 relative">
+              <ErrorBoundary>
+                <Suspense fallback={<div className="py-20 text-center"><Spinner size="lg" /></div>}>
+                  <BenefitsSection />
+                </Suspense>
+              </ErrorBoundary>
             </div>
           </section>
 
@@ -593,17 +618,6 @@ export default function AromaSpaStudio() {
               <ErrorBoundary>
                 <Suspense fallback={<div className="py-20 text-center"><Spinner size="lg" /></div>}>
                   <PromotionsSection />
-                </Suspense>
-              </ErrorBoundary>
-            </div>
-          </section>
-
-          {/* Benefits Section */}
-          <section id="преимущества" ref={sectionRefs['преимущества']} aria-label="Преимущества" className="py-20 relative z-10">
-            <div className="container mx-auto px-4 relative">
-              <ErrorBoundary>
-                <Suspense fallback={<div className="py-20 text-center"><Spinner size="lg" /></div>}>
-                  <BenefitsSection />
                 </Suspense>
               </ErrorBoundary>
             </div>
@@ -733,7 +747,7 @@ export default function AromaSpaStudio() {
               </motion.div>
             </motion.div>
           )}
-         </AnimatePresence>
+        </AnimatePresence>
 
          {/* Floating CTA - плавающая кнопка */}
         <FloatingCTA phone="+7 995 600 01 22" showAfterScroll={300} />
